@@ -27,7 +27,7 @@ struct AuthenticationView: View {
     var body: some View {
         ZStack {
             VStack {
-                Text("Snotify")
+                Text("SwiftByte")
                     .foregroundColor(.accentColor)
                     .font(.rounded(.largeTitle))
                     .fontWeight(.bold)
@@ -162,11 +162,6 @@ struct AuthenticationView: View {
                                     .cornerRadius(12)
                                     .padding(.vertical, 5)
                                 }
-                                DatePicker("What is your birthdate?",
-                                           selection: $authModel.birthdate,
-                                           in: ...Date(),
-                                           displayedComponents: .date)
-                                .datePickerStyle(CompactDatePickerStyle())
 
                                 HStack {
                                     if isUploadingPic {
@@ -268,6 +263,7 @@ struct AuthenticationView: View {
                 profilePicPreview
             }
         }
+        .toolbar(.hidden, for: .navigationBar)
         .fullScreenCover(isPresented: $presentPhotoPicker,
                          onDismiss: uploadProfilePicture) {
             PhotoPickerView(isPresented: $presentPhotoPicker,
@@ -326,45 +322,50 @@ struct AuthenticationView: View {
         }
     }
 
-    private func handleSignup() {
+    private func handleSignup() async {
         guard authModel.isReadyForRegistration() else { return }
         printv("Signing Up...")
         focusedField = nil
         isSigningIn = true
-        authViewModel.signUpWith(authModel) {
-            isSigningIn = false
-            if $0 {
-                authModel = .init()
-                prints("Sucessfully registered and logged in")
-            }
+        let completed = await authViewModel.signUpWith(authModel)
+        isSigningIn = false
+        if completed {
+            authModel = .init()
+            prints("Sucessfully registered and logged in")
         }
     }
 
-    private func handleSignIn() {
+    private func handleSignIn() async {
         guard authModel.isEmailAndPasswordValid() else { return }
         printv("Signing In...")
         focusedField = nil
         isSigningIn = true
-        authViewModel.signInWith(email: authModel.email,
-                                 password: authModel.password) {
-            isSigningIn = false
-            if $0 {
-                authModel = .init()
-                prints("Sucessfully signed and logged in")
-            }
+
+        let completed = await authViewModel.signInWith(email: authModel.email,
+                                                       password: authModel.password)
+        isSigningIn = false
+
+        if completed {
+            authModel = .init()
+            prints("Sucessfully signed and logged in")
         }
     }
 
     private func handleGoogleLogin() {
-        isSigningIn = true
-        authViewModel.signInWithGoogle()
+        Task {
+            isSigningIn = true
+            _ = await authViewModel.signInWithGoogle()
+            isSigningIn = false
+        }
     }
 
     private func processManualAuth() {
-        if isRegistration {
-            handleSignup()
-        } else {
-            handleSignIn()
+        Task {
+            if isRegistration {
+                await handleSignup()
+            } else {
+                await handleSignIn()
+            }
         }
     }
 }
@@ -500,7 +501,6 @@ extension AuthenticationView {
         var email: String = ""
         var password: String = ""
         var gender: SBGender = .nonBinary
-        var birthdate: Date = Date()
         var profilePicture: String?
 
         private var isEmailValid: Bool {

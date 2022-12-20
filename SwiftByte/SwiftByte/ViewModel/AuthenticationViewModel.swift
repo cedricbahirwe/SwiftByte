@@ -18,71 +18,66 @@ final class AuthenticationViewModel: ObservableObject {
     /// The user's log in status.
     /// - note: This will publish updates when its value changes.
     @Published var state: State
+    let localStorage = AppLocalStorage.shared
     private var authenticator: AppSignInAuthenticator {
         return AppSignInAuthenticator(authViewModel: self)
     }
 
     /// Creates an instance of this view model.
     init() {
-        if let _ = GIDSignIn.sharedInstance.currentUser {
-          self.isLoggedIn =  true
+        if let sbUser = localStorage.getUser() {
+            self.state = .signedIn(sbUser)
         } else {
-            self.isLoggedIn = false
+            self.state = .signedOut
         }
-        self.state = .signedOut
-        print(Auth.auth())
     }
 
     /// Signs the user in with `GoogleSignIn`.
-    func signInWithGoogle() {
-        authenticator.signInWithGoogle()
+    func signInWithGoogle() async -> Bool {
+        do {
+            let user = try await authenticator.signInWithGoogle()
+            if let sbUser = await authenticator.getUser(user.uid) {
+                DispatchQueue.main.async {
+                    self.state = .signedIn(sbUser)
+                }
+            }
+            return true
+        } catch {
+            printf("Could not Sign In with Google: \(error).")
+            return false
+        }
     }
 
     /// Signs the user in with `Firebase`.
     func signInWith(email: String,
-                                    password: String,
-                                    completion: @escaping(Bool) -> Void) {
-        authenticator.signInWith(email, password)
-        { [weak self] result in
-            guard let self else { return }
-
-            switch result {
-            case .failure(let error):
-                completion(false)
-                printf("There was an error: \(error).")
-                break
-            case .success(let user):
+                    password: String) async -> Bool {
+        do {
+            let user = try await authenticator.signInWith(email, password)
+            DispatchQueue.main.async {
                 self.state = .signedIn(user)
-                completion(true)
             }
+            return true
+        } catch {
+            printf("Could not Sign Up with Firebase: \(error).")
+            return false
         }
     }
 
-    func signUpWith(_ authModel: AuthenticationView.AuthModel,
-                    completion: @escaping(Bool) -> Void) {
-        authenticator.signUpWith(email: authModel.email,
-                                 password: authModel.password)
-        { [weak self] result in
-            guard let self else { return }
+    func signUpWith(_ authModel: AuthenticationView.AuthModel) async -> Bool {
+        do {
+            let firebaseUser = try await authenticator.signUpWith(email: authModel.email,
+                                                            password: authModel.password)
+            let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
+            let newUser = SBUser.build(from: authModel, allowNotification: isNotificationOn)
+            try saveUser(firebaseUser.uid, user: newUser)
 
-            switch result {
-            case .failure(let error):
-                completion(false)
-                printf("There was an error: \(error).")
-                break
-            case .success(let user):
-                do {
-                    let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
-                    let newUser = SBUser.getUser(from: authModel, allowNotification: isNotificationOn)
-                    try self.saveUser(user.uid, user: newUser)
-
-                    self.state = .signedIn(user)
-                    completion(true)
-                } catch {
-                    printf("Could not save user \(error).")
-                    completion(false)
-                }
+            DispatchQueue.main.async {
+                self.state = .signedIn(newUser)
             }
+            return true
+        } catch {
+            printf("Could not Sign Up: \(error).")
+            return false
         }
     }
 
@@ -92,15 +87,15 @@ final class AuthenticationViewModel: ObservableObject {
     }
 
     /// Disconnects the previously granted scope and logs the user out.
-    func disconnect() {
-        authenticator.disconnect()
+    func disconnect() async {
+        await authenticator.disconnect()
     }
 
     /// Get current Firebase user id
     func getCurrentUserID() -> String? {
         switch state {
         case .signedIn(let user):
-            return user.uid
+            return user.id
         case .signedOut:
             return nil
         }
@@ -111,7 +106,7 @@ extension AuthenticationViewModel {
     /// An enumeration representing logged in status.
     enum State {
         /// The user is logged in and is the associated value of this case.
-        case signedIn(User)
+        case signedIn(SBUser)
         /// The user is logged out.
         case signedOut
     }

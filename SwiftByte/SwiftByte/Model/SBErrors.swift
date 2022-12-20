@@ -21,4 +21,6 @@ public enum SBErrors: Error {
     case parseData
     case noDataFound
     case unknownError(_ error: Error?)
+    case clientIDMissing
+    case appRootMissing
 }

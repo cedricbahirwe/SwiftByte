@@ -7,11 +7,12 @@
 
 import Foundation
 import GoogleSignIn
+import Firebase
 import FirebaseAuth
 
 /// An observable class for authenticating via Google.
 final class AppSignInAuthenticator: NSObject, ObservableObject {
-    typealias UserCompletion = Result<User, Error>
+    typealias UserCompletion = Result<SBUser, Error>
     private var authViewModel: AuthenticationViewModel
 
     /// Creates an instance of this authenticator.
@@ -22,65 +23,59 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
 
     /// Signs in the user based upon the selected account.'
     /// - note: Successful calls to this will set the `authViewModel`'s `state` property.
-    func signInWithGoogle() {
-        guard let rootViewController = getAppRootView() else {
-            print("There is no root view controller!")
-            return
+    func signInWithGoogle() async throws -> User {
+
+
+        guard let rootViewController = await getAppRootView() else {
+            print("There is no root view controller.")
+            throw SBErrors.appRootMissing
         }
 
-        GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { signInResult, error in
-            guard let signInResult = signInResult else {
-                print("Error! \(String(describing: error))")
-                return
-            }
-
-            signInResult.user.refreshTokensIfNeeded { [weak self] user, error in
-                guard let self = self else { return }
-                guard error == nil else { return }
-                guard let user = user else { return }
-
-                guard let idToken = user.idToken else { return }
-                let accessToken = user.accessToken
-
-                // Send ID token to firebase.
-                self.sendUserTokenToFirebase(with: idToken,
-                                        accessToken: accessToken)
-            }
+        guard let clientID = FirebaseApp.app()?.options.clientID else {
+            print("There is no Firebase clietID.")
+            throw SBErrors.clientIDMissing
         }
+
+        // Create Google Sign In configuration object.
+        let config = GIDConfiguration(clientID: clientID)
+
+        GIDSignIn.sharedInstance.configuration = config
+
+        let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
+
+        let refreshUser = try await result.user.refreshTokensIfNeeded()
+
+        guard let idToken = refreshUser.idToken else {
+            throw SBErrors.invalidUser
+        }
+
+        let accessToken = refreshUser.accessToken
+
+        // Send ID token to Firebase.
+        return try await sendUserTokenToFirebase(with: idToken,
+                                accessToken: accessToken)
     }
-    
 
     private func sendUserTokenToFirebase(with idToken: GIDToken,
-                                         accessToken: GIDToken) {
+                                         accessToken: GIDToken) async throws -> User {
         let credential = GoogleAuthProvider.credential(withIDToken: idToken.tokenString,
                                                        accessToken: accessToken.tokenString)
 
         // Sign in in FireBase Auth
-        Auth.auth().signIn(with: credential) { result, error in
-            if let error = error {
-//                completion()
-                printf("There was firebase error: \(error.localizedDescription)")
-                return
-            }
+        let result = try await Auth.auth().signIn(with: credential)
+        
+        let user = result.user
+        print("User ID: \(String(describing: user.uid))")
 
-            guard let user = result?.user else {
-                printf("No user found")
-                return
-            }
+        print("User name: \(String(describing: user.displayName))")
 
-            self.authViewModel.state = .signedIn(user)
+        print("User Photo URL: \(String(describing: user.photoURL))")
 
+        print("User email: \(user.email ?? "No email found")")
 
-            print("User ID: \(String(describing: user.uid))")
+        print("User phone: \(user.phoneNumber ?? "No phone found")")
 
-            print("User name: \(String(describing: user.displayName))")
-
-            print("User Photo URL: \(String(describing: user.photoURL))")
-
-            print("User email: \(user.email ?? "No email found")")
-
-            print("User phone: \(user.phoneNumber ?? "No phone found")")
-        }
+        return user
     }
 
     /// Sign up new user using Firebase
@@ -89,23 +84,13 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
     ///   - password: user's password
     ///   - completion: whether the Sign Up process was successful
     func signUpWith(email: String,
-                    password: String,
-                    completion: @escaping(UserCompletion) -> Void) {
-        Auth.auth().createUser(withEmail: email,
-                                password: password)
-        { result, error in
-            if let error {
-                completion(.failure(error))
-                return
-            }
+                    password: String) async throws -> User {
 
-            guard let user = result?.user else {
-                completion(.failure(SBErrors.userNotFound))
-                return
-            }
+        let auth =  Auth.auth()
+        let result = try await auth.createUser(withEmail: email,
+                                            password: password)
 
-            completion(.success(user))
-        }
+        return result.user
     }
 
     /// Sign In existing user using `Firebase`
@@ -114,31 +99,25 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
     ///   - password: user's password
     ///   - completion: whether the Sign In process was successful
     func signInWith(_ email: String,
-                    _ password: String,
-                    completion: @escaping(UserCompletion) -> Void) {
-        Auth.auth().signIn(withEmail: email, password: password)
-        { result, error in
+                    _ password: String) async throws -> SBUser {
 
-            if let error {
-                completion(.failure(error))
-                return
-            }
+        let result = try await Auth.auth().signIn(withEmail: email,
+                                                  password: password)
 
-            guard let user = result?.user else {
-                completion(.failure(SBErrors.userNotFound))
-                return
-            }
+        let user = result.user
 
-            self.authViewModel.state = .signedIn(user)
-        }
+        let sbUser: SBUser = try await getUser(user.uid)
+
+        return sbUser
+
     }
-
 
     /// Signs out the current user from both  `GoogleSignIn` and `FireBase`
     func signOut() {
         do {
             GIDSignIn.sharedInstance.signOut()
             try Auth.auth().signOut()
+            // Remove User Also from LocalCache
             authViewModel.state = .signedOut
         }
         catch {
@@ -147,12 +126,36 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
     }
 
     /// Disconnects the previously granted scope and signs the user out.
-    func disconnect() {
-        GIDSignIn.sharedInstance.disconnect { error in
-            if let error = error {
-                print("Encountered error disconnecting scope: \(error).")
-            }
-            self.signOut()
+    func disconnect() async {
+        do {
+            try await GIDSignIn.sharedInstance.disconnect()
+            signOut()
+        } catch {
+            print("Encountered error disconnecting scope: \(error).")
+        }
+    }
+
+    /// Get User Object
+    func getUser(_ id: String) async throws -> SBUser {
+        let db = Firestore.firestore()
+        let docRef = db.collection(.users).document(id)
+
+        let user = try await docRef.getDocument(as: SBUser.self)
+        return user
+    }
+
+    /// Get User Object
+    func getUser(_ id: String) async -> SBUser? {
+        let db = Firestore.firestore()
+        let docRef = db.collection(.users).document(id)
+
+        do {
+            let sbUser = try await docRef.getDocument(as: SBUser.self)
+            try authViewModel.localStorage.saveUser(sbUser)
+            return sbUser
+        } catch {
+            print("Encountered error fetching user: \(error).")
+            return nil
         }
     }
 }

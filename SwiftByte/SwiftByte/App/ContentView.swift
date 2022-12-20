@@ -22,11 +22,6 @@ struct ContentView: View {
                   ))
             case .signedOut:
               AuthenticationView()
-                .navigationTitle(
-                  NSLocalizedString(
-                    "Welcome to SwiftByte",
-                    comment: "Sign-in navigation title"
-                  ))
             }
         }
     }

@@ -15,4 +15,8 @@ extension UserDefaults {
     func bool(for key: SBKeys) -> Bool {
         bool(forKey: key.rawValue)
     }
+
+    func value(forKey key: SBKeys) -> Any? {
+        value(forKey: key.rawValue)
+    }
 }
