@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB6B2900295215990078EFD0 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B28FF295215990078EFD0 /* Color+Extensions.swift */; };
+		CB6B290229521A570078EFD0 /* ArticlesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B290129521A560078EFD0 /* ArticlesStore.swift */; };
+		CB6B290429521A5E0078EFD0 /* ArticlesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B290329521A5E0078EFD0 /* ArticlesViewModel.swift */; };
+		CB6B290629521A980078EFD0 /* ArticlesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B290529521A980078EFD0 /* ArticlesRepository.swift */; };
+		CB6B290829521BCC0078EFD0 /* ArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B290729521BCC0078EFD0 /* ArticleViewModel.swift */; };
+		CB6B290B29521F600078EFD0 /* ArticleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B290A29521F600078EFD0 /* ArticleRowView.swift */; };
+		CB6B290D29521FC50078EFD0 /* SampleModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B290C29521FC50078EFD0 /* SampleModels.swift */; };
 		CB77B92529510F15001C0461 /* SwiftByteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B92429510F15001C0461 /* SwiftByteApp.swift */; };
 		CB77B92729510F15001C0461 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B92629510F15001C0461 /* ContentView.swift */; };
 		CB77B92929510F17001C0461 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB77B92829510F17001C0461 /* Assets.xcassets */; };
@@ -79,6 +86,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB6B28FF295215990078EFD0 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		CB6B290129521A560078EFD0 /* ArticlesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesStore.swift; sourceTree = "<group>"; };
+		CB6B290329521A5E0078EFD0 /* ArticlesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesViewModel.swift; sourceTree = "<group>"; };
+		CB6B290529521A980078EFD0 /* ArticlesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesRepository.swift; sourceTree = "<group>"; };
+		CB6B290729521BCC0078EFD0 /* ArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewModel.swift; sourceTree = "<group>"; };
+		CB6B290A29521F600078EFD0 /* ArticleRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleRowView.swift; sourceTree = "<group>"; };
+		CB6B290C29521FC50078EFD0 /* SampleModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleModels.swift; sourceTree = "<group>"; };
 		CB77B92129510F15001C0461 /* SwiftByte.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftByte.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB77B92429510F15001C0461 /* SwiftByteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftByteApp.swift; sourceTree = "<group>"; };
 		CB77B92629510F15001C0461 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -163,6 +177,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB6B290929521F280078EFD0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CB77B92629510F15001C0461 /* ContentView.swift */,
+				CB77B95B29511735001C0461 /* AuthenticationView.swift */,
+				CB77B95F29511744001C0461 /* ArticleView.swift */,
+				CB6B290A29521F600078EFD0 /* ArticleRowView.swift */,
+				CB77B95D2951173D001C0461 /* HomeView.swift */,
+				CB77B9612951174A001C0461 /* TopicView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		CB77B91829510F15001C0461 = {
 			isa = PBXGroup;
 			children = (
@@ -191,11 +218,13 @@
 				CB77B98B29511F2F001C0461 /* Helpers */,
 				CB77B95A29511722001C0461 /* Resources */,
 				CB77B9592951171B001C0461 /* App */,
-				CB77B990295125A1001C0461 /* HelperViews */,
+				CB6B290929521F280078EFD0 /* Views */,
 				CB77B9572951170E001C0461 /* Model */,
 				CB77B95629511700001C0461 /* ViewModel */,
 				CB77B955295116FB001C0461 /* Extensions */,
 				CB77B954295116F1001C0461 /* Utilities */,
+				CB77B990295125A1001C0461 /* HelperViews */,
+				CB77B95829511714001C0461 /* Storage */,
 				CB77B92829510F17001C0461 /* Assets.xcassets */,
 				CB77B92D29510F17001C0461 /* Persistence.swift */,
 				CB77B92F29510F17001C0461 /* SwiftByte.xcdatamodeld */,
@@ -208,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				CB77B92B29510F17001C0461 /* Preview Assets.xcassets */,
+				CB6B290C29521FC50078EFD0 /* SampleModels.swift */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -244,6 +274,7 @@
 				CB77B98929511E90001C0461 /* UserDefaults+Extension.swift */,
 				CB77B99329512604001C0461 /* Font+Extension.swift */,
 				CB77B9A729512A1D001C0461 /* View+Extension.swift */,
+				CB6B28FF295215990078EFD0 /* Color+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -254,6 +285,9 @@
 				CB77B9C029513192001C0461 /* Firebase */,
 				CB77B9B429512EE7001C0461 /* AppSignInAuthenticator.swift */,
 				CB77B9B629512F06001C0461 /* AuthenticationViewModel.swift */,
+				CB6B290129521A560078EFD0 /* ArticlesStore.swift */,
+				CB6B290329521A5E0078EFD0 /* ArticlesViewModel.swift */,
+				CB6B290729521BCC0078EFD0 /* ArticleViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -275,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				CBCCA1B12951DBD6004B0ACC /* AppLocalStorage.swift */,
+				CB6B290529521A980078EFD0 /* ArticlesRepository.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -282,12 +317,6 @@
 		CB77B9592951171B001C0461 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				CB77B95829511714001C0461 /* Storage */,
-				CB77B92629510F15001C0461 /* ContentView.swift */,
-				CB77B95B29511735001C0461 /* AuthenticationView.swift */,
-				CB77B95F29511744001C0461 /* ArticleView.swift */,
-				CB77B95D2951173D001C0461 /* HomeView.swift */,
-				CB77B9612951174A001C0461 /* TopicView.swift */,
 				CB77B92429510F15001C0461 /* SwiftByteApp.swift */,
 				CB77B98329511DE0001C0461 /* AppDelegate.swift */,
 				CB77B98E29511F74001C0461 /* SceneDelegate.swift */,
@@ -505,11 +534,15 @@
 				CB77B9B929513120001C0461 /* SBFireBaseImageUploader.swift in Sources */,
 				CB77B99A29512653001C0461 /* SBTopic.swift in Sources */,
 				CB77B9982951264F001C0461 /* SBArticle.swift in Sources */,
+				CB6B290429521A5E0078EFD0 /* ArticlesViewModel.swift in Sources */,
 				CB77B9BF2951316E001C0461 /* SBFileExtension.swift in Sources */,
 				CB77B92E29510F17001C0461 /* Persistence.swift in Sources */,
 				CB77B9AD29512B96001C0461 /* FirestoreEntity+Protocol.swift in Sources */,
+				CB6B290B29521F600078EFD0 /* ArticleRowView.swift in Sources */,
 				CB77B9B129512BDE001C0461 /* Firestore+Extension.swift in Sources */,
 				CB77B92729510F15001C0461 /* ContentView.swift in Sources */,
+				CB6B290829521BCC0078EFD0 /* ArticleViewModel.swift in Sources */,
+				CB6B290D29521FC50078EFD0 /* SampleModels.swift in Sources */,
 				CB77B92529510F15001C0461 /* SwiftByteApp.swift in Sources */,
 				CB77B9B729512F06001C0461 /* AuthenticationViewModel.swift in Sources */,
 				CB77B98F29511F74001C0461 /* SceneDelegate.swift in Sources */,
@@ -519,6 +552,7 @@
 				CBCCA1B22951DBD6004B0ACC /* AppLocalStorage.swift in Sources */,
 				CB77B9AA29512B50001C0461 /* SBUser.swift in Sources */,
 				CB77B95E2951173D001C0461 /* HomeView.swift in Sources */,
+				CB6B2900295215990078EFD0 /* Color+Extensions.swift in Sources */,
 				CB77B98629511E2F001C0461 /* AppConstants.swift in Sources */,
 				CB77B9B529512EE7001C0461 /* AppSignInAuthenticator.swift in Sources */,
 				CB77B99629512649001C0461 /* SBGender.swift in Sources */,
@@ -527,9 +561,11 @@
 				CB77B93129510F17001C0461 /* SwiftByte.xcdatamodeld in Sources */,
 				CB77B99429512604001C0461 /* Font+Extension.swift in Sources */,
 				CB77B96029511744001C0461 /* ArticleView.swift in Sources */,
+				CB6B290629521A980078EFD0 /* ArticlesRepository.swift in Sources */,
 				CB77B992295125A7001C0461 /* PhotoPickerView.swift in Sources */,
 				CB77B95C29511735001C0461 /* AuthenticationView.swift in Sources */,
 				CB77B9A829512A1D001C0461 /* View+Extension.swift in Sources */,
+				CB6B290229521A570078EFD0 /* ArticlesStore.swift in Sources */,
 				CB77B9B329512C05001C0461 /* SBErrors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
