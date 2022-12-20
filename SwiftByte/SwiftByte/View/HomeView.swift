@@ -1,44 +1,58 @@
 //
-//  ContentView.swift
+//  HomeView.swift
 //  SwiftByte
 //
-//  Created by Cédric Bahirwe on 19/12/2022.
+//  Created by Cédric Bahirwe on 20/12/2022.
 //
 
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
+struct HomeView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
 
+    @State private var searchText = ""
+
+    @State private var searchTokens: [SearchToken] = []
+
+    @State private var searchSuggestedTokens =  ["UIKit", "Swift",  "SwiftUI", "iOS", "GCD", "Modifier"].map(SearchToken.init)
+
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items) { item in
+        List {
+            ForEach(items) { item in
+                VStack(alignment: .leading) {
+                    Text("")
                     NavigationLink {
                         Text("Item at \(item.timestamp!, formatter: itemFormatter)")
                     } label: {
                         Text(item.timestamp!, formatter: itemFormatter)
                     }
                 }
-                .onDelete(perform: deleteItems)
+
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+            .onDelete(perform: deleteItems)
+        }
+        .searchable(text: $searchText,
+                    tokens: $searchTokens,
+                    suggestedTokens: $searchSuggestedTokens,
+                    placement: .navigationBarDrawer(displayMode: .automatic),
+                    prompt: "Find a topic or concept",
+                    token: { token in
+            Text(token.value)
+        })
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                EditButton()
+            }
+            ToolbarItem {
+                Button(action: addItem) {
+                    Label("Add Item", systemImage: "plus")
                 }
             }
-            Text("Select an item")
         }
     }
 
@@ -72,6 +86,27 @@ struct ContentView: View {
             }
         }
     }
+
+    struct SearchToken: Identifiable {
+        let id: UUID
+        let value: String
+
+        init(id: UUID = UUID(),_ value: String) {
+            self.id = id
+            self.value = value
+        }
+
+        init(_ value: String) {
+            self.id = UUID()
+            self.value = value
+        }
+    }
+}
+
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeView()
+    }
 }
 
 private let itemFormatter: DateFormatter = {
@@ -80,9 +115,3 @@ private let itemFormatter: DateFormatter = {
     formatter.timeStyle = .medium
     return formatter
 }()
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-    }
-}
