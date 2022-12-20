@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FirebaseFirestore
 
 protocol LocalSaving {
     func save<T: Codable>(element: T)
