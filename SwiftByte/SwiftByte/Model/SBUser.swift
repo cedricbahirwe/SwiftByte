@@ -8,7 +8,7 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct SBUser: Codifiable, FirestoreEntity {
+struct SBUser: Identifiable, FirestoreEntity {
     static var collectionName: SBCollectionName { .users }
 
     @DocumentID var id: String?
@@ -22,6 +22,17 @@ struct SBUser: Codifiable, FirestoreEntity {
 
     var notificationAuthorized: Bool
     var gender: SBGender
+
+    enum CodingKeys: String, CodingKey {
+      case firstName
+      case lastName
+      case email
+      case profilePicture
+      case messageToken
+      case joinDate
+      case notificationAuthorized
+      case gender
+    }
 
     func getFullName() -> String {
         "\(firstName) \(lastName)"

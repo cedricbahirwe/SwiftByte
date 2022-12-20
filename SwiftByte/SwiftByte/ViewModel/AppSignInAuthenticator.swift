@@ -140,18 +140,15 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
         let db = Firestore.firestore()
         let docRef = db.collection(.users).document(id)
 
-        let user = try await docRef.getDocument(as: SBUser.self)
-        return user
+        let sbUser = try await docRef.getDocument(as: SBUser.self)
+        try authViewModel.localStorage.saveUser(sbUser)
+        return sbUser
     }
 
     /// Get User Object
     func getUser(_ id: String) async -> SBUser? {
-        let db = Firestore.firestore()
-        let docRef = db.collection(.users).document(id)
-
         do {
-            let sbUser = try await docRef.getDocument(as: SBUser.self)
-            try authViewModel.localStorage.saveUser(sbUser)
+            let sbUser: SBUser = try await getUser(id)
             return sbUser
         } catch {
             print("Encountered error fetching user: \(error).")

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 protocol LocalSaving {
     func save<T: Codable>(element: T)
@@ -72,7 +73,7 @@ final class AppLocalStorage {
 }
 
 private extension  AppLocalStorage {
-    func encodeData<T>(_ value: T) throws -> Data where T: Codable {
+    func encodeData<T>(_ value: T) throws -> Data where T: FirestoreEntity {
         return try JSONEncoder().encode(value)
     }
 
