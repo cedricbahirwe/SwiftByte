@@ -24,16 +24,38 @@ final class AuthenticationViewModel: ObservableObject {
 
     /// Creates an instance of this view model.
     init() {
-        if let user = Auth.auth().currentUser {
-            self.state = .signedIn(user)
+        if let _ = GIDSignIn.sharedInstance.currentUser {
+          self.isLoggedIn =  true
         } else {
-            self.state = .signedOut
+            self.isLoggedIn = false
         }
+        self.state = .signedOut
+        print(Auth.auth())
     }
 
-    /// Signs the user in.
-    func signIn() {
-        authenticator.signIn()
+    /// Signs the user in with `GoogleSignIn`.
+    func signInWithGoogle() {
+        authenticator.signInWithGoogle()
+    }
+
+    /// Signs the user in with `Firebase`.
+    func signInWith(email: String,
+                                    password: String,
+                                    completion: @escaping(Bool) -> Void) {
+        authenticator.signInWith(email, password)
+        { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .failure(let error):
+                completion(false)
+                printf("There was an error: \(error).")
+                break
+            case .success(let user):
+                self.state = .signedIn(user)
+                completion(true)
+            }
+        }
     }
 
     func signUpWith(_ authModel: AuthenticationView.AuthModel,

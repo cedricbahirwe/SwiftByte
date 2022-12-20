@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GoogleSignIn
+import FirebaseAuth
 
 @main
 struct SwiftByteApp: App {
@@ -23,10 +24,10 @@ struct SwiftByteApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(authViewModel)
                 .onAppear(perform: restorePreviousSignIn)
                 .onOpenURL(perform: handIncomingURL)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environmentObject(authViewModel)
 
         }
         .onChange(of: scenePhase, perform: observeScenePhase)
@@ -56,9 +57,10 @@ private extension SwiftByteApp {
     }
 
     func restorePreviousSignIn() {
+//        Auth.auth().res
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if let user = user {
-                self.authViewModel.state = .signedIn(user)
+//                self.authViewModel.state = .signedIn(user)
             } else if let error = error {
                 self.authViewModel.state = .signedOut
                 print("There was an error restoring the previous sign-in: \(error)")

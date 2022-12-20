@@ -11,6 +11,7 @@ import FirebaseAuth
 
 /// An observable class for authenticating via Google.
 final class AppSignInAuthenticator: NSObject, ObservableObject {
+    typealias UserCompletion = Result<User, Error>
     private var authViewModel: AuthenticationViewModel
 
     /// Creates an instance of this authenticator.
@@ -21,7 +22,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
 
     /// Signs in the user based upon the selected account.'
     /// - note: Successful calls to this will set the `authViewModel`'s `state` property.
-    func signIn() {
+    func signInWithGoogle() {
         guard let rootViewController = getAppRootView() else {
             print("There is no root view controller!")
             return
@@ -47,6 +48,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
             }
         }
     }
+    
 
     private func sendUserTokenToFirebase(with idToken: GIDToken,
                                          accessToken: GIDToken) {
@@ -88,11 +90,11 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
     ///   - completion: whether the Sign Up process was successful
     func signUpWith(email: String,
                     password: String,
-                    completion: @escaping(Result<User, Error>) -> Void) {
+                    completion: @escaping(UserCompletion) -> Void) {
         Auth.auth().createUser(withEmail: email,
                                 password: password)
         { result, error in
-            if let error = error {
+            if let error {
                 completion(.failure(error))
                 return
             }
@@ -103,6 +105,31 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
             }
 
             completion(.success(user))
+        }
+    }
+
+    /// Sign In existing user using `Firebase`
+    /// - Parameters:
+    ///   - email: user's email
+    ///   - password: user's password
+    ///   - completion: whether the Sign In process was successful
+    func signInWith(_ email: String,
+                    _ password: String,
+                    completion: @escaping(UserCompletion) -> Void) {
+        Auth.auth().signIn(withEmail: email, password: password)
+        { result, error in
+
+            if let error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let user = result?.user else {
+                completion(.failure(SBErrors.userNotFound))
+                return
+            }
+
+            self.authViewModel.state = .signedIn(user)
         }
     }
 

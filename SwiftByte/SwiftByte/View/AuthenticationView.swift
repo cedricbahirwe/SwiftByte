@@ -272,6 +272,9 @@ struct AuthenticationView: View {
                          onDismiss: uploadProfilePicture) {
             PhotoPickerView(isPresented: $presentPhotoPicker,
                             selectedImage: $selectedImage)
+        }.onDisappear() {
+            isSigningIn = false
+            authModel = .init()
         }
     }
 
@@ -328,7 +331,7 @@ struct AuthenticationView: View {
         printv("Signing Up...")
         focusedField = nil
         isSigningIn = true
-        SBAuth.shared.signUpWithEmailAndPassword(authModel) {
+        authViewModel.signUpWith(authModel) {
             isSigningIn = false
             if $0 {
                 authModel = .init()
@@ -342,8 +345,8 @@ struct AuthenticationView: View {
         printv("Signing In...")
         focusedField = nil
         isSigningIn = true
-        SBAuth.shared.signInWithEmailAndPassword(authModel.email,
-                                                            authModel.password) {
+        authViewModel.signInWith(email: authModel.email,
+                                 password: authModel.password) {
             isSigningIn = false
             if $0 {
                 authModel = .init()
@@ -354,7 +357,7 @@ struct AuthenticationView: View {
 
     private func handleGoogleLogin() {
         isSigningIn = true
-        SBAuth.shared.loginWithGoogle { isSigningIn = false }
+        authViewModel.signInWithGoogle()
     }
 
     private func processManualAuth() {
