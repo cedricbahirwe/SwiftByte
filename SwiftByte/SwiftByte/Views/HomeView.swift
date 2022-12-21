@@ -47,8 +47,6 @@ struct HomeView: View {
                     NavigationLink {
                         ArticleView(articleVM)
                     } label: { EmptyView() }
-
-//                    NavigationLink(value: articleVM) { EmptyView() }
                         .opacity(0)
                     ArticleRowView(articleVM: articleVM)
                 }
@@ -61,12 +59,9 @@ struct HomeView: View {
             }
         }
         .navigationTitle(Text("Let's Explore today's"))
-        .navigationDestination(for: ArticleViewModel.self, destination: { viewModel in
-            ArticleView(viewModel)
-        })
-        .sheet(isPresented: $showNotifications, content: {
+        .sheet(isPresented: $showNotifications) {
             NotificationsView()
-        })
+        }
         .sheet(isPresented: $showProfile, content: ProfileView.init)
         .searchable(text: $searchText,
                     tokens: $searchTokens,

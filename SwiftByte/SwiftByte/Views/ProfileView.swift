@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
-#if DEBUG
-    var user: SBUser?
-#else
-    private var user: SBUser? { authViewModel.getCurrentUser() }
-#endif
+    @Environment(\.isPreview) private var isPreview
+
+    private var user: SBUser? {
+        isPreview ? SBUser.sample : authViewModel.getCurrentUser()
+    }
     @Environment(\.dismiss) private var dismiss
     @State private var showingConfirmation = false
 
@@ -48,7 +48,6 @@ struct ProfileView: View {
                             }
                         }
                     }
-
                 }
                 .padding(.bottom)
 
@@ -99,13 +98,13 @@ struct ProfileView: View {
             }
         }
     }
-
 }
 
 #if DEBUG
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(user: .sample)
+        ProfileView()
+            .environmentObject(AuthenticationViewModel())
     }
 }
 #endif
