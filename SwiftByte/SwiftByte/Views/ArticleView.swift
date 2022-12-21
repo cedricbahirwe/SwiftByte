@@ -27,14 +27,23 @@ struct ArticleView: View {
             }
             .padding(.horizontal, 12)
         }
-        .navigationTitle(article.title)
+        .navigationTitle(navTitle)
         .navigationBarTitleDisplayMode(.inline)
         .background(Color.offBackground)
+        .onAppear(perform: articleVM.view)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Image(systemName: "bookmark.circle")
-                    
+                    .hidden()
             }
+        }
+    }
+
+    var navTitle: String {
+        if article.views > 1 {
+            return "\(article.views) Views"
+        } else {
+            return article.title
         }
     }
 }
@@ -55,6 +64,16 @@ private extension ArticleView {
                 Text(article.createdDate, format: .relative(presentation: .named))
                     .font(.system(.caption, design: .rounded))
                     .foregroundColor(.secondary)
+
+                Group {
+                    if article.views > 0 {
+                        Text("\(article.views.formatted()) Likes")
+                    }
+                    Image(systemName: "hand.thumbsup")
+                        .symbolVariant(.fill)
+                        .foregroundColor(.red.opacity(0.9))
+                        .onTapGesture(perform: articleVM.like)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Divider()

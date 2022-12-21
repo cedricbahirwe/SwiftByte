@@ -65,9 +65,7 @@ struct HomeView: View {
         .sheet(isPresented: $showNotifications, content: {
             NotificationsView()
         })
-        .sheet(isPresented: $showProfile, content: {
-            ProfileView()
-        })
+        .sheet(isPresented: $showProfile, content: ProfileView.init)
         .searchable(text: $searchText,
                     tokens: $searchTokens,
                     suggestedTokens: $searchSuggestedTokens,
@@ -84,7 +82,7 @@ struct HomeView: View {
                 }) {
                     Label("See Notifications", systemImage: "bell.badge")
                 }
-
+                .hidden()
                 Button(action: {
                     showProfile.toggle()
                 }) {

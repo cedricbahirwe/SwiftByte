@@ -51,8 +51,8 @@ struct ArticleRowView: View {
                         .background(Color.accentColor)
                         .cornerRadius(10)
                 }
+                .buttonStyle(.plain)
                 .padding(.vertical, 8)
-
             }
         }
         .padding(10)

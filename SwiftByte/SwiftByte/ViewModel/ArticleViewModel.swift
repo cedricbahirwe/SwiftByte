@@ -33,4 +33,13 @@ final class ArticleViewModel: Identifiable, Hashable, ObservableObject {
     func hash(into hasher: inout Hasher) {
         hasher.combine(article)
     }
+
+
+    func view() {
+        article.views += 1
+    }
+
+    func like() {
+        article.likes += 1
+    }
 }

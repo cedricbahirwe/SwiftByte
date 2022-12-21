@@ -170,6 +170,7 @@ struct SBAuthor: Hashable, Codifiable {
     var id: UUID = UUID()
     var firstName: String
     var lastName: String
+    var bio: String?
     var joinedDate: Date?
 
     var fullName: String {

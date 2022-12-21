@@ -115,13 +115,31 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
     /// Signs out the current user from both  `GoogleSignIn` and `FireBase`
     func signOut() {
         do {
-            GIDSignIn.sharedInstance.signOut()
             try Auth.auth().signOut()
-            // Remove User Also from LocalCache
-            authViewModel.state = .signedOut
+            GIDSignIn.sharedInstance.signOut()
+            DispatchQueue.main.async {
+                self.authViewModel.state = .signedOut
+            }
+            authViewModel.clearStorage()
         }
         catch {
            printf("Encountered error signing out: \(error).")
+       }
+    }
+
+    ///
+    func deleteAccount() async {
+        do {
+            guard let user = Auth.auth().currentUser else { return }
+            try await user.delete()
+            GIDSignIn.sharedInstance.signOut()
+            DispatchQueue.main.async {
+                self.authViewModel.state = .signedOut
+            }
+            authViewModel.clearStorage()
+        }
+        catch {
+           printf("Could not delete account: \(error).")
        }
     }
 
@@ -141,7 +159,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
         let docRef = db.collection(.users).document(id)
 
         let sbUser = try await docRef.getDocument(as: SBUser.self)
-        try authViewModel.localStorage.saveUser(sbUser)
+        try authViewModel.saveUser(sbUser)
         return sbUser
     }
 

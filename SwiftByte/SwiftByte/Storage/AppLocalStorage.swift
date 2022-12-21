@@ -64,7 +64,7 @@ final class AppLocalStorage {
         return false
     }
 
-    func removeAll() {
+    func clearAll() {
         LocalKeys.allCases.forEach {
             userDefaults.removeObject(forKey: $0.rawValue)
         }

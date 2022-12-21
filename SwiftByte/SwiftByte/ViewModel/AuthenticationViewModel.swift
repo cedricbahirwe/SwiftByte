@@ -18,7 +18,7 @@ final class AuthenticationViewModel: ObservableObject {
     /// The user's log in status.
     /// - note: This will publish updates when its value changes.
     @Published var state: State
-    let localStorage = AppLocalStorage.shared
+    private let localStorage = AppLocalStorage.shared
     private var authenticator: AppSignInAuthenticator {
         return AppSignInAuthenticator(authViewModel: self)
     }
@@ -30,6 +30,10 @@ final class AuthenticationViewModel: ObservableObject {
         } else {
             self.state = .signedOut
         }
+    }
+
+    func getCurrentUser() -> SBUser? {
+        localStorage.getUser()
     }
 
     /// Signs the user in with `GoogleSignIn`.
@@ -86,6 +90,11 @@ final class AuthenticationViewModel: ObservableObject {
         authenticator.signOut()
     }
 
+    /// Delete User Account
+    func deleteAccount() async {
+        await authenticator.deleteAccount()
+    }
+
     /// Disconnects the previously granted scope and logs the user out.
     func disconnect() async {
         await authenticator.disconnect()
@@ -102,6 +111,19 @@ final class AuthenticationViewModel: ObservableObject {
     }
 }
 
+// MARK: - Local Storage
+extension AuthenticationViewModel {
+    /// Save user to UserDefaults storage
+    func saveUser(_ sbUser: SBUser) throws {
+        try localStorage.saveUser(sbUser)
+    }
+
+    /// Remove All caches data
+    func clearStorage() {
+        localStorage.clearAll()
+    }
+}
+
 extension AuthenticationViewModel {
     /// An enumeration representing logged in status.
     enum State {
@@ -111,7 +133,6 @@ extension AuthenticationViewModel {
         case signedOut
     }
 }
-
 
 // MARK: - SignIn Scopes
 extension AuthenticationViewModel {
