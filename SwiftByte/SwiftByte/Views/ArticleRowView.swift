@@ -44,6 +44,7 @@ struct ArticleRowView: View {
                     // Go to next
                 } label: {
                     Text("Read more")
+                        .font(.body.weight(.medium))
                         .foregroundColor(.offBackground)
                         .frame(maxWidth: .infinity)
                         .frame(height: 45)

@@ -20,6 +20,10 @@ struct HomeView: View {
 
     @State private var path: [ArticleViewModel] = [] // Nothing on the stack by default.
 
+    @State private var showProfile = false
+
+    @State private var showNotifications = false
+
     var body: some View {
         List {
             ScrollView(.horizontal, showsIndicators: false) {
@@ -49,14 +53,20 @@ struct HomeView: View {
                 .listRowBackground(EmptyView())
                 .listRowSeparator(.hidden)
                 .listRowInsets(
-                    EdgeInsets(top: 10, leading: 12,
-                               bottom: 15, trailing: 12)
+                    EdgeInsets(top: 10, leading: 5,
+                               bottom: 16, trailing: 5)
                 )
             }
         }
         .navigationTitle(Text("Let's Explore today's"))
         .navigationDestination(for: ArticleViewModel.self, destination: { viewModel in
             ArticleView(viewModel)
+        })
+        .sheet(isPresented: $showNotifications, content: {
+            NotificationsView()
+        })
+        .sheet(isPresented: $showProfile, content: {
+            ProfileView()
         })
         .searchable(text: $searchText,
                     tokens: $searchTokens,
@@ -66,13 +76,18 @@ struct HomeView: View {
                     token: { token in
             Text(token.value)
         })
+
         .toolbar {
             ToolbarItemGroup {
-                Button(action: {}) {
+                Button(action: {
+                    showNotifications.toggle()
+                }) {
                     Label("See Notifications", systemImage: "bell.badge")
                 }
 
-                Button(action: {}) {
+                Button(action: {
+                    showProfile.toggle()
+                }) {
                     Label("See Profile", systemImage: "person")
                         .symbolVariant(.circle)
                 }

@@ -14,7 +14,7 @@ struct ArticleView: View {
     }
     private var article: SBArticle { articleVM.article }
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 14) {
                 Text(article.title)
                     .font(.system(.title,
@@ -25,14 +25,15 @@ struct ArticleView: View {
                 sectionsView
                 resourcesView
             }
+            .padding(.horizontal, 12)
         }
-        .padding(.horizontal)
         .navigationTitle(article.title)
         .navigationBarTitleDisplayMode(.inline)
         .background(Color.offBackground)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Image(systemName: "bookmark.circle")
+                    
             }
         }
     }

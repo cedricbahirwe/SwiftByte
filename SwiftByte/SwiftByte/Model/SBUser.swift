@@ -8,7 +8,7 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct SBUser: Identifiable, FirestoreEntity {
+struct SBUser: Identifiable, Hashable, FirestoreEntity {
     static var collectionName: SBCollectionName { .users }
 
     @DocumentID var id: String?
