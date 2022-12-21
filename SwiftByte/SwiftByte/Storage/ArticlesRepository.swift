@@ -18,8 +18,9 @@ final class ArticlesRepository: ObservableObject {
     }
 
     public func loadArticles() {
-
-        db.collection(.articles).addSnapshotListener { querySnapshot, error in
+        db.collection(.articles)
+            .order(by: "createdDate", descending: false)
+            .addSnapshotListener { querySnapshot, error in
             if let error = error {
                 printf("Firestore error: \(error).")
                 return
@@ -40,6 +41,11 @@ final class ArticlesRepository: ObservableObject {
                 self.articles = result
             }
         }
+    }
+
+    public func loadArticles(by keyword: SBArticleKeyWord) {
+
+        self.articles = articles.filter { $0.keywords.contains(keyword) }
     }
 
     public func addNewArticle(_ article: SBArticle) {
