@@ -18,16 +18,13 @@ struct ArticleRowView: View {
                     Text(author.fullName)
                         .font(.system(.body, design: .rounded))
                         .fontWeight(.medium)
-                        .minimumScaleFactor(0.9)
-                        .lineLimit(1)
+                        .opacity(0.9)
+                    Spacer(minLength: 4)
                 }
 
-                Spacer(minLength: 4)
                 Text(article.createdDate, format: .relative(presentation: .named))
                     .font(.system(.caption, design: .rounded))
                     .foregroundColor(.secondary)
-                    .minimumScaleFactor(0.85)
-                    .lineLimit(1)
             }
 
             Divider()
@@ -47,7 +44,7 @@ struct ArticleRowView: View {
                     // Go to next
                 } label: {
                     Text("Read more")
-                        .foregroundColor(.white)
+                        .foregroundColor(.offBackground)
                         .frame(maxWidth: .infinity)
                         .frame(height: 45)
                         .background(Color.accentColor)

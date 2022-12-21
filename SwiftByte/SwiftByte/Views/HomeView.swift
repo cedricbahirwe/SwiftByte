@@ -18,6 +18,8 @@ struct HomeView: View {
 
     @StateObject private var store = ArticlesViewModel()
 
+    @State private var path: [ArticleViewModel] = [] // Nothing on the stack by default.
+
     var body: some View {
         List {
             ScrollView(.horizontal, showsIndicators: false) {
@@ -26,7 +28,7 @@ struct HomeView: View {
                         Text(token.value)
                             .font(.callout)
                             .fontWeight(.medium)
-                            .foregroundColor(.white)
+                            .foregroundColor(.offBackground)
                             .padding(.horizontal, 10)
                             .padding(.vertical, 8)
                             .background(Color.accentColor)
@@ -39,16 +41,23 @@ struct HomeView: View {
             .listRowInsets(EdgeInsets())
 
             ForEach(store.articleVM) { articleVM  in
-                ArticleRowView(articleVM: articleVM)
-                    .listRowBackground(EmptyView())
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(
-                        EdgeInsets(top: 10, leading: 12,
-                                   bottom: 15, trailing: 12)
-                    )
+                ZStack(alignment: .leading) {
+                    NavigationLink(value: articleVM) { EmptyView() }
+                        .opacity(0)
+                    ArticleRowView(articleVM: articleVM)
+                }
+                .listRowBackground(EmptyView())
+                .listRowSeparator(.hidden)
+                .listRowInsets(
+                    EdgeInsets(top: 10, leading: 12,
+                               bottom: 15, trailing: 12)
+                )
             }
         }
         .navigationTitle(Text("Let's Explore today's"))
+        .navigationDestination(for: ArticleViewModel.self, destination: { viewModel in
+            ArticleView(viewModel)
+        })
         .searchable(text: $searchText,
                     tokens: $searchTokens,
                     suggestedTokens: $searchSuggestedTokens,

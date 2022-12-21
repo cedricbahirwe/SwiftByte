@@ -7,7 +7,7 @@
 
 import Combine
 
-final class ArticleViewModel: Identifiable, ObservableObject {
+final class ArticleViewModel: Identifiable, Hashable, ObservableObject {
     @Published var article: SBArticle
 
     private(set) var id: Int?
@@ -24,5 +24,13 @@ final class ArticleViewModel: Identifiable, ObservableObject {
             .compactMap { $0.id }
             .assign(to: \.id, on: self)
             .store(in: &cancellables)
+    }
+
+    static func == (lhs: ArticleViewModel, rhs: ArticleViewModel) -> Bool {
+        lhs.article == rhs.article
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(article)
     }
 }

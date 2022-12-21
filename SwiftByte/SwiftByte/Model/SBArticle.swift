@@ -10,7 +10,7 @@ import SwiftUI
 
 typealias Codifiable = Codable & Identifiable
 
-struct SBArticle: Codifiable {
+struct SBArticle: Codifiable, Hashable {
     var id: Int
     var title: String
     var intro: SBArticleContent?
@@ -18,10 +18,15 @@ struct SBArticle: Codifiable {
     var createdDate: Date
     var updateDate: Date?
     var content: [SBArticleContent]
-    var keywords: [KeyWord]
+    var keywords: [SBArticleKeyWord]
+    var moreResources: [SBLink]
+
+    // Social
+    var likes: Int = 0
+    var views: Int = 0
 }
 
-struct SBArticleContent: Codable {
+struct SBArticleContent: Hashable, Codable {
     var body: String
     var color: String?
     var background: String?
@@ -30,12 +35,14 @@ struct SBArticleContent: Codable {
     var design: Design?
     var radius: Double?
 
+    /// The font of the content
     var font: Font {
         Font.system(style.value,
                     design: design?.value,
                     weight: weight?.value)
     }
 
+    /// The color of the content
     var fontColor: Color? {
         if let color, !color.isEmpty {
             return Color(hex: color)
@@ -43,6 +50,11 @@ struct SBArticleContent: Codable {
         return nil
     }
 
+    var isBackgroundStyled: Bool {
+        backgroundColor != nil
+    }
+
+    /// The background of the content
     var backgroundColor: Color? {
         if let background, !background.isEmpty {
             return Color(hex: background)
@@ -50,11 +62,11 @@ struct SBArticleContent: Codable {
         return nil
     }
 
-    var cornerRadius: CGFloat? {
+    var cornerRadius: CGFloat {
         if let radius, radius >= 0 {
             return CGFloat(radius)
         }
-        return nil
+        return 0
     }
 
     enum Weight: String, Codable {
@@ -154,11 +166,11 @@ struct SBArticleContent: Codable {
     }
 }
 
-struct SBAuthor: Codifiable {
+struct SBAuthor: Hashable, Codifiable {
     var id: UUID = UUID()
-    let firstName: String
-    let lastName: String
-    let joinedDate: Date?
+    var firstName: String
+    var lastName: String
+    var joinedDate: Date?
 
     var fullName: String {
         "\(firstName) \(lastName)"
@@ -169,9 +181,29 @@ struct SBAuthor: Codifiable {
     }
 }
 
-struct KeyWord: Codable {
-    let name: String
+struct SBArticleKeyWord: Hashable, Codable {
+    var name: String
     init(_ name: String) {
         self.name = name
+    }
+}
+
+struct SBLink: Hashable, Codable {
+    var name: String?
+    var url: URL
+
+    var description: String {
+        name ?? url.description
+    }
+
+    init(name: String? = nil, url: URL) {
+        self.name = name
+        self.url = url
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decodeIfPresent(String.self, forKey: .name)
+        self.url = try container.decode(URL.self, forKey: .url)
     }
 }

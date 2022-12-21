@@ -14,96 +14,106 @@ struct ArticleView: View {
     }
     private var article: SBArticle { articleVM.article }
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-//                Group {
-//                    if let url = URL(string: .shop.profilePicture ?? "") {
-//                        AsyncImage(url: url){ image in
-//                            image.resizable()
-//                        } placeholder: {
-//                            Color.gray
-//                        }
-//                    } else {
-//                        Color.gray
-//                    }
-//                }
-//                .clipShape(Circle())
-//                .padding(2)
-//                .background(.background)
-//                .clipShape(Circle())
-//                .padding(1)
-//                .background(.secondary)
-//                .clipShape(Circle())
-//                .frame(width: 40, height: 40)
-
-                VStack(alignment: .leading, spacing: 0) {
-                    Text(article.title)
-                        .font(.system(.body, design: .rounded))
-                        .fontWeight(.medium)
-                        .minimumScaleFactor(0.9)
-                        .lineLimit(1)
-                    if let author = article.author {
-                        Text(author.fullName)
-                            .font(.caption)
-                            .minimumScaleFactor(0.85)
-                            .lineLimit(1)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-                Button {
-
-                } label: {
-                    Text("Follow")
-                        .font(.system(.callout, design: .rounded))
-                        .fontWeight(.medium)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 10)
-                        .frame(height: 32)
-                        .background(.green, in: RoundedRectangle(cornerRadius: 13))
-                        .overlay(RoundedRectangle(cornerRadius: 13).stroke(Color.green, lineWidth: 1))
-                }
-            }
-
-            Color.gray
-                .hidden()
-//                .overlay(postImageView)
-                .frame(maxWidth: 400, maxHeight: 400)
-                .cornerRadius(10)
-
-
-            VStack {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
                 Text(article.title)
-                    .lineLimit(5)
+                    .font(.system(.title,
+                                  design: .rounded,
+                                  weight: .semibold))
+                authorView
+                introView
+                sectionsView
+                resourcesView
             }
-
-            Spacer(minLength: 0)
         }
         .padding(.horizontal)
+        .navigationTitle(article.title)
+        .navigationBarTitleDisplayMode(.inline)
+        .background(Color.offBackground)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Image(systemName: "bookmark.circle")
+            }
+        }
     }
-
-//    private var postImageView: some View {
-//        ZStack {
-//            if let url = URL(string: art.images.isEmpty ? "" : post.images[0]) {
-//                AsyncImage(url: url) { image in
-//                    image
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fill)
-//                } placeholder: {
-//                    Color.gray
-//                }
-//            } else {
-//                Color.gray
-//            }
-//        }
-//    }
 }
 
+private extension ArticleView {
+    var authorView: some View {
+        VStack {
+            Divider()
+            HStack {
+                if let author = article.author {
+                    Text(author.fullName)
+                        .font(.system(.body, design: .rounded))
+                        .fontWeight(.medium)
+                        .opacity(0.9)
+                    Spacer(minLength: 4)
+                }
+
+                Text(article.createdDate, format: .relative(presentation: .named))
+                    .font(.system(.caption, design: .rounded))
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            Divider()
+        }
+    }
+
+    var introView: some View {
+        Group {
+            if let intro = article.intro {
+                Text(intro.body)
+                    .font(intro.font)
+                    .foregroundColor(intro.fontColor)
+                    .padding(intro.isBackgroundStyled ? 14 : 0)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(intro.isBackgroundStyled ? intro.backgroundColor : Color.clear)
+            }
+        }
+    }
+
+    var sectionsView: some View {
+        ForEach(article.content, id:\.self) { section in
+
+            Text(section.body)
+                .font(section.font)
+                .foregroundColor(section.fontColor)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(section.isBackgroundStyled ? 14 : 0)
+                .background(section.backgroundColor ?? Color.clear)
+                .cornerRadius(section.isBackgroundStyled  ? section.cornerRadius : 0)
+        }
+    }
+
+    var resourcesView: some View {
+        Group {
+            if !article.moreResources.isEmpty {
+                Section {
+                    ForEach(article.moreResources, id:\.self) { source in
+                        Link(destination: source.url) {
+                            Label(source.description, systemImage: "link")
+                                .italic()
+                                .underline(pattern: .dashDotDot)
+                                .tint(.blue)
+                        }
+                    }
+                } header: {
+                    Text("Read More:")
+                        .font(.title2)
+                        .opacity(0.85)
+                }
+            }
+        }
+    }
+}
 
 #if DEBUG
 struct ArticleView_Previews: PreviewProvider {
     static var previews: some View {
-        ArticleView(.init(.sample))
+        NavigationStack {
+            ArticleView(.init(.sample))
+        }
     }
 }
 #endif
