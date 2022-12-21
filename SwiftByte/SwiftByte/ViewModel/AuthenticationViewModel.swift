@@ -25,6 +25,7 @@ final class AuthenticationViewModel: ObservableObject {
 
     /// Creates an instance of this view model.
     init() {
+        dump(localStorage.getUser())
         if let sbUser = localStorage.getUser() {
             self.state = .signedIn(sbUser)
         } else {

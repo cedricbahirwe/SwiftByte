@@ -65,15 +65,15 @@ private extension ArticleView {
                     .font(.system(.caption, design: .rounded))
                     .foregroundColor(.secondary)
 
-                Group {
-                    if article.views > 0 {
-                        Text("\(article.views.formatted()) Likes")
-                    }
-                    Image(systemName: "hand.thumbsup")
-                        .symbolVariant(.fill)
-                        .foregroundColor(.red.opacity(0.9))
-                        .onTapGesture(perform: articleVM.like)
-                }
+//                Group {
+//                    if article.views > 0 {
+//                        Text("\(article.views.formatted()) Like \(article.views > 1 ? "s" : "")")
+//                    }
+//                    Image(systemName: "hand.thumbsup")
+//                        .symbolVariant(.fill)
+//                        .foregroundColor(.red.opacity(0.9))
+//                        .onTapGesture(perform: articleVM.like)
+//                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Divider()

@@ -31,12 +31,12 @@ final class AppLocalStorage {
     /// Save the user object to local storage
     func saveUser(_ value: SBUser) throws {
         let data = try encodeData(value)
-        userDefaults.setValue(data, forKey: LocalKeys.userSession)
+        userDefaults.setValue(data, forKey: .userSession)
     }
 
     /// Get the cached user object
     func getUser() -> SBUser? {
-        decodeData(key: LocalKeys.userSession, as: SBUser.self)
+        decodeData(key: .userSession, as: SBUser.self)
     }
 
     /// Store the Last Sync date if it does not exist

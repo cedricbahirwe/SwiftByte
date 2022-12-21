@@ -9,35 +9,41 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
+#if DEBUG
+    var user: SBUser?
+#else
     private var user: SBUser? { authViewModel.getCurrentUser() }
+#endif
     @Environment(\.dismiss) private var dismiss
     @State private var showingConfirmation = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(spacing: 20) {
             if let user {
-                HStack {
+                VStack(spacing: 4) {
                     Image(systemName: "person.circle.fill")
                         .resizable()
-                        .frame(width: 60, height: 60)
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
                         .clipShape(Circle())
+                        .padding()
 
-                    VStack(alignment: .leading) {
-                        Text(user.getFullName())
+                    Text(user.getFullName())
+                        .font(.title.weight(.medium))
+
+                    Group {
+                        Text(user.email)
                             .font(.headline)
-
-                        Group {
-                            Text(user.email)
-                                .foregroundColor(.secondary)
-                            if let joinedDate = user.joinDate {
-                                HStack(spacing: 0) {
-                                    Text("Joined: ")
-                                    Text(joinedDate, style: .date)
-                                }
+                            .foregroundColor(.secondary)
+                        if let joinedDate = user.joinDate {
+                            HStack(spacing: 0) {
+                                Text("Joined: ")
+                                Text(joinedDate, style: .date)
+                                    .italic()
                             }
                         }
-                        .foregroundColor(.secondary)
                     }
+
                 }
                 .padding(.bottom)
 
@@ -69,7 +75,6 @@ struct ProfileView: View {
             Spacer()
         }
         .padding()
-
         .confirmationDialog(
             "Do you really want to delete your account?",
             isPresented: $showingConfirmation,
@@ -77,8 +82,8 @@ struct ProfileView: View {
                 Button("Delete Account", role: .destructive, action: deleteAccount)
                 Button("Cancel", role: .cancel) { }
             } message: {
-            Text("This action cannot be undone.")
-        }
+                Text("This action cannot be undone.")
+            }
     }
 
     private func deleteAccount() {
@@ -89,12 +94,13 @@ struct ProfileView: View {
             }
         }
     }
+
 }
 
 #if DEBUG
-//struct ProfileView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProfileView(user: .sample)
-//    }
-//}
+struct ProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileView(user: .sample)
+    }
+}
 #endif
