@@ -72,6 +72,8 @@
 		CBB7E36C295343EF00EE6CEF /* SBArticleKeyWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E36B295343EF00EE6CEF /* SBArticleKeyWord.swift */; };
 		CBB7E36E295343FA00EE6CEF /* SBAuthor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E36D295343FA00EE6CEF /* SBAuthor.swift */; };
 		CBB7E3702953440C00EE6CEF /* SBArticleContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E36F2953440C00EE6CEF /* SBArticleContent.swift */; };
+		CBB7E3722953447000EE6CEF /* CreatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E3712953447000EE6CEF /* CreatorViewModel.swift */; };
+		CBB7E374295354E900EE6CEF /* SBSearchToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E373295354E900EE6CEF /* SBSearchToken.swift */; };
 		CBCCA1B22951DBD6004B0ACC /* AppLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCCA1B12951DBD6004B0ACC /* AppLocalStorage.swift */; };
 /* End PBXBuildFile section */
 
@@ -149,6 +151,8 @@
 		CBB7E36B295343EF00EE6CEF /* SBArticleKeyWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBArticleKeyWord.swift; sourceTree = "<group>"; };
 		CBB7E36D295343FA00EE6CEF /* SBAuthor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBAuthor.swift; sourceTree = "<group>"; };
 		CBB7E36F2953440C00EE6CEF /* SBArticleContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBArticleContent.swift; sourceTree = "<group>"; };
+		CBB7E3712953447000EE6CEF /* CreatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorViewModel.swift; sourceTree = "<group>"; };
+		CBB7E373295354E900EE6CEF /* SBSearchToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBSearchToken.swift; sourceTree = "<group>"; };
 		CBCCA1B12951DBD6004B0ACC /* AppLocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -305,6 +309,7 @@
 				CB6B290129521A560078EFD0 /* ArticlesStore.swift */,
 				CB6B290329521A5E0078EFD0 /* ArticlesViewModel.swift */,
 				CB6B290729521BCC0078EFD0 /* ArticleViewModel.swift */,
+				CBB7E3712953447000EE6CEF /* CreatorViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -314,6 +319,7 @@
 			children = (
 				CB77B99B29512689001C0461 /* Custom Types */,
 				CB77B99929512653001C0461 /* SBTopic.swift */,
+				CBB7E373295354E900EE6CEF /* SBSearchToken.swift */,
 				CBB7E368295343CF00EE6CEF /* Article */,
 				CB77B9A929512B50001C0461 /* SBUser.swift */,
 				CB77B99529512649001C0461 /* SBGender.swift */,
@@ -567,6 +573,7 @@
 				CB6B290429521A5E0078EFD0 /* ArticlesViewModel.swift in Sources */,
 				CB77B9BF2951316E001C0461 /* SBFileExtension.swift in Sources */,
 				CB77B92E29510F17001C0461 /* Persistence.swift in Sources */,
+				CBB7E374295354E900EE6CEF /* SBSearchToken.swift in Sources */,
 				CB77B9AD29512B96001C0461 /* FirestoreEntity+Protocol.swift in Sources */,
 				CB6B290B29521F600078EFD0 /* ArticleRowView.swift in Sources */,
 				CB77B9B129512BDE001C0461 /* Firestore+Extension.swift in Sources */,
@@ -594,6 +601,7 @@
 				CB77B99429512604001C0461 /* Font+Extension.swift in Sources */,
 				CBB7E3632952355000EE6CEF /* ProfileView.swift in Sources */,
 				CB77B96029511744001C0461 /* ArticleView.swift in Sources */,
+				CBB7E3722953447000EE6CEF /* CreatorViewModel.swift in Sources */,
 				CBB7E36A295343DC00EE6CEF /* SBLink.swift in Sources */,
 				CB6B290629521A980078EFD0 /* ArticlesRepository.swift in Sources */,
 				CB77B992295125A7001C0461 /* PhotoPickerView.swift in Sources */,

@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CreatorView: View {
-    @State private var art = SBArticle.sample
+    @State private var articleVM = ArticlesViewModel()
+    @State private var art = SBArticle.empty
     @State private var newKeyword = ""
     @State private var newLinkURL = ""
     @State private var newLinkName = ""
@@ -17,31 +18,47 @@ struct CreatorView: View {
     @State private var showAuthor = false
 
     var body: some View {
-        VStack(spacing: 20) {
-            sectionOne
+        ScrollView {
+            VStack(spacing: 20) {
+                sectionOne
 
 
-            keywordsView
+                keywordsView
 
-            newContentView
+                newContentView
 
-            linksView
+                linksView
 
+                Spacer(minLength: 1)
+                Button("Submit", action: submit)
+
+            }
+            .padding(.horizontal)
+            .background(
+                Color(.systemBackground)
+                    .ignoresSafeArea()
+                    .onTapGesture(perform: hideKeyboard)
+            )
         }
-        .padding(.horizontal)
         .tint(.blue)
     }
 
     private func submit() {
+        guard !art.title.isEmpty else { return }
+        guard !art.content.isEmpty else { return }
+
         art.author = editedAuthor
+        art.intro = intro
         art.createdDate = Date()
         art.updateDate = nil
 
+        articleVM.addNewArticle(art)
+//        art = SBArticle.empty
     }
 
     private func addKeyword() {
         let newKeyword = newKeyword.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard newKeyword.isEmpty else { return }
+        guard !newKeyword.isEmpty else { return }
 
         if !art.keywords.map(\.name).contains(newKeyword) {
             art.keywords.append(.init(newKeyword))
@@ -72,6 +89,12 @@ struct CreatorView: View {
         self.newLinkURL = ""
     }
 
+    private func removeLink(_ link: SBLink) {
+        if let index = art.moreResources.firstIndex(of: link) {
+            art.moreResources.remove(at: index)
+        }
+    }
+
     private func addNewContent(_ content: SBArticleContent) {
         if !art.content.contains(where: { $0.body == content.body }) {
             art.content.append(content)
@@ -81,17 +104,18 @@ struct CreatorView: View {
 
 extension CreatorView {
     struct AuthorEditor: View {
-        internal init(author: Binding<SBAuthor?>) {
-            self._author = author
-            self._firstName = State(initialValue: author.wrappedValue?.firstName ?? "")
-            self._lastName = State(initialValue: author.wrappedValue?.lastName ?? "")
-            self._bio = State(initialValue: author.wrappedValue?.bio ?? "")
+        init(author: SBAuthor?, completion: @escaping (SBAuthor) -> Void) {
+            self.firstName = author?.firstName ?? ""
+            self.lastName = author?.lastName ?? ""
+            self.bio = author?.bio ?? ""
+            self.completion = completion
         }
 
-        @Binding var author: SBAuthor?
         @State private var firstName: String
         @State private var lastName: String
         @State private var bio: String
+
+        var completion: (SBAuthor) -> Void
 
         var body: some View {
             VStack(alignment: .leading) {
@@ -114,7 +138,7 @@ extension CreatorView {
             let bioCleaned = bio.cleaned.isEmpty ? nil : bio.cleaned
 
             let newAuthor = SBAuthor(firstName: firstName, lastName: lastName, bio: bioCleaned, joinedDate: Date())
-            self.author = newAuthor
+            completion(newAuthor)
         }
     }
 
@@ -209,7 +233,13 @@ extension CreatorView {
             .frame(maxWidth: .infinity, minHeight: 25, alignment: .leading)
             .overlay(alignment: .topTrailing) {
                 HStack {
-                    if !isShown {
+                    if isShown {
+                        Button("Save") {
+                            saveArticle()
+                        }
+
+
+                    } else {
                         Text(content.body.isEmpty ? "New Section" : content.body).bold()
                             .lineLimit(1)
                         Spacer()
@@ -229,7 +259,6 @@ extension CreatorView {
 
         func saveArticle() {
             guard !content.body.cleaned.isEmpty else { return }
-
 
             let fgColorString = fgColor == .clear ? nil : fgColor.toHex()
             let bgColorString = bgColor == .clear ? nil : bgColor.toHex()
@@ -276,7 +305,9 @@ private extension CreatorView {
                 }
 
                 if showAuthor {
-                    AuthorEditor(author: $editedAuthor)
+                    AuthorEditor(author: editedAuthor) { newAuthor in
+                        self.editedAuthor = newAuthor
+                    }
                 }
             }
 
@@ -291,7 +322,7 @@ private extension CreatorView {
     }
     var keywordsView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Keywords").bold()
+            Text("Keywords \(art.keywords.count)").bold()
             HStack {
                 TextField("Add New Keyword", text: $newKeyword)
                     .applyField()
@@ -306,6 +337,7 @@ private extension CreatorView {
                             .padding(.vertical, 8)
                             .background(.regularMaterial)
                             .clipShape(Capsule())
+                            .contentShape(Capsule())
                             .onTapGesture(count: 2) {
                                 removeKeyword(keyword)
                             }
@@ -317,7 +349,7 @@ private extension CreatorView {
 
     var newContentView: some View {
         VStack(alignment: .leading) {
-            Text("New Content").bold()
+            Text("Article Content \(art.content.count)").bold()
 
             ContentEditor(completion: addNewContent)
 
@@ -327,7 +359,7 @@ private extension CreatorView {
     var linksView: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("Links").bold()
+                Text("Links \(art.moreResources.count)").bold()
 
                 TextField("Add Link Name", text: $newLinkName)
                     .applyField()
@@ -343,14 +375,19 @@ private extension CreatorView {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(art.moreResources, id: \.self) { source in
-                        VStack {
+                        VStack(alignment: .leading) {
                             Text(source.description)
                             Text(source.url.description)
                                 .foregroundColor(.blue)
                         }
                         .padding(10)
+                        .frame(maxWidth: 250)
                         .background(.regularMaterial)
                         .cornerRadius(10)
+                        .contentShape(RoundedRectangle(cornerRadius: 10))
+                        .onTapGesture(count: 2) {
+                            removeLink(source)
+                        }
                     }
                 }
             }

@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
 
 typealias Codifiable = Codable & Identifiable
 
 struct SBArticle: Codifiable, Hashable {
-    var id: Int
+    @DocumentID var id: String?
     var title: String
     var intro: SBArticleContent?
     var author: SBAuthor?

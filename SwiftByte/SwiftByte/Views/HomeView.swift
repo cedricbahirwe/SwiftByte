@@ -12,9 +12,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var searchText = ""
 
-    @State private var searchTokens: [SearchToken] = []
-
-    @State private var searchSuggestedTokens =  ["UIKit", "Swift",  "SwiftUI", "iOS", "GCD", "Modifier"].map(SearchToken.init)
+    @State private var searchTokens: [SBSearchToken] = []
 
     @StateObject private var store = ArticlesViewModel()
 
@@ -28,7 +26,7 @@ struct HomeView: View {
         List {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
-                    ForEach(searchSuggestedTokens) { token in
+                    ForEach(store.searchSuggestedTokens) { token in
                         Text(token.value)
                             .font(.callout)
                             .fontWeight(.medium)
@@ -46,7 +44,11 @@ struct HomeView: View {
 
             ForEach(store.articleVM) { articleVM  in
                 ZStack(alignment: .leading) {
-                    NavigationLink(value: articleVM) { EmptyView() }
+                    NavigationLink {
+                        ArticleView(articleVM)
+                    } label: { EmptyView() }
+
+//                    NavigationLink(value: articleVM) { EmptyView() }
                         .opacity(0)
                     ArticleRowView(articleVM: articleVM)
                 }
@@ -68,7 +70,7 @@ struct HomeView: View {
         .sheet(isPresented: $showProfile, content: ProfileView.init)
         .searchable(text: $searchText,
                     tokens: $searchTokens,
-                    suggestedTokens: $searchSuggestedTokens,
+                    suggestedTokens: $store.searchSuggestedTokens,
                     placement: .navigationBarDrawer(displayMode: .automatic),
                     prompt: "Find a topic or concept",
                     token: { token in
@@ -90,21 +92,6 @@ struct HomeView: View {
                         .symbolVariant(.circle)
                 }
             }
-        }
-    }
-
-    struct SearchToken: Identifiable {
-        let id: UUID
-        let value: String
-
-        init(id: UUID = UUID(),_ value: String) {
-            self.id = id
-            self.value = value
-        }
-
-        init(_ value: String) {
-            self.id = UUID()
-            self.value = value
         }
     }
 }

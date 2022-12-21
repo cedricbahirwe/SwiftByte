@@ -14,7 +14,7 @@ struct ContentView: View {
         NavigationStack {
             switch authViewModel.state {
             case .signedIn:
-                CreatorView()
+              HomeView()
             case .signedOut:
               AuthenticationView()
             }

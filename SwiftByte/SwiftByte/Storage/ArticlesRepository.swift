@@ -18,8 +18,7 @@ final class ArticlesRepository: ObservableObject {
     }
 
     public func loadArticles() {
-        self.articles = Array(repeating: SBArticle.sample, count: 20)
-        return;
+
         db.collection(.articles).addSnapshotListener { querySnapshot, error in
             if let error = error {
                 printf("Firestore error: \(error).")

@@ -10,7 +10,7 @@ import Combine
 final class ArticleViewModel: Identifiable, Hashable, ObservableObject {
     @Published var article: SBArticle
 
-    private(set) var id: Int?
+    private(set) var id: String?
 
     @Published private(set) var hasUserFollwed = false
 

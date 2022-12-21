@@ -11,14 +11,14 @@ struct SBArticleContent: Hashable, Codable {
     var body: String
     var color: String?
     var background: String?
-    var style: Style = .body
+    var style: Style?
     var weight: Weight?
     var design: Design?
     var radius: Double?
 
     /// The font of the content
     var font: Font {
-        Font.system(style.value,
+        Font.system(style?.value ?? .body,
                     design: design?.value,
                     weight: weight?.value)
     }
