@@ -20,6 +20,20 @@ struct ArticleView: View {
                     .font(.system(.title,
                                   design: .rounded,
                                   weight: .semibold))
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(article.keywords, id:\.self) {
+                            Text($0.name.capitalized)
+                                .font(.callout)
+                                .fontWeight(.medium)
+                                .foregroundColor(.offBackground)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 8)
+                                .background(Color.accentColor)
+                                .clipShape(Capsule())
+                        }
+                    }
+                }
                 authorView
                 introView
                 sectionsView

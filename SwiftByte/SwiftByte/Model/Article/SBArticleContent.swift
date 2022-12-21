@@ -1,43 +1,24 @@
 //
-//  SBArticle.swift
+//  SBArticleContent.swift
 //  SwiftByte
 //
-//  Created by Cédric Bahirwe on 20/12/2022.
+//  Created by Cédric Bahirwe on 21/12/2022.
 //
 
-import Foundation
 import SwiftUI
-
-typealias Codifiable = Codable & Identifiable
-
-struct SBArticle: Codifiable, Hashable {
-    var id: Int
-    var title: String
-    var intro: SBArticleContent?
-    var author: SBAuthor?
-    var createdDate: Date
-    var updateDate: Date?
-    var content: [SBArticleContent]
-    var keywords: [SBArticleKeyWord]
-    var moreResources: [SBLink]
-
-    // Social
-    var likes: Int = 0
-    var views: Int = 0
-}
 
 struct SBArticleContent: Hashable, Codable {
     var body: String
     var color: String?
     var background: String?
-    var style: Style = .body
+    var style: Style?
     var weight: Weight?
     var design: Design?
     var radius: Double?
 
     /// The font of the content
     var font: Font {
-        Font.system(style.value,
+        Font.system(style?.value ?? .body,
                     design: design?.value,
                     weight: weight?.value)
     }
@@ -69,7 +50,7 @@ struct SBArticleContent: Hashable, Codable {
         return 0
     }
 
-    enum Weight: String, Codable {
+    enum Weight: String, CaseIterable, Codable {
          case ultraLight
          case thin
          case light
@@ -145,7 +126,7 @@ struct SBArticleContent: Hashable, Codable {
         }
     }
 
-    enum Design: String, Codable {
+    enum Design: String, CaseIterable, Codable {
         case `default`
         case serif
         case rounded
@@ -163,48 +144,5 @@ struct SBArticleContent: Hashable, Codable {
                 return .monospaced
             }
         }
-    }
-}
-
-struct SBAuthor: Hashable, Codifiable {
-    var id: UUID = UUID()
-    var firstName: String
-    var lastName: String
-    var bio: String?
-    var joinedDate: Date?
-
-    var fullName: String {
-        "\(firstName) \(lastName)"
-    }
-
-    static var anonymous: SBAuthor {
-        SBAuthor(firstName: "Anonymous", lastName: "", joinedDate: nil)
-    }
-}
-
-struct SBArticleKeyWord: Hashable, Codable {
-    var name: String
-    init(_ name: String) {
-        self.name = name
-    }
-}
-
-struct SBLink: Hashable, Codable {
-    var name: String?
-    var url: URL
-
-    var description: String {
-        name ?? url.description
-    }
-
-    init(name: String? = nil, url: URL) {
-        self.name = name
-        self.url = url
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.name = try container.decodeIfPresent(String.self, forKey: .name)
-        self.url = try container.decode(URL.self, forKey: .url)
     }
 }
