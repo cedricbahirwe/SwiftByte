@@ -24,7 +24,6 @@ struct SwiftByteApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onAppear(perform: restorePreviousSignIn)
                 .onOpenURL(perform: handIncomingURL)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(authViewModel)
@@ -54,19 +53,5 @@ private extension SwiftByteApp {
     func handIncomingURL(_ url: URL) {
         prints("Well, New URL: \(url)")
         GIDSignIn.sharedInstance.handle(url)
-    }
-
-    func restorePreviousSignIn() {
-//        Auth.auth().res
-        GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-            if let user = user {
-//                self.authViewModel.state = .signedIn(user)
-            } else if let error = error {
-                self.authViewModel.state = .signedOut
-                print("There was an error restoring the previous sign-in: \(error)")
-            } else {
-                self.authViewModel.state = .signedOut
-            }
-        }
     }
 }

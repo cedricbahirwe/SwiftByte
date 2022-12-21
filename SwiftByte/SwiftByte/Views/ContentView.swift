@@ -15,11 +15,6 @@ struct ContentView: View {
             switch authViewModel.state {
             case .signedIn:
               HomeView()
-                .navigationTitle(
-                  NSLocalizedString(
-                    "Home",
-                    comment: "Main Page navigation title"
-                  ))
             case .signedOut:
               AuthenticationView()
             }
