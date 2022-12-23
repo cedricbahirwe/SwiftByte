@@ -49,3 +49,7 @@ extension SBUser {
                      gender: model.gender)
     }
 }
+
+extension SBUser {
+    static let sample = SBUser(id: UUID().uuidString, firstName: "John", lastName: "Doe", email: "john@gmail.com", profilePicture: nil, messageToken: nil, joinDate: Date(timeIntervalSinceNow: -86400), notificationAuthorized: false, gender: .nonBinary)
+}
