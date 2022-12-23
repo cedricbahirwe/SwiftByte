@@ -7,6 +7,7 @@
 
 import Foundation
 
+#if DEBUG
 extension SBArticle {
     static let sample = SBArticle(id: UUID().uuidString,
                                   title: "The most popular iOS UI Frameworks",
@@ -60,7 +61,4 @@ extension SBLink {
     static let sample = SBLink(name: "How to write better code",
                                url: URL(string: "https://www.google.com")!)
 }
-
-extension SBUser {
-    static let sample = SBUser(id: UUID().uuidString, firstName: "John", lastName: "Doe", email: "john@gmail.com", profilePicture: nil, messageToken: nil, joinDate: Date(timeIntervalSinceNow: -86400), notificationAuthorized: false, gender: .nonBinary)
-}
+#endif
