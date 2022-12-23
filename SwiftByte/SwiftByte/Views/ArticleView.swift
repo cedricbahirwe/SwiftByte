@@ -23,7 +23,7 @@ struct ArticleView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(article.keywords, id:\.self) {
-                            Text($0.name.capitalized)
+                            Text($0.name)
                                 .font(.callout)
                                 .fontWeight(.medium)
                                 .foregroundColor(.offBackground)
