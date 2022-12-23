@@ -26,3 +26,11 @@ struct SBArticle: Codifiable, Hashable {
     var likes: Int = 0
     var views: Int = 0
 }
+
+extension SBArticle {
+    static let empty = SBArticle(title: "",
+                                 createdDate: Date(),
+                                 content: [],
+                                 keywords: [],
+                                 moreResources: [])
+}

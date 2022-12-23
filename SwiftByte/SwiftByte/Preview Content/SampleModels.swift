@@ -8,11 +8,6 @@
 import Foundation
 
 extension SBArticle {
-    static let empty = SBArticle(title: "",
-                                 createdDate: Date(),
-                                 content: [],
-                                 keywords: [],
-                                 moreResources: [])
     static let sample = SBArticle(id: UUID().uuidString,
                                   title: "The most popular iOS UI Frameworks",
                                   intro: .intro,
