@@ -8,9 +8,11 @@
 * Beautiful UI with Light/Dark Mode support.
 * GoogleSign and FirebaseAuth services integration
 * Real-Time Data Updates from Firebase Console
-* 
 
 ## ✨ TODOs :
+
+* Build Editor Section
+* Publish app on AppStore
 
 
 ## TakeAways 🚀
