@@ -6,6 +6,9 @@
 
 ## ✅ Dones:
 * Beautiful UI with Light/Dark Mode support.
+* GoogleSign and FirebaseAuth services integration
+* Real-Time Data Updates from Firebase Console
+* 
 
 ## ✨ TODOs :
 
