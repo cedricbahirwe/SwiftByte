@@ -13,10 +13,11 @@
 ## TakeAways 🚀
 
 - Dealing with Real-Time(Instant) DataBases
-- Data Driven UI Development
+- Reactive Data Driven UI Development
 
 ## Technology 🧑🏽‍💻 
 - SwiftUI
+- Combine
 - GoogleSignIn
 - Firebase (FirebaseFirestore, FirebaseAuth)
 - PhotosUI
