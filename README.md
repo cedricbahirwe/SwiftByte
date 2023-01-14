@@ -26,14 +26,13 @@
 - SDLC(Software Development Life Cycle) in practice
 - Following Apple Human Interface Guidelines
 - Deep Dive into Home Screen Quick Actions
-- Local DataBase Management at Scale in iOS
+- Dealing with Real-Time(Instant) DataBases
+- Data Driven UI
 
 ## Technology 🧑🏽‍💻 
-- SwiftUI & UIKit
-- UserNotifications & LocalAuthentication
-- StoreKit
-- Contacts & CoreTelephony
-- XCTest
+- SwiftUI
+- GoogleSignIn
+- Firebase (FirebaseFirestore, FirebaseAuth)
 
 ## Screenshots
 
