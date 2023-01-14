@@ -16,7 +16,7 @@
 - Reactive Data Driven UI Development
 
 ## Technology 🧑🏽‍💻 
-- SwiftUI
+- SwiftUI & UIKit
 - Combine
 - GoogleSignIn
 - Firebase (FirebaseFirestore, FirebaseAuth)
