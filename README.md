@@ -1,6 +1,6 @@
 # SwiftByte
 
-### An app using `ChatGPT` to explain various topics and concepts related to iOS Development.
+### An app built with `ChatGPT` api and `Firebase` to explain various topics and concepts related to iOS Development.
 <!-- Download it on [AppStore](https://apps.apple.com/ke/app/dial-it/id1591756747). -->
 
 
