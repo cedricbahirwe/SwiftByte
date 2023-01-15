@@ -11,6 +11,10 @@ import Combine
 final class ArticlesViewModel: ObservableObject {
     @Published private var articlesRepository = ArticlesRepository()
     @Published private(set) var articleVM = [ArticleViewModel]()
+    // Temporary store for filtering operation
+    private var _allArticles = [ArticleViewModel]()
+
+    @Published private(set) var filterToken: SBSearchToken?
 
     @Published var searchSuggestedTokens = [SBSearchToken]()
 
@@ -36,6 +40,23 @@ final class ArticlesViewModel: ObservableObject {
     public func insertNewArticle(_ article: SBArticle, at index: Int) {
         let articleVM = ArticleViewModel(article)
         self.articleVM.insert(articleVM, at: index)
+    }
+
+    public func selectFilter(_ token: SBSearchToken) {
+        // Handle Deselection
+        if (filterToken == token) {
+            articleVM = _allArticles
+            filterToken = nil
+        } else {
+            if _allArticles.isEmpty {
+                _allArticles = articleVM
+            }
+            let keyword = SBArticleKeyWord(token.value)
+            articleVM = _allArticles.filter({
+                $0.article.keywords.contains(keyword)
+            })
+            filterToken = token
+        }
     }
 }
 

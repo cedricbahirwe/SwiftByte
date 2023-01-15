@@ -25,18 +25,7 @@ struct HomeView: View {
     var body: some View {
         List {
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(store.searchSuggestedTokens) { token in
-                        Text(token.value)
-                            .font(.callout)
-                            .fontWeight(.medium)
-                            .foregroundColor(.offBackground)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 8)
-                            .background(Color.accentColor)
-                            .clipShape(Capsule())
-                    }
-                }
+                filterTokensView
             }
             .listRowSeparator(.hidden)
             .listRowBackground(EmptyView())
@@ -91,6 +80,8 @@ struct HomeView: View {
     }
 }
 
+
+
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
@@ -105,3 +96,39 @@ private let itemFormatter: DateFormatter = {
     formatter.timeStyle = .medium
     return formatter
 }()
+
+
+struct FilterToken: View {
+    let token: SBSearchToken
+    let fg: Color
+    let bg: Color
+    var body: some View {
+        Text(token.value)
+            .font(.callout)
+            .fontWeight(.medium)
+            .foregroundColor(fg)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .background(bg)
+            .clipShape(Capsule())
+    }
+}
+
+private extension HomeView {
+    var filterTokensView: some View {
+        HStack(spacing: 12) {
+            ForEach(store.searchSuggestedTokens) { token in
+                FilterToken(token: token,
+                            fg: store.filterToken == token ? .offBackground : .primary,
+                            bg: store.filterToken == token ? .accentColor : .clear)
+                .overlay {
+                    Capsule()
+                        .strokeBorder(Color.accentColor)
+                }
+                .onTapGesture {
+                    store.selectFilter(token)
+                }
+            }
+        }
+    }
+}
