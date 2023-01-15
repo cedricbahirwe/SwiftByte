@@ -11,8 +11,9 @@
 
 ## ✨ TODOs :
 
-* Build Editor Section
-* Publish app on AppStore
+- Build the Welcome Screen
+- Build Editor Section
+- Publish app on AppStore
 
 
 ## TakeAways 🚀
