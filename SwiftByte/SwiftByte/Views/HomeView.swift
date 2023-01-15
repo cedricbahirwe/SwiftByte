@@ -54,7 +54,7 @@ struct HomeView: View {
                 .listRowSeparator(.hidden)
                 .listRowInsets(
                     EdgeInsets(top: 10, leading: 5,
-                               bottom: 16, trailing: 5)
+                               bottom: 10, trailing: 5)
                 )
             }
         }

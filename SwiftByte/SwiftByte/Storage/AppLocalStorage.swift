@@ -65,8 +65,10 @@ final class AppLocalStorage {
     }
 
     func clearAll() {
-        LocalKeys.allCases.forEach {
-            userDefaults.removeObject(forKey: $0.rawValue)
+        // No Strong reference 
+        LocalKeys.allCases.forEach { [weak self] in
+            guard let self = self else { return }
+            self.userDefaults.removeObject(forKey: $0.rawValue)
         }
     }
 }

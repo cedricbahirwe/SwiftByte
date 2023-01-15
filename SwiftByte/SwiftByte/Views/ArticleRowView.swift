@@ -13,21 +13,14 @@ struct ArticleRowView: View {
     private var article: SBArticle { articleVM.article }
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                if let author = article.author {
-                    Text(author.fullName)
-                        .font(.system(.body, design: .rounded))
-                        .fontWeight(.medium)
-                        .opacity(0.9)
-                    Spacer(minLength: 4)
-                }
-
-                Text(article.createdDate, format: .relative(presentation: .named))
-                    .font(.system(.caption, design: .rounded))
-                    .foregroundColor(.secondary)
+            if let author = article.author {
+                Text(author.fullName)
+                    .font(.system(.body, design: .rounded))
+                    .fontWeight(.medium)
+                    .opacity(0.9)
+                Divider()
             }
 
-            Divider()
 
             VStack(alignment: .leading) {
                 Text(article.title)
