@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct LaunchView: View {
-    @AppStorage("showWelcomeView")
-    private var isPresented: Bool = true
+    @Binding var isPresented: Bool
 
     var body: some View {
         VStack {
@@ -27,10 +26,10 @@ struct LaunchView: View {
                         .font(.title3)
                         .bold()
 
-                    Text("Every article, post listed in this app has been manually checked for relevancy and accuracy, making this the highest quality list of content related to iOS Development and Swift available.")
+                    Text("Every concept, post andarticle listed in this app has been manually checked for relevancy and accuracy, making this one of the highest quality list of content related to iOS Development and Swift available on a mobile app.")
 
                     LButton("Get Started") {
-                        isPresented.toggle()
+                        isPresented = false
                     }
                     .padding()
                 }
@@ -45,6 +44,6 @@ struct LaunchView: View {
 
 struct LaunchView_Previews: PreviewProvider {
     static var previews: some View {
-        LaunchView()
+        LaunchView(isPresented: .constant(true))
     }
 }
