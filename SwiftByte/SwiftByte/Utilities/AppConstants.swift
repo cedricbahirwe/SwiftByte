@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+enum AppConstants {
+//    static let
+}
+
+
+enum Images: String {
+    case laptop = "laptop"
+}

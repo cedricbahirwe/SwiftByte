@@ -27,10 +27,7 @@ struct AuthenticationView: View {
     var body: some View {
         ZStack {
             VStack {
-                Text("SwiftByte")
-                    .foregroundColor(.accentColor)
-                    .font(.rounded(.largeTitle))
-                    .fontWeight(.bold)
+               LogoView()
                     .padding(.top, isRegistration ? 0 : 30)
                     .ignoresSafeArea(.keyboard, edges: .top)
                     .frame(maxWidth: .infinity)

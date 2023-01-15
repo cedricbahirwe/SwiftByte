@@ -39,22 +39,10 @@ struct ArticleRowView: View {
                         .opacity(0.8)
                         .lineLimit(4)
                 }
-
-                Button {
-                    // Go to next
-                } label: {
-                    Text("Read more")
-                        .font(.body.weight(.medium))
-                        .foregroundColor(.offBackground)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 45)
-                        .background(Color.accentColor)
-                        .cornerRadius(10)
-                }
-                .padding(.vertical, 8)
             }
         }
-        .padding(10)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 12)
         .background(Color.offBackground)
         .cornerRadius(10)
         .shadow(color: .lightShadow, radius: 2, x: -2, y: -2)
