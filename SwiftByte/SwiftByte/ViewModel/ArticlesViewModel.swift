@@ -52,14 +52,15 @@ final class ArticlesViewModel: ObservableObject {
 
     /// Filter articles based on token
     public func selectFilter(_ token: SBSearchToken) {
+        // Reset search filter
+        searchText = ""
         // Handle Deselection
+
         if (filterToken == token) {
             articleVM = _allArticles
             filterToken = nil
         } else {
-            if _allArticles.isEmpty {
-                _allArticles = articleVM
-            }
+            _storeArticlesInTempo()
             let keyword = SBArticleKeyWord(token.value)
             articleVM = _allArticles.filter({
                 $0.article.keywords.contains(keyword)
@@ -68,32 +69,36 @@ final class ArticlesViewModel: ObservableObject {
         }
     }
 
-    /// Filter articles based on many tokens
+    /// The algorithmic filtering approach here is to prioritize `token` search
+    ///  and only fall back to text search when no token is found
     public func filterSearchTokens() {
+        // Reset any token if set previously
         filterToken = nil
         if searchTokens.isEmpty {
-            // Search text
+            /// Search text
             if searchText.isEmpty {
                 articleVM = _allArticles
-
             } else {
-                let keyword = SBArticleKeyWord(searchText)
+                let keyword = SBArticleKeyWord(searchText.lowercased())
                 articleVM = _allArticles.filter({
                     $0.article.keywords.contains(keyword)
                 })
             }
         } else {
-            // Search tokens
-            if _allArticles.isEmpty {
-                _allArticles = articleVM
-            }
-
+            _storeArticlesInTempo()
+            /// Search Token
             let keywords = searchTokens.map(\.value)
             articleVM = _allArticles.filter({
                 $0.article.keywords.contains(where: {
                     keywords.contains($0.name)
                 })
             })
+        }
+    }
+
+    private func _storeArticlesInTempo() {
+        if _allArticles.isEmpty {
+            _allArticles = articleVM
         }
     }
 }

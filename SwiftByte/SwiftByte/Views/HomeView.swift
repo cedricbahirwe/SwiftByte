@@ -26,7 +26,11 @@ struct HomeView: View {
             .listRowBackground(EmptyView())
             .listRowInsets(EdgeInsets())
 
-           articlesView
+            if store.articleVM.isEmpty {
+               emptyContentView
+            } else {
+                articlesView
+            }
         }
         .navigationTitle(Text("Let's Explore today's"))
         .sheet(isPresented: $showNotifications) {
@@ -133,5 +137,27 @@ private extension HomeView {
                            bottom: 10, trailing: 5)
             )
         }
+    }
+
+    var emptyContentView: some View {
+        Color.clear
+            .scaledToFit()
+            .listRowBackground(EmptyView())
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets())
+            .overlay {
+                VStack  {
+                    Image(systemName: "bubble.left.and.bubble.right")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100)
+                    Text("No Content found")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Text("Try searching a different topic or concept")
+                    Text("**Tip**: Use few filters to get more results")
+                }
+                .foregroundColor(.accentColor)
+            }
     }
 }
