@@ -31,6 +31,12 @@ struct HomeView: View {
             } else {
                 articlesView
             }
+
+            #if DEBUG
+            NavigationLink(destination: CreatorView.init) {
+                Text("Go to Creator View")
+            }
+            #endif
         }
         .navigationTitle(Text("Let's Explore today's"))
         .sheet(isPresented: $showNotifications) {
