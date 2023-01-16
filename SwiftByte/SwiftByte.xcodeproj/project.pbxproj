@@ -68,6 +68,8 @@
 		CB77B9B929513120001C0461 /* SBFireBaseImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B9B829513120001C0461 /* SBFireBaseImageUploader.swift */; };
 		CB77B9BD29513145001C0461 /* SBFBFilePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B9BC29513145001C0461 /* SBFBFilePath.swift */; };
 		CB77B9BF2951316E001C0461 /* SBFileExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B9BE2951316E001C0461 /* SBFileExtension.swift */; };
+		CBB26EFE2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB26EFD2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift */; };
+		CBB26F002975F9DB00BC05D9 /* ForceUpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB26EFF2975F9DB00BC05D9 /* ForceUpdateManager.swift */; };
 		CBB7E3632952355000EE6CEF /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E3622952355000EE6CEF /* ProfileView.swift */; };
 		CBB7E3652952355400EE6CEF /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E3642952355400EE6CEF /* NotificationsView.swift */; };
 		CBB7E367295323C400EE6CEF /* CreatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E366295323C400EE6CEF /* CreatorView.swift */; };
@@ -150,6 +152,8 @@
 		CB77B9B829513120001C0461 /* SBFireBaseImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBFireBaseImageUploader.swift; sourceTree = "<group>"; };
 		CB77B9BC29513145001C0461 /* SBFBFilePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBFBFilePath.swift; sourceTree = "<group>"; };
 		CB77B9BE2951316E001C0461 /* SBFileExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBFileExtension.swift; sourceTree = "<group>"; };
+		CBB26EFD2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBFirebaseRemoteConfig.swift; sourceTree = "<group>"; };
+		CBB26EFF2975F9DB00BC05D9 /* ForceUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceUpdateManager.swift; sourceTree = "<group>"; };
 		CBB7E3622952355000EE6CEF /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		CBB7E3642952355400EE6CEF /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		CBB7E366295323C400EE6CEF /* CreatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorView.swift; sourceTree = "<group>"; };
@@ -262,7 +266,6 @@
 				CB77B955295116FB001C0461 /* Extensions */,
 				CB77B954295116F1001C0461 /* Utilities */,
 				CB77B990295125A1001C0461 /* HelperViews */,
-				CB77B95829511714001C0461 /* Storage */,
 				CB77B92829510F17001C0461 /* Assets.xcassets */,
 				CB77B92D29510F17001C0461 /* Persistence.swift */,
 				CB77B92F29510F17001C0461 /* SwiftByte.xcdatamodeld */,
@@ -327,6 +330,8 @@
 				CB6B290329521A5E0078EFD0 /* ArticlesViewModel.swift */,
 				CB6B290729521BCC0078EFD0 /* ArticleViewModel.swift */,
 				CBB7E3712953447000EE6CEF /* CreatorViewModel.swift */,
+				CBB26EFF2975F9DB00BC05D9 /* ForceUpdateManager.swift */,
+				CBB26F012975FE1C00BC05D9 /* Services */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -413,8 +418,25 @@
 				CB77B9B829513120001C0461 /* SBFireBaseImageUploader.swift */,
 				CB77B9BE2951316E001C0461 /* SBFileExtension.swift */,
 				CB77B9BC29513145001C0461 /* SBFBFilePath.swift */,
+				CBB26EFD2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift */,
 			);
 			path = Firebase;
+			sourceTree = "<group>";
+		};
+		CBB26F012975FE1C00BC05D9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CB77B95829511714001C0461 /* Storage */,
+				CBB26F042975FE2A00BC05D9 /* Persistence */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		CBB26F042975FE2A00BC05D9 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Persistence;
 			sourceTree = "<group>";
 		};
 		CBB7E368295343CF00EE6CEF /* Article */ = {
@@ -583,6 +605,7 @@
 				CB77B98D29511F3F001C0461 /* DebugePrinters.swift in Sources */,
 				CBB7E3652952355400EE6CEF /* NotificationsView.swift in Sources */,
 				CB77B98829511E36001C0461 /* AppLocalKeys.swift in Sources */,
+				CBB26F002975F9DB00BC05D9 /* ForceUpdateManager.swift in Sources */,
 				CB77B98429511DE0001C0461 /* AppDelegate.swift in Sources */,
 				CB77B9B929513120001C0461 /* SBFireBaseImageUploader.swift in Sources */,
 				CB77B99A29512653001C0461 /* SBTopic.swift in Sources */,
@@ -591,6 +614,7 @@
 				CB77B9BF2951316E001C0461 /* SBFileExtension.swift in Sources */,
 				CB77B92E29510F17001C0461 /* Persistence.swift in Sources */,
 				CB74588B29749E160009F039 /* LaunchView.swift in Sources */,
+				CBB26EFE2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift in Sources */,
 				CB74588E29749F1F0009F039 /* LargeButton.swift in Sources */,
 				CBB7E374295354E900EE6CEF /* SBSearchToken.swift in Sources */,
 				CB77B9AD29512B96001C0461 /* FirestoreEntity+Protocol.swift in Sources */,
@@ -804,7 +828,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abc.incs.cedricbahirwe.SwiftByte;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -836,7 +860,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abc.incs.cedricbahirwe.SwiftByte;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
