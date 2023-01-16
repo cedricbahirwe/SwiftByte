@@ -8,6 +8,7 @@
 import SwiftUI
 import GoogleSignIn
 import FirebaseAuth
+import Firebase
 
 @main
 struct SwiftByteApp: App {
@@ -24,6 +25,11 @@ struct SwiftByteApp: App {
     @AppStorage(SBKeys.showWelcomeView.rawValue)
     private var showWelcomeView: Bool = true
 
+    @StateObject private var forceUpdate = ForceUpdateManager()
+
+    init() {
+        FirebaseApp.configure()
+    }
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -32,10 +38,25 @@ struct SwiftByteApp: App {
                     LaunchView(isPresented: $showWelcomeView)
                 }
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .alert(Text("App Update"),
+                       isPresented: forceUpdate.isPresented,
+                       presenting: forceUpdate.updateAlert) { alert in
+
+                    ForEach(alert.buttons) {
+                        Button($0.title, action: $0.action)
+                    }
+                } message: { alert in
+                    Text(alert.message)
+                }
                 .environmentObject(authViewModel)
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) {
+                    print("applicationDidBecomeActive \($0.name)")
+                    RemoteConfigs.shared.fetchRemoteValues({ _ in })
+                }
 
         }
         .onChange(of: scenePhase, perform: observeScenePhase)
+        
     }
 
 }
