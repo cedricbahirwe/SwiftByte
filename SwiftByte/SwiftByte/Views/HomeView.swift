@@ -8,15 +8,10 @@
 
 import SwiftUI
 
-
 struct HomeView: View {
-    @State private var searchText = ""
-
-    @State private var searchTokens: [SBSearchToken] = []
-
     @StateObject private var store = ArticlesViewModel()
 
-    @State private var path: [ArticleViewModel] = [] // Nothing on the stack by default.
+//    @State private var path: [ArticleViewModel] = [] // Nothing on the stack by default.
 
     @State private var showProfile = false
 
@@ -31,36 +26,28 @@ struct HomeView: View {
             .listRowBackground(EmptyView())
             .listRowInsets(EdgeInsets())
 
-            ForEach(store.articleVM) { articleVM  in
-                ZStack(alignment: .leading) {
-                    NavigationLink {
-                        ArticleView(articleVM)
-                    } label: { EmptyView() }
-                        .opacity(0)
-                    ArticleRowView(articleVM: articleVM)
-                }
-                .listRowBackground(EmptyView())
-                .listRowSeparator(.hidden)
-                .listRowInsets(
-                    EdgeInsets(top: 10, leading: 5,
-                               bottom: 10, trailing: 5)
-                )
-            }
+           articlesView
         }
         .navigationTitle(Text("Let's Explore today's"))
         .sheet(isPresented: $showNotifications) {
             NotificationsView()
         }
         .sheet(isPresented: $showProfile, content: ProfileView.init)
-        .searchable(text: $searchText,
-                    tokens: $searchTokens,
+        .searchable(text: $store.searchText,
+                    tokens: $store.searchTokens,
                     suggestedTokens: $store.searchSuggestedTokens,
                     placement: .navigationBarDrawer(displayMode: .automatic),
                     prompt: "Find a topic or concept",
                     token: { token in
             Text(token.value)
         })
-
+        .onSubmit(of: .search, store.filterSearchTokens)
+        .onChange(of: store.searchTokens) { _ in
+            store.filterSearchTokens()
+        }
+        .onChange(of: store.searchTokens) { newTokens in
+            prints("News \(newTokens.map(\.value))")
+        }
         .toolbar {
             ToolbarItemGroup {
                 Button(action: {
@@ -79,8 +66,6 @@ struct HomeView: View {
         }
     }
 }
-
-
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
@@ -129,6 +114,24 @@ private extension HomeView {
                     store.selectFilter(token)
                 }
             }
+        }
+    }
+
+    var articlesView: some View {
+        ForEach(store.articleVM) { articleVM  in
+            ZStack(alignment: .leading) {
+                NavigationLink {
+                    ArticleView(articleVM)
+                } label: { EmptyView() }
+                    .opacity(0)
+                ArticleRowView(articleVM: articleVM)
+            }
+            .listRowBackground(EmptyView())
+            .listRowSeparator(.hidden)
+            .listRowInsets(
+                EdgeInsets(top: 10, leading: 5,
+                           bottom: 10, trailing: 5)
+            )
         }
     }
 }
