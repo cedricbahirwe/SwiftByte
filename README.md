@@ -11,8 +11,7 @@
 
 ## ✨ TODOs :
 
-- Build the Welcome Screen
-- Build Editor Section
+- Create Socials (Website & Twitter)
 - Publish app on AppStore
 
 
