@@ -8,15 +8,10 @@
 
 import SwiftUI
 
-
 struct HomeView: View {
-    @State private var searchText = ""
-
-    @State private var searchTokens: [SBSearchToken] = []
-
     @StateObject private var store = ArticlesViewModel()
 
-    @State private var path: [ArticleViewModel] = [] // Nothing on the stack by default.
+//    @State private var path: [ArticleViewModel] = [] // Nothing on the stack by default.
 
     @State private var showProfile = false
 
@@ -25,53 +20,44 @@ struct HomeView: View {
     var body: some View {
         List {
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    ForEach(store.searchSuggestedTokens) { token in
-                        Text(token.value)
-                            .font(.callout)
-                            .fontWeight(.medium)
-                            .foregroundColor(.offBackground)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 8)
-                            .background(Color.accentColor)
-                            .clipShape(Capsule())
-                    }
-                }
+                filterTokensView
             }
             .listRowSeparator(.hidden)
             .listRowBackground(EmptyView())
             .listRowInsets(EdgeInsets())
 
-            ForEach(store.articleVM) { articleVM  in
-                ZStack(alignment: .leading) {
-                    NavigationLink {
-                        ArticleView(articleVM)
-                    } label: { EmptyView() }
-                        .opacity(0)
-                    ArticleRowView(articleVM: articleVM)
-                }
-                .listRowBackground(EmptyView())
-                .listRowSeparator(.hidden)
-                .listRowInsets(
-                    EdgeInsets(top: 10, leading: 5,
-                               bottom: 16, trailing: 5)
-                )
+            if store.articleVM.isEmpty {
+               emptyContentView
+            } else {
+                articlesView
             }
+
+            #if DEBUG
+            NavigationLink(destination: CreatorView.init) {
+                Text("Go to Creator View")
+            }
+            #endif
         }
         .navigationTitle(Text("Let's Explore today's"))
         .sheet(isPresented: $showNotifications) {
             NotificationsView()
         }
         .sheet(isPresented: $showProfile, content: ProfileView.init)
-        .searchable(text: $searchText,
-                    tokens: $searchTokens,
+        .searchable(text: $store.searchText,
+                    tokens: $store.searchTokens,
                     suggestedTokens: $store.searchSuggestedTokens,
                     placement: .navigationBarDrawer(displayMode: .automatic),
                     prompt: "Find a topic or concept",
                     token: { token in
             Text(token.value)
         })
-
+        .onSubmit(of: .search, store.filterSearchTokens)
+        .onChange(of: store.searchTokens) { _ in
+            store.filterSearchTokens()
+        }
+        .onChange(of: store.searchTokens) { newTokens in
+            prints("News \(newTokens.map(\.value))")
+        }
         .toolbar {
             ToolbarItemGroup {
                 Button(action: {
@@ -105,3 +91,79 @@ private let itemFormatter: DateFormatter = {
     formatter.timeStyle = .medium
     return formatter
 }()
+
+
+struct FilterToken: View {
+    let token: SBSearchToken
+    let fg: Color
+    let bg: Color
+    var body: some View {
+        Text(token.value)
+            .font(.callout)
+            .fontWeight(.medium)
+            .foregroundColor(fg)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .background(bg)
+            .clipShape(Capsule())
+    }
+}
+
+private extension HomeView {
+    var filterTokensView: some View {
+        HStack(spacing: 12) {
+            ForEach(store.searchSuggestedTokens) { token in
+                FilterToken(token: token,
+                            fg: store.filterToken == token ? .offBackground : .primary,
+                            bg: store.filterToken == token ? .accentColor : .clear)
+                .overlay {
+                    Capsule()
+                        .strokeBorder(Color.accentColor)
+                }
+                .onTapGesture {
+                    store.selectFilter(token)
+                }
+            }
+        }
+    }
+
+    var articlesView: some View {
+        ForEach(store.articleVM) { articleVM  in
+            ZStack(alignment: .leading) {
+                NavigationLink {
+                    ArticleView(articleVM)
+                } label: { EmptyView() }
+                    .opacity(0)
+                ArticleRowView(articleVM: articleVM)
+            }
+            .listRowBackground(EmptyView())
+            .listRowSeparator(.hidden)
+            .listRowInsets(
+                EdgeInsets(top: 10, leading: 5,
+                           bottom: 10, trailing: 5)
+            )
+        }
+    }
+
+    var emptyContentView: some View {
+        Color.clear
+            .scaledToFit()
+            .listRowBackground(EmptyView())
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets())
+            .overlay {
+                VStack  {
+                    Image(systemName: "bubble.left.and.bubble.right")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100)
+                    Text("No Content found")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                    Text("Try searching a different topic or concept")
+                    Text("**Tip**: Use few filters to get more results")
+                }
+                .foregroundColor(.accentColor)
+            }
+    }
+}

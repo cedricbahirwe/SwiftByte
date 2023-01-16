@@ -13,6 +13,8 @@ public enum AppLocalKeys: String, CaseIterable, Codable {
     case snUserType = "snUserType"
     case allowNotifications = "allowNotifications"
 
+    case showWelcomeView = "showWelcomeView"
+
     case userSession
 
     case lastSyncDate

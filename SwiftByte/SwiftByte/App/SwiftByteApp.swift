@@ -21,10 +21,16 @@ struct SwiftByteApp: App {
 
     @StateObject var authViewModel = AuthenticationViewModel()
 
+    @AppStorage(SBKeys.showWelcomeView.rawValue)
+    private var showWelcomeView: Bool = true
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .onOpenURL(perform: handIncomingURL)
+                .fullScreenCover(isPresented: $showWelcomeView) {
+                    LaunchView(isPresented: $showWelcomeView)
+                }
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(authViewModel)
 

@@ -41,6 +41,7 @@ struct CreatorView: View {
             )
         }
         .tint(.blue)
+        
     }
 
     private func submit() {

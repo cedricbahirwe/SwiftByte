@@ -13,21 +13,14 @@ struct ArticleRowView: View {
     private var article: SBArticle { articleVM.article }
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                if let author = article.author {
-                    Text(author.fullName)
-                        .font(.system(.body, design: .rounded))
-                        .fontWeight(.medium)
-                        .opacity(0.9)
-                    Spacer(minLength: 4)
-                }
-
-                Text(article.createdDate, format: .relative(presentation: .named))
-                    .font(.system(.caption, design: .rounded))
-                    .foregroundColor(.secondary)
+            if let author = article.author {
+                Text(author.fullName)
+                    .font(.system(.body, design: .rounded))
+                    .fontWeight(.medium)
+                    .opacity(0.9)
+                Divider()
             }
 
-            Divider()
 
             VStack(alignment: .leading) {
                 Text(article.title)
@@ -39,22 +32,10 @@ struct ArticleRowView: View {
                         .opacity(0.8)
                         .lineLimit(4)
                 }
-
-                Button {
-                    // Go to next
-                } label: {
-                    Text("Read more")
-                        .font(.body.weight(.medium))
-                        .foregroundColor(.offBackground)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 45)
-                        .background(Color.accentColor)
-                        .cornerRadius(10)
-                }
-                .padding(.vertical, 8)
             }
         }
-        .padding(10)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 12)
         .background(Color.offBackground)
         .cornerRadius(10)
         .shadow(color: .lightShadow, radius: 2, x: -2, y: -2)

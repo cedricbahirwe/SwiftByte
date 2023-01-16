@@ -53,28 +53,17 @@ struct ProfileView: View {
 
                 // TODO: HAVE BOOKMARKS HERE MAY BE
 
-                Button {
+                LButton("Log out") {
                     authViewModel.signOut()
                     dismiss()
-                } label: {
-                    Text("Log out")
-                        .font(.body.weight(.medium))
-                        .foregroundColor(.offBackground)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 45)
-                        .background(Color.accentColor)
-                        .cornerRadius(10)
                 }
 
-
-                Button {
+                LButton("Delete Account", fg:.red, bg: .clear) {
                     showingConfirmation.toggle()
-                } label: {
-                    Text("Delete Account")
-                        .foregroundColor(.red)
-                        .frame(maxWidth: .infinity)
                 }
                 .padding(.top, 20)
+
+
             }
             Spacer()
         }
