@@ -23,29 +23,17 @@ final class SBFirebaseRemoteConfig {
         let settings = RemoteConfigSettings()
         settings.minimumFetchInterval = fetchTimeout
         firebaseRemoteConfig.configSettings = settings
-
-        setDefaults()
-    }
-
-    private func setDefaults() {
-        firebaseRemoteConfig.setDefaults([
-            RemoteConfigsFlag.latestAppVersion.rawValue: NSString("1.0.0"),
-            RemoteConfigsFlag.forceUpdateActive.rawValue: NSNumber(false)
-        ])
     }
 }
 
 extension SBFirebaseRemoteConfig: RemoteConfigsProtocol {
     func fetchRemoteValues(_ completion: @escaping(Bool) -> Void = { _ in }) {
-        printf("Remote config start")
         let timeoutInterval = TimeInterval(fetchTimeout)
-        firebaseRemoteConfig.fetch(withExpirationDuration: timeoutInterval) { status, err -> Void in
-            printf("REmote", err?.localizedDescription)
+        firebaseRemoteConfig.fetch(withExpirationDuration: timeoutInterval) { status, _ -> Void in
             if status == .success {
                 completion(true)
                 debugPrint("Remote config fetched!")
                 self.firebaseRemoteConfig.activate { (success, error) in
-                    printf("I got here", success, error)
                     if let error = error {
                         debugPrint("Remote config failed to activate: \(error)")
                     }
@@ -79,5 +67,4 @@ final class RemoteConfigs {
 
 enum RemoteConfigsFlag: String {
     case latestAppVersion = "latest_app_version"
-    case forceUpdateActive = "force_update_active"
 }

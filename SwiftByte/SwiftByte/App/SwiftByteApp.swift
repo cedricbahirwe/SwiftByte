@@ -50,7 +50,7 @@ struct SwiftByteApp: App {
                 }
                 .environmentObject(authViewModel)
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) {
-                    print("applicationDidBecomeActive \($0.description)")
+                    print("applicationDidBecomeActive \($0.name)")
                     RemoteConfigs.shared.fetchRemoteValues({ _ in })
                 }
 
