@@ -12,15 +12,13 @@ struct SBAuthor: Codifiable, SBAppUser {
     var firstName: String
     var lastName: String
     var email: String
-    var bio: String?
     var joinedDate: Date?
 
-    init(id: String? = nil, firstName: String, lastName: String, email: String, bio: String? = nil, joinedDate: Date? = nil) {
+    init(id: String? = nil, firstName: String, lastName: String, email: String, joinedDate: Date? = nil) {
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
         self.email = email
-        self.bio = bio
         self.joinedDate = joinedDate
     }
 
@@ -29,8 +27,7 @@ struct SBAuthor: Codifiable, SBAppUser {
         self.id = try container.decodeIfPresent(String.self, forKey: .id)
         self.firstName = try container.decode(String.self, forKey: .firstName)
         self.lastName = try container.decode(String.self, forKey: .lastName)
-        self.email =  try container.decodeIfPresent(String.self, forKey: .bio) ?? ""
-        self.bio = try container.decodeIfPresent(String.self, forKey: .bio)
+        self.email =  try container.decodeIfPresent(String.self, forKey: .email) ?? ""
         self.joinedDate = try container.decodeIfPresent(Date.self, forKey: .joinedDate)
     }
 
@@ -49,6 +46,7 @@ extension SBAuthor {
                firstName: firstName,
                lastName: lastName,
                email: email,
+               joinDate: joinedDate ?? Date(),
                notificationAuthorized: false)
     }
 }

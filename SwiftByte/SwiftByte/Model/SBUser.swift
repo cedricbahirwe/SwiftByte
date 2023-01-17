@@ -35,6 +35,12 @@ struct SBUser: Identifiable, SBAppUser, FirestoreEntity {
 }
 
 extension SBUser {
+    func toAuthor() -> SBAuthor {
+        SBAuthor(firstName: firstName,
+                 lastName: lastName,
+                 email: email,
+                 joinedDate: joinDate)
+    }
     static func build(from model: AuthenticationView.AuthModel, allowNotification: Bool = true) -> Self {
         return .init(firstName: model.firstName,
                      lastName: model.lastName,

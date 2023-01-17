@@ -80,6 +80,10 @@
 		CBB7E374295354E900EE6CEF /* SBSearchToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E373295354E900EE6CEF /* SBSearchToken.swift */; };
 		CBCCA1B22951DBD6004B0ACC /* AppLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCCA1B12951DBD6004B0ACC /* AppLocalStorage.swift */; };
 		CBE7E207297707FD001DEBCC /* SBAppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE7E206297707FD001DEBCC /* SBAppUser.swift */; };
+		CBE7E20A29771B8B001DEBCC /* ContentEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE7E20929771B8B001DEBCC /* ContentEditor.swift */; };
+		CBE7E20C29771BFC001DEBCC /* TitleAndIntro.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE7E20B29771BFC001DEBCC /* TitleAndIntro.swift */; };
+		CBE7E20E29771C3C001DEBCC /* AuthorEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE7E20D29771C3C001DEBCC /* AuthorEditor.swift */; };
+		CBE7E21029771D34001DEBCC /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE7E20F29771D34001DEBCC /* String+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -164,6 +168,10 @@
 		CBB7E373295354E900EE6CEF /* SBSearchToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBSearchToken.swift; sourceTree = "<group>"; };
 		CBCCA1B12951DBD6004B0ACC /* AppLocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalStorage.swift; sourceTree = "<group>"; };
 		CBE7E206297707FD001DEBCC /* SBAppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBAppUser.swift; sourceTree = "<group>"; };
+		CBE7E20929771B8B001DEBCC /* ContentEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentEditor.swift; sourceTree = "<group>"; };
+		CBE7E20B29771BFC001DEBCC /* TitleAndIntro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleAndIntro.swift; sourceTree = "<group>"; };
+		CBE7E20D29771C3C001DEBCC /* AuthorEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorEditor.swift; sourceTree = "<group>"; };
+		CBE7E20F29771D34001DEBCC /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,7 +226,7 @@
 				CBB7E3622952355000EE6CEF /* ProfileView.swift */,
 				CBB7E3642952355400EE6CEF /* NotificationsView.swift */,
 				CB77B9612951174A001C0461 /* TopicView.swift */,
-				CBB7E366295323C400EE6CEF /* CreatorView.swift */,
+				CBE7E20829771B7A001DEBCC /* Creator */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -315,6 +323,7 @@
 				CB77B98929511E90001C0461 /* UserDefaults+Extension.swift */,
 				CB77B99329512604001C0461 /* Font+Extension.swift */,
 				CB77B9A729512A1D001C0461 /* View+Extension.swift */,
+				CBE7E20F29771D34001DEBCC /* String+Extension.swift */,
 				CB6B28FF295215990078EFD0 /* Color+Extensions.swift */,
 			);
 			path = Extensions;
@@ -457,6 +466,17 @@
 				CBE7E206297707FD001DEBCC /* SBAppUser.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		CBE7E20829771B7A001DEBCC /* Creator */ = {
+			isa = PBXGroup;
+			children = (
+				CBB7E366295323C400EE6CEF /* CreatorView.swift */,
+				CBE7E20D29771C3C001DEBCC /* AuthorEditor.swift */,
+				CBE7E20B29771BFC001DEBCC /* TitleAndIntro.swift */,
+				CBE7E20929771B8B001DEBCC /* ContentEditor.swift */,
+			);
+			path = Creator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -625,12 +645,14 @@
 				CB74588B29749E160009F039 /* LaunchView.swift in Sources */,
 				CBB26EFE2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift in Sources */,
 				CB74588E29749F1F0009F039 /* LargeButton.swift in Sources */,
+				CBE7E20E29771C3C001DEBCC /* AuthorEditor.swift in Sources */,
 				CBB7E374295354E900EE6CEF /* SBSearchToken.swift in Sources */,
 				CB77B9AD29512B96001C0461 /* FirestoreEntity+Protocol.swift in Sources */,
 				CB6B290B29521F600078EFD0 /* ArticleRowView.swift in Sources */,
 				CB77B9B129512BDE001C0461 /* Firestore+Extension.swift in Sources */,
 				CB77B92729510F15001C0461 /* ContentView.swift in Sources */,
 				CB6B290829521BCC0078EFD0 /* ArticleViewModel.swift in Sources */,
+				CBE7E21029771D34001DEBCC /* String+Extension.swift in Sources */,
 				CB6B290D29521FC50078EFD0 /* SampleModels.swift in Sources */,
 				CB77B92529510F15001C0461 /* SwiftByteApp.swift in Sources */,
 				CB77B9B729512F06001C0461 /* AuthenticationViewModel.swift in Sources */,
@@ -640,6 +662,7 @@
 				CB77B98A29511E90001C0461 /* UserDefaults+Extension.swift in Sources */,
 				CB77B99D29512694001C0461 /* SBEmailAddress.swift in Sources */,
 				CBCCA1B22951DBD6004B0ACC /* AppLocalStorage.swift in Sources */,
+				CBE7E20C29771BFC001DEBCC /* TitleAndIntro.swift in Sources */,
 				CB77B9AA29512B50001C0461 /* SBUser.swift in Sources */,
 				CB77B95E2951173D001C0461 /* HomeView.swift in Sources */,
 				CB6B2900295215990078EFD0 /* Color+Extensions.swift in Sources */,
@@ -650,6 +673,7 @@
 				CB77B9BD29513145001C0461 /* SBFBFilePath.swift in Sources */,
 				CB77B9622951174A001C0461 /* TopicView.swift in Sources */,
 				CB77B93129510F17001C0461 /* SwiftByte.xcdatamodeld in Sources */,
+				CBE7E20A29771B8B001DEBCC /* ContentEditor.swift in Sources */,
 				CB77B99429512604001C0461 /* Font+Extension.swift in Sources */,
 				CBB7E3632952355000EE6CEF /* ProfileView.swift in Sources */,
 				CB77B96029511744001C0461 /* ArticleView.swift in Sources */,
