@@ -79,6 +79,7 @@
 		CBB7E3722953447000EE6CEF /* CreatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E3712953447000EE6CEF /* CreatorViewModel.swift */; };
 		CBB7E374295354E900EE6CEF /* SBSearchToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E373295354E900EE6CEF /* SBSearchToken.swift */; };
 		CBCCA1B22951DBD6004B0ACC /* AppLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCCA1B12951DBD6004B0ACC /* AppLocalStorage.swift */; };
+		CBE7E207297707FD001DEBCC /* SBAppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE7E206297707FD001DEBCC /* SBAppUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +163,7 @@
 		CBB7E3712953447000EE6CEF /* CreatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorViewModel.swift; sourceTree = "<group>"; };
 		CBB7E373295354E900EE6CEF /* SBSearchToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBSearchToken.swift; sourceTree = "<group>"; };
 		CBCCA1B12951DBD6004B0ACC /* AppLocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalStorage.swift; sourceTree = "<group>"; };
+		CBE7E206297707FD001DEBCC /* SBAppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBAppUser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -339,6 +341,7 @@
 			children = (
 				CB77B99B29512689001C0461 /* Custom Types */,
 				CB77B99929512653001C0461 /* SBTopic.swift */,
+				CBE7E205297707E3001DEBCC /* Protocols */,
 				CBB7E373295354E900EE6CEF /* SBSearchToken.swift */,
 				CBB7E368295343CF00EE6CEF /* Article */,
 				CB77B9A929512B50001C0461 /* SBUser.swift */,
@@ -446,6 +449,14 @@
 				CBB7E369295343DC00EE6CEF /* SBLink.swift */,
 			);
 			path = Article;
+			sourceTree = "<group>";
+		};
+		CBE7E205297707E3001DEBCC /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				CBE7E206297707FD001DEBCC /* SBAppUser.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -610,6 +621,7 @@
 				CB6B290429521A5E0078EFD0 /* ArticlesViewModel.swift in Sources */,
 				CB77B9BF2951316E001C0461 /* SBFileExtension.swift in Sources */,
 				CB77B92E29510F17001C0461 /* Persistence.swift in Sources */,
+				CBE7E207297707FD001DEBCC /* SBAppUser.swift in Sources */,
 				CB74588B29749E160009F039 /* LaunchView.swift in Sources */,
 				CBB26EFE2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift in Sources */,
 				CB74588E29749F1F0009F039 /* LargeButton.swift in Sources */,
