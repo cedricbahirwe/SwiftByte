@@ -108,12 +108,14 @@ extension CreatorView {
         init(author: SBAuthor?, completion: @escaping (SBAuthor) -> Void) {
             self.firstName = author?.firstName ?? ""
             self.lastName = author?.lastName ?? ""
+            self.email = author?.email ?? ""
             self.bio = author?.bio ?? ""
             self.completion = completion
         }
 
         @State private var firstName: String
         @State private var lastName: String
+        @State private var email: String
         @State private var bio: String
 
         var completion: (SBAuthor) -> Void
@@ -124,6 +126,10 @@ extension CreatorView {
                     .applyField()
 
                 TextField("Last name", text: $lastName)
+                    .applyField()
+
+
+                TextField("Email", text: $email)
                     .applyField()
 
                 HStack {
@@ -138,7 +144,9 @@ extension CreatorView {
             guard !firstName.cleaned.isEmpty else { return }
             let bioCleaned = bio.cleaned.isEmpty ? nil : bio.cleaned
 
-            let newAuthor = SBAuthor(firstName: firstName, lastName: lastName, bio: bioCleaned, joinedDate: Date())
+            let newAuthor = SBAuthor(firstName: firstName, lastName: lastName,
+                                     email: email, bio: bioCleaned,
+                                     joinedDate: Date())
             completion(newAuthor)
         }
     }
