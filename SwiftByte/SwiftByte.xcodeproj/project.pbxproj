@@ -51,7 +51,6 @@
 		CB77B98F29511F74001C0461 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B98E29511F74001C0461 /* SceneDelegate.swift */; };
 		CB77B992295125A7001C0461 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B991295125A7001C0461 /* PhotoPickerView.swift */; };
 		CB77B99429512604001C0461 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B99329512604001C0461 /* Font+Extension.swift */; };
-		CB77B99629512649001C0461 /* SBGender.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B99529512649001C0461 /* SBGender.swift */; };
 		CB77B9982951264F001C0461 /* SBArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B9972951264F001C0461 /* SBArticle.swift */; };
 		CB77B99A29512653001C0461 /* SBTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B99929512653001C0461 /* SBTopic.swift */; };
 		CB77B99D29512694001C0461 /* SBEmailAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B99C29512694001C0461 /* SBEmailAddress.swift */; };
@@ -137,7 +136,6 @@
 		CB77B98E29511F74001C0461 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CB77B991295125A7001C0461 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		CB77B99329512604001C0461 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
-		CB77B99529512649001C0461 /* SBGender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBGender.swift; sourceTree = "<group>"; };
 		CB77B9972951264F001C0461 /* SBArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBArticle.swift; sourceTree = "<group>"; };
 		CB77B99929512653001C0461 /* SBTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBTopic.swift; sourceTree = "<group>"; };
 		CB77B99C29512694001C0461 /* SBEmailAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBEmailAddress.swift; sourceTree = "<group>"; };
@@ -344,7 +342,6 @@
 				CBB7E373295354E900EE6CEF /* SBSearchToken.swift */,
 				CBB7E368295343CF00EE6CEF /* Article */,
 				CB77B9A929512B50001C0461 /* SBUser.swift */,
-				CB77B99529512649001C0461 /* SBGender.swift */,
 				CB77B9B229512C05001C0461 /* SBErrors.swift */,
 			);
 			path = Model;
@@ -637,7 +634,6 @@
 				CB77B98629511E2F001C0461 /* AppConstants.swift in Sources */,
 				CB77B9B529512EE7001C0461 /* AppSignInAuthenticator.swift in Sources */,
 				CBB7E36E295343FA00EE6CEF /* SBAuthor.swift in Sources */,
-				CB77B99629512649001C0461 /* SBGender.swift in Sources */,
 				CB7458902974A1F50009F039 /* LogoView.swift in Sources */,
 				CB77B9BD29513145001C0461 /* SBFBFilePath.swift in Sources */,
 				CB77B9622951174A001C0461 /* TopicView.swift in Sources */,
