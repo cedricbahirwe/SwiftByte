@@ -11,17 +11,18 @@ import FirebaseFirestoreSwift
 struct SBUser: Identifiable, Hashable, FirestoreEntity {
     static var collectionName: SBCollectionName { .users }
 
+
     @DocumentID var id: String?
+    // User collected Info
     var firstName: String
     var lastName: String
     var email: String
-
     var profilePicture: String?
+
+    // App Generated Info
     var messageToken: String?
     var joinDate: Date = Date()
-
     var notificationAuthorized: Bool
-    var gender: SBGender
 
     enum CodingKeys: String, CodingKey {
       case firstName
@@ -31,7 +32,6 @@ struct SBUser: Identifiable, Hashable, FirestoreEntity {
       case messageToken
       case joinDate
       case notificationAuthorized
-      case gender
     }
 
     func getFullName() -> String {
@@ -45,11 +45,12 @@ extension SBUser {
                      lastName: model.lastName,
                      email: model.email,
                      joinDate: Date(),
-                     notificationAuthorized: allowNotification,
-                     gender: model.gender)
+                     notificationAuthorized: allowNotification)
     }
 }
 
+#if DEBUG
 extension SBUser {
-    static let sample = SBUser(id: UUID().uuidString, firstName: "John", lastName: "Doe", email: "john@gmail.com", profilePicture: nil, messageToken: nil, joinDate: Date(timeIntervalSinceNow: -86400), notificationAuthorized: false, gender: .nonBinary)
+    static let sample = SBUser(id: UUID().uuidString, firstName: "John", lastName: "Doe", email: "john@gmail.com", profilePicture: nil, messageToken: nil, joinDate: Date(timeIntervalSinceNow: -86400), notificationAuthorized: false)
 }
+#endif

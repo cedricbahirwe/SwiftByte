@@ -127,37 +127,37 @@ struct AuthenticationView: View {
                             VStack(alignment: .leading) {
                                 DisclosureGroup("What is your gender?", isExpanded: $showGender) {
 
-                                    HStack(spacing: 2) {
-                                        ForEach(SBGender.allCases, id: \.self) { gender in
-                                            Button {
-                                                withAnimation {
-                                                    authModel.gender = gender
-                                                }
-                                            } label: {
-                                                Text(gender.formatted)
-                                                    .lineLimit(1)
-                                                    .padding(.vertical, 8)
-                                                    .padding(.horizontal)
-                                                    .frame(maxWidth: gender != .nonBinary ? nil : .infinity)
-                                                    .background(
-                                                        ZStack {
-                                                            if gender == authModel.gender {
-                                                                Color.white
-                                                                    .matchedGeometryEffect(id: "on", in: animation)
-                                                            } else {
-                                                                Color.clear
-                                                                    .matchedGeometryEffect(id: "off", in: animation)
-                                                            }
-                                                        }
-                                                    )
-                                                    .cornerRadius(12)
-                                            }
-                                        }
-                                    }
-                                    .padding(4)
-                                    .background(.gray.opacity(0.12))
-                                    .cornerRadius(12)
-                                    .padding(.vertical, 5)
+//                                    HStack(spacing: 2) {
+//                                        ForEach(SBGender.allCases, id: \.self) { gender in
+//                                            Button {
+//                                                withAnimation {
+//                                                    authModel.gender = gender
+//                                                }
+//                                            } label: {
+//                                                Text(gender.formatted)
+//                                                    .lineLimit(1)
+//                                                    .padding(.vertical, 8)
+//                                                    .padding(.horizontal)
+//                                                    .frame(maxWidth: gender != .nonBinary ? nil : .infinity)
+//                                                    .background(
+//                                                        ZStack {
+//                                                            if gender == authModel.gender {
+//                                                                Color.white
+//                                                                    .matchedGeometryEffect(id: "on", in: animation)
+//                                                            } else {
+//                                                                Color.clear
+//                                                                    .matchedGeometryEffect(id: "off", in: animation)
+//                                                            }
+//                                                        }
+//                                                    )
+//                                                    .cornerRadius(12)
+//                                            }
+//                                        }
+//                                    }
+//                                    .padding(4)
+//                                    .background(.gray.opacity(0.12))
+//                                    .cornerRadius(12)
+//                                    .padding(.vertical, 5)
                                 }
 
                                 HStack {
@@ -245,8 +245,11 @@ struct AuthenticationView: View {
                     }
                 }
 
-                thirdPartiesView
-                    .opacity(isRegistration ? 0 : 1)
+                VStack {
+                    thirdPartiesView
+                        .opacity(isRegistration ? 0 : 1)
+                    signUpView
+                }
             }
             .padding(20)
             .background(Color(.systemBackground).ignoresSafeArea().onTapGesture(perform: hideKeyboard))
@@ -417,7 +420,7 @@ private extension AuthenticationView {
     }
 
     var thirdPartiesView: some View {
-        VStack {
+        Group {
             HStack {
                 Color.gray.frame(height: 1)
                 Text("or")
@@ -425,10 +428,8 @@ private extension AuthenticationView {
             }
             HStack(spacing: 18) {
                 googleSignInView
-
-                //                facebookSignInView
+                // facebookSignInView
             }
-            signUpView
         }
     }
 
@@ -497,7 +498,6 @@ extension AuthenticationView {
         var lastName = ""
         var email: String = ""
         var password: String = ""
-        var gender: SBGender = .nonBinary
         var profilePicture: String?
 
         private var isEmailValid: Bool {
