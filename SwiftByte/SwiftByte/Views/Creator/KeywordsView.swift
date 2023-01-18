@@ -21,6 +21,7 @@ extension CreatorView {
                         .applyField()
 
                     Button("Add", action: addKeyword)
+                        .bold()
                 }
                 ScrollView(.horizontal) {
                     HStack {

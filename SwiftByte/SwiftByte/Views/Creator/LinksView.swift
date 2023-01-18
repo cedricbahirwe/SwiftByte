@@ -14,18 +14,16 @@ extension CreatorView {
         @State private var newLinkURL = ""
         var body: some View {
             VStack(alignment: .leading, spacing: 10) {
-                HStack {
-                    Text("Links \(art.moreResources.count)").font(.title2.weight(.bold))
-
-                    TextField("Add Link Name", text: $newLinkName)
-                        .applyField()
-                }
+                Text("Links \(art.moreResources.count)").font(.title2.weight(.bold))
+                TextField("Add Link Name", text: $newLinkName)
+                    .applyField()
 
                 HStack {
                     TextField("Add Link URL", text: $newLinkURL)
                         .applyField()
 
                     Button("Add Link", action: addNewLink)
+                        .bold()
                 }
 
                 ScrollView(.horizontal) {
