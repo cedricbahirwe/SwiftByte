@@ -48,7 +48,7 @@ extension CreatorView {
             }
             self.newKeyword = ""
         }
-        
+
         private func removeKeyword(_ keyword: SBArticleKeyWord) {
             if let index = art.keywords.firstIndex(of: keyword) {
                 art.keywords.remove(at: index)

@@ -13,8 +13,8 @@ struct CreatorView: View {
     @State private var art = SBArticle.empty
     @State private var intro = SBArticleContent(body: "")
     @State private var editedAuthor: SBAuthor?
-    @State private var showAuthor = true
     @State private var currentStep: SubmissionStep = .author
+
     enum SubmissionStep: Int, CaseIterable {
         case author, intro, section, keywords, links
         mutating func next() {
@@ -23,31 +23,39 @@ struct CreatorView: View {
         mutating func previous() {
             self = .init(rawValue: rawValue-1) ?? Self.allCases.last!
         }
-
     }
+
+    var currentUser: SBUser? {
+        authViewModel.getCurrentUser()
+    }
+
     var body: some View {
         VStack {
             ScrollView {
                 VStack(spacing: 20) {
                     switch currentStep {
                     case .author:
-                        AuthorEditor(isShown: $showAuthor, author: editedAuthor) {
+                        AuthorEditor(firstName: currentUser?.firstName ?? "",
+                                     lastName: currentUser?.lastName ?? "",
+                                     email: currentUser?.email ?? "") {
                             self.editedAuthor = $0
                             self.currentStep.next()
                         }
+//                        AuthorEditor(author: $editedAuthor) {
+//                            self.editedAuthor = $0
+//                            self.currentStep.next()
+//                        }
                     case .intro:
                         TitleAndIntro(title: $art.title,
                                       intro: $intro)
                     case .keywords:
                         KeywordsView(art: $art)
                     case .section:
-                        newContentView
+                        SectionsView(art: $art)
                     case .links:
                         LinksView(art: $art)
                     }
-
                 }
-
             }
 
             bottomBarView
@@ -59,10 +67,6 @@ struct CreatorView: View {
                 .onTapGesture(perform: hideKeyboard)
         )
         .tint(.blue)
-        .onAppear() {
-            //            editedAuthor = authViewModel.getCurrentUser()?.toAuthor()
-        }
-        
     }
 
     private func submit() {
@@ -74,33 +78,19 @@ struct CreatorView: View {
         art.createdDate = Date()
         art.updateDate = nil
 
-        articleVM.addNewArticle(art)
-        //        art = SBArticle.empty
-    }
-
-    private func addNewContent(_ content: SBArticleContent) {
-        if !art.content.contains(where: { $0.body == content.body }) {
-            art.content.append(content)
+        Task {
+            let articleSaved = await articleVM.addNewArticle(art)
+            if articleSaved == false {
+                printf("Bad Submission")
+            } else {
+                prints("Great Submission")
+                art = SBArticle.empty
+            }
         }
     }
 }
 
-
-extension CreatorView {
-
-
-
-    var newContentView: some View {
-        VStack(alignment: .leading) {
-            Text("Article Content \(art.content.count)").bold()
-
-            ContentEditor(completion: addNewContent)
-
-        }
-    }
-
-
-
+private extension CreatorView {
     var bottomBarView: some View {
         HStack {
             LButton("<") {
@@ -116,7 +106,6 @@ extension CreatorView {
             }.frame(width: 50)
         }
     }
-
 }
 
 struct CreatorView_Previews: PreviewProvider {
