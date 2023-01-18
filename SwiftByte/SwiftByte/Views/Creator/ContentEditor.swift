@@ -67,12 +67,12 @@ extension CreatorView {
                                     isShowStyling.toggle()
                                 }
                             } label: {
-                                HStack(spacing: 1) {
+                                VStack(spacing: 1) {
                                     Text("Style:")
                                     Image(systemName: "chevron.\(isShowStyling ? "down" : "up").circle.fill")
                                         .symbolRenderingMode(.hierarchical)
                                 }
-                                .frame(maxWidth: 70, maxHeight: .infinity)
+                                .frame(maxWidth: 40, maxHeight: .infinity)
                             }
                         }
                         .frame(maxWidth: .infinity)
