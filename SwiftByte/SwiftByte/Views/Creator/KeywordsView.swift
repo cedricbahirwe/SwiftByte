@@ -14,7 +14,8 @@ extension CreatorView {
 
         var body: some View {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Keywords \(art.keywords.count)").bold()
+                Text("Keywords \(art.keywords.count)")
+                    .font(.title2.weight(.bold))
                 HStack {
                     TextField("Add New Keyword", text: $newKeyword)
                         .applyField()

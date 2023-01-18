@@ -12,7 +12,8 @@ extension CreatorView {
         @Binding var art: SBArticle
         var body: some View {
             VStack(alignment: .leading) {
-                Text("Article Content \(art.content.count)").bold()
+                Text("Section: \(art.content.count)")
+                    .font(.title2.weight(.bold))
 
                 ContentEditor {
                     guard let newContent = $0 else { return }

@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+fileprivate
+enum SubmissionStep: Int, CaseIterable {
+    case author, intro, section, keywords, links
+    mutating func next() {
+        self = .init(rawValue: rawValue+1) ?? Self.allCases.first!
+    }
+    mutating func previous() {
+        self = .init(rawValue: rawValue-1) ?? Self.allCases.last!
+    }
+}
+
 struct CreatorView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State private var articleVM = ArticlesViewModel()
@@ -15,50 +26,38 @@ struct CreatorView: View {
     @State private var editedAuthor: SBAuthor?
     @State private var currentStep: SubmissionStep = .author
 
-    enum SubmissionStep: Int, CaseIterable {
-        case author, intro, section, keywords, links
-        mutating func next() {
-            self = .init(rawValue: rawValue+1) ?? Self.allCases.first!
-        }
-        mutating func previous() {
-            self = .init(rawValue: rawValue-1) ?? Self.allCases.last!
-        }
-    }
-
     var currentUser: SBUser? {
         authViewModel.getCurrentUser()
     }
 
     var body: some View {
         VStack {
-//            ScrollView {
-                VStack(spacing: 20) {
-                    switch currentStep {
-                    case .author:
-                        AuthorEditor(firstName: currentUser?.firstName ?? "",
-                                     lastName: currentUser?.lastName ?? "",
-                                     email: currentUser?.email ?? "") {
-                            self.editedAuthor = $0
-                            self.currentStep.next()
-                        }
-                    case .intro:
-                        TitleAndIntro(art: $art)
-                    case .keywords:
-                        KeywordsView(art: $art)
-                    case .section:
-                        SectionsView(art: $art)
-                    case .links:
-                        LinksView(art: $art)
+            VStack(spacing: 20) {
+                switch currentStep {
+                case .author:
+                    AuthorEditor(firstName: currentUser?.firstName ?? "",
+                                 lastName: currentUser?.lastName ?? "",
+                                 email: currentUser?.email ?? "") {
+                        self.editedAuthor = $0
+                        self.currentStep.next()
                     }
+                case .intro:
+                    TitleAndIntro(art: $art)
+                case .keywords:
+                    KeywordsView(art: $art)
+                case .section:
+                    SectionsView(art: $art)
+                case .links:
+                    LinksView(art: $art)
                 }
-                .frame(maxHeight: .infinity, alignment: .top)
-//            }
+            }
+            .frame(maxHeight: .infinity, alignment: .top)
 
             bottomBarView
         }
         .padding(.horizontal, 8)
         .background(
-            Color(.red)
+            Color(.secondarySystemBackground)
                 .ignoresSafeArea()
                 .onTapGesture(perform: hideKeyboard)
         )

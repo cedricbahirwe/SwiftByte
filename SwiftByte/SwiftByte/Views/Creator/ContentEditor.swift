@@ -68,7 +68,7 @@ extension CreatorView {
                                 }
                             } label: {
                                 VStack(spacing: 1) {
-                                    Text("Style:")
+                                    Text("S")
                                     Image(systemName: "chevron.\(isShowStyling ? "down" : "up").circle.fill")
                                         .symbolRenderingMode(.hierarchical)
                                 }

@@ -27,7 +27,6 @@ extension CreatorView {
             VStack(alignment: .leading) {
                 Text("Add Author")
                     .font(.title2.weight(.bold))
-                    .frame(maxWidth: .infinity)
                 
                 VStack(alignment: .leading) {
                     HStack {
