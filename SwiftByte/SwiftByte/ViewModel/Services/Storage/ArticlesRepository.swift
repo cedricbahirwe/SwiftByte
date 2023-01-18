@@ -48,12 +48,52 @@ final class ArticlesRepository: ObservableObject {
         self.articles = articles.filter { $0.keywords.contains(keyword) }
     }
 
-    public func addNewArticle(_ article: SBArticle) {
+    public func addNewArticle(_ article: SBArticle) async -> Bool {
         do {
-            let _ = try db.collection(.articles).addDocument(from: article)
-        } catch {
+            return try await withCheckedThrowingContinuation({
+                (continuation: CheckedContinuation<Bool, Error>) in
+                do {
+                    _ = try db.collection(.articles).addDocument(from: article) { error in
+                        if let error {
+                            continuation.resume(throwing: error)
+                        } else {
+                            continuation.resume(returning: true)
+                        }
+                    }
+                } catch {
+                    printf("Could not add article: \(error).")
+                    continuation.resume(throwing: error)
+
+                }
+            })
+        }catch {
             printf("Could not add article: \(error).")
+            return false
+
         }
+//        do {
+//            return try await withCheckedThrowingContinuation({
+//                (continuation: CheckedContinuation<Bool, Error>) in
+//                _ = try db.collection(.articles).addDocument(from: article, completion: { error in
+//                    if let error {
+//                        continuation.resume(throwing: error)
+//                    } else {
+//                        continuation.resume(returning: true)
+//                    }
+//                })
+//
+//            })
+//        }
+//        do {
+//            let res = try db.collection(.articles).addDocument(from: article, completion: { error in
+//                if let error {
+//
+//                }
+//            })
+//
+//        } catch {
+//            printf("Could not add article: \(error).")
+//        }
     }
 
 }

@@ -14,7 +14,7 @@ struct ArticleRowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             if let author = article.author {
-                Text(author.fullName)
+                Text(author.getFullName())
                     .font(.system(.body, design: .rounded))
                     .fontWeight(.medium)
                     .opacity(0.9)

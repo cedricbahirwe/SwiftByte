@@ -28,11 +28,14 @@ class ForceUpdateManager: ObservableObject {
 
     }
 
-    init() {
-        checkAppVersion()
-    }
+//    init() {
+//        checkAppVersion()
+//    }
+
+
 
     func checkAppVersion() {
+//        RemoteConfigs.shared.fetchRemoteValue
         guard  let storeAppVersion = RemoteConfigs.shared.string(for: .latestAppVersion) else { fatalError() }
         printf("Damn version", storeAppVersion)
         let update = getTypeOfUpdate(storeAppVersion: storeAppVersion)

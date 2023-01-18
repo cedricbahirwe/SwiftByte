@@ -40,8 +40,8 @@ final class ArticlesViewModel: ObservableObject {
     }
 
     /// Add New article to firebase
-    public func addNewArticle(_ article: SBArticle) {
-        articlesRepository.addNewArticle(article)
+    public func addNewArticle(_ article: SBArticle) async -> Bool {
+        await articlesRepository.addNewArticle(article)
     }
 
     /// Add New article locally

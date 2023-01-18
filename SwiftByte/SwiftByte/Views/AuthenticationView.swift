@@ -8,22 +8,21 @@
 import SwiftUI
 
 struct AuthenticationView: View {
-    // - MARK: - Private Properties
+    // - MARK: - Authentication Properties
     @State private var isSigningIn = false
     @State private var isRegistration = false
     @State private var authModel = AuthModel()
     @FocusState private var focusedField: AuthModel.Field?
-    @State private var showGender = true
-    @State private var showProfilePicture = false
-    @State private var isUploadingPic = false
-    @State private var isDeletingPic = false
+
     // MARK: - Photo Picker Properties
     @State private var presentPhotoPicker = false
+    @State private var previewProfilePicture = false
+    @State private var isUploadingPic = false
+    @State private var isDeletingPic = false
     @State private var selectedImage: UIImage?
 
     @EnvironmentObject var authViewModel: AuthenticationViewModel
 
-    @Namespace var animation
     var body: some View {
         ZStack {
             VStack {
@@ -54,162 +53,16 @@ struct AuthenticationView: View {
                     VStack(spacing: 20) {
                         if isRegistration {
                             HStack(spacing: 20) {
-                                VStack(alignment: .leading) {
-                                    Text("First name")
-                                        .font(.rounded(weight: .bold))
-                                    TextField("First name", text: $authModel.firstName)
-                                        .focused($focusedField, equals: .firstName)
-                                        .submitLabel(.next)
-                                        .textContentType(.givenName)
-                                        .keyboardType(.namePhonePad)
-                                        .font(.rounded())
-                                        .padding(.horizontal)
-                                        .frame(height: 45)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 15)
-                                                .stroke(Color.gray, lineWidth: 1)
-                                        )
-                                }
-                                VStack(alignment: .leading) {
-                                    Text("Last name")
-                                        .font(.rounded(weight: .bold))
-                                    TextField("Last name", text: $authModel.lastName)
-                                        .focused($focusedField, equals: .lastName)
-                                        .submitLabel(.next)
-                                        .textContentType(.familyName)
-                                        .keyboardType(.namePhonePad)
-                                        .font(.rounded())
-                                        .padding(.horizontal)
-                                        .frame(height: 45)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 15)
-                                                .stroke(Color.gray, lineWidth: 1)
-                                        )
-                                }
+                                firstNameView
+                                lastNameView
                             }
                         }
 
-                        VStack(alignment: .leading) {
-                            Text("Email")
-                                .font(.rounded(weight: .bold))
-                            TextField("name@domain.com", text: $authModel.email)
-                                .focused($focusedField, equals: .email)
-                                .submitLabel(.next)
-                                .textContentType(.emailAddress)
-                                .keyboardType(.emailAddress)
-                                .textInputAutocapitalization(.never)
-                                .font(.rounded())
-                                .padding(.horizontal)
-                                .frame(height: 45)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
-                        }
+                        emailView
 
-                        VStack(alignment: .leading) {
-                            Text("Password")
-                                .font(.rounded(weight: .bold))
-
-                            SecureField("Enter your password", text: $authModel.password)
-                                .focused($focusedField, equals: .password)
-                                .submitLabel(.join)
-                                .textContentType(isRegistration ? .newPassword : .password)
-                                .font(.rounded())
-                                .padding(.horizontal)
-                                .frame(height: 45)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
-                        }
+                        passwordView
                         if isRegistration {
-                            VStack(alignment: .leading) {
-                                DisclosureGroup("What is your gender?", isExpanded: $showGender) {
-
-                                    HStack(spacing: 2) {
-                                        ForEach(SBGender.allCases, id: \.self) { gender in
-                                            Button {
-                                                withAnimation {
-                                                    authModel.gender = gender
-                                                }
-                                            } label: {
-                                                Text(gender.formatted)
-                                                    .lineLimit(1)
-                                                    .padding(.vertical, 8)
-                                                    .padding(.horizontal)
-                                                    .frame(maxWidth: gender != .nonBinary ? nil : .infinity)
-                                                    .background(
-                                                        ZStack {
-                                                            if gender == authModel.gender {
-                                                                Color.white
-                                                                    .matchedGeometryEffect(id: "on", in: animation)
-                                                            } else {
-                                                                Color.clear
-                                                                    .matchedGeometryEffect(id: "off", in: animation)
-                                                            }
-                                                        }
-                                                    )
-                                                    .cornerRadius(12)
-                                            }
-                                        }
-                                    }
-                                    .padding(4)
-                                    .background(.gray.opacity(0.12))
-                                    .cornerRadius(12)
-                                    .padding(.vertical, 5)
-                                }
-
-                                HStack {
-                                    if isUploadingPic {
-                                        HStack(spacing: 10) {
-                                            ProgressView()
-                                                .progressViewStyle(CircularProgressViewStyle(tint: .accentColor))
-                                            Text("Wait a sec, Your picture is being uploaded")
-                                                .foregroundColor(.accentColor)
-                                                .italic()
-                                                .lineLimit(1)
-                                                .minimumScaleFactor(0.8)
-                                        }
-                                        .padding(8)
-                                        .frame(maxWidth: .infinity)
-                                        .background(.regularMaterial)
-                                        .cornerRadius(12)
-
-                                    } else if authModel.profilePicture == nil {
-                                        Button {
-                                            presentPhotoPicker.toggle()
-                                        } label: {
-                                            Label {
-                                                Text("Add your profile picture")
-                                            } icon: {
-                                                Image(systemName: "person.circle.fill")
-                                                    .imageScale(.large)
-                                                    .foregroundStyle(.tint)
-                                            }
-                                        }
-                                        .disabled(isUploadingPic)
-
-                                    } else {
-                                        Label {
-                                            Text("Profile Picture Added!")
-                                        } icon: {
-                                            Image(systemName: "checkmark.seal.fill")
-                                                .imageScale(.large)
-                                                .foregroundStyle(.tint)
-                                        }
-
-                                        Spacer()
-
-                                        Button("View Picture") {
-                                            hideKeyboard()
-                                            showProfilePicture.toggle()
-                                        }
-
-                                    }
-                                }
-                                .padding(.vertical, 10)
-                            }
+                            profilePicSection
                         }
 
                         VStack {
@@ -245,8 +98,11 @@ struct AuthenticationView: View {
                     }
                 }
 
-                thirdPartiesView
-                    .opacity(isRegistration ? 0 : 1)
+                VStack {
+                    thirdPartiesView
+                        .opacity(isRegistration ? 0 : 1)
+                    signUpView
+                }
             }
             .padding(20)
             .background(Color(.systemBackground).ignoresSafeArea().onTapGesture(perform: hideKeyboard))
@@ -256,7 +112,7 @@ struct AuthenticationView: View {
                 uploadProfilePicture()
             })
 
-            if showProfilePicture {
+            if previewProfilePicture {
                 profilePicPreview
             }
         }
@@ -315,7 +171,7 @@ struct AuthenticationView: View {
             isDeletingPic = false
             authModel.profilePicture = nil
             selectedImage = nil
-            showProfilePicture = false
+            previewProfilePicture = false
         }
     }
 
@@ -369,12 +225,138 @@ struct AuthenticationView: View {
 
 // MARK: - Views
 private extension AuthenticationView {
+    var firstNameView: some View {
+        VStack(alignment: .leading) {
+            Text("First name")
+                .font(.rounded(weight: .bold))
+            TextField("First name", text: $authModel.firstName)
+                .focused($focusedField, equals: .firstName)
+                .submitLabel(.next)
+                .textContentType(.givenName)
+                .keyboardType(.namePhonePad)
+                .font(.rounded())
+                .padding(.horizontal)
+                .frame(height: 45)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+        }
+    }
+    var lastNameView: some View {
+        VStack(alignment: .leading) {
+            Text("Last name")
+                .font(.rounded(weight: .bold))
+            TextField("Last name", text: $authModel.lastName)
+                .focused($focusedField, equals: .lastName)
+                .submitLabel(.next)
+                .textContentType(.familyName)
+                .keyboardType(.namePhonePad)
+                .font(.rounded())
+                .padding(.horizontal)
+                .frame(height: 45)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+        }
+    }
+    var emailView: some View {
+        VStack(alignment: .leading) {
+            Text("Email")
+                .font(.rounded(weight: .bold))
+            TextField("name@domain.com", text: $authModel.email)
+                .focused($focusedField, equals: .email)
+                .submitLabel(.next)
+                .textContentType(.emailAddress)
+                .keyboardType(.emailAddress)
+                .textInputAutocapitalization(.never)
+                .font(.rounded())
+                .padding(.horizontal)
+                .frame(height: 45)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+        }
+    }
+    var passwordView: some View {
+        VStack(alignment: .leading) {
+            Text("Password")
+                .font(.rounded(weight: .bold))
+
+            SecureField("Enter your password", text: $authModel.password)
+                .focused($focusedField, equals: .password)
+                .submitLabel(.join)
+                .textContentType(isRegistration ? .newPassword : .password)
+                .font(.rounded())
+                .padding(.horizontal)
+                .frame(height: 45)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+        }
+    }
+    var profilePicSection: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                if isUploadingPic {
+                    HStack(spacing: 10) {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .accentColor))
+                        Text("Wait a sec, Your picture is being uploaded")
+                            .foregroundColor(.accentColor)
+                            .italic()
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.8)
+                    }
+                    .padding(8)
+                    .frame(maxWidth: .infinity)
+                    .background(.regularMaterial)
+                    .cornerRadius(12)
+
+                } else if authModel.profilePicture == nil {
+                    Button {
+                        presentPhotoPicker.toggle()
+                    } label: {
+                        Label {
+                            Text("Add your profile picture")
+                        } icon: {
+                            Image(systemName: "person.circle.fill")
+                                .imageScale(.large)
+                                .foregroundStyle(.tint)
+                        }
+                    }
+                    .disabled(isUploadingPic)
+
+                } else {
+                    Label {
+                        Text("Profile Picture Added!")
+                    } icon: {
+                        Image(systemName: "checkmark.seal.fill")
+                            .imageScale(.large)
+                            .foregroundStyle(.tint)
+                    }
+
+                    Spacer()
+
+                    Button("View Picture") {
+                        hideKeyboard()
+                        previewProfilePicture.toggle()
+                    }
+
+                }
+            }
+            .padding(.vertical, 10)
+        }
+    }
     var profilePicPreview: some View {
         Group {
             Color.black.opacity(0.6).ignoresSafeArea()
                 .onTapGesture {
                     guard isDeletingPic == false else { return }
-                    showProfilePicture.toggle()
+                    previewProfilePicture.toggle()
                 }
             VStack(spacing: 20) {
                 Image(uiImage: selectedImage ?? .init())
@@ -417,7 +399,7 @@ private extension AuthenticationView {
     }
 
     var thirdPartiesView: some View {
-        VStack {
+        Group {
             HStack {
                 Color.gray.frame(height: 1)
                 Text("or")
@@ -425,10 +407,8 @@ private extension AuthenticationView {
             }
             HStack(spacing: 18) {
                 googleSignInView
-
-                //                facebookSignInView
+                // facebookSignInView
             }
-            signUpView
         }
     }
 
@@ -441,6 +421,7 @@ private extension AuthenticationView {
             Text(isRegistration ? "Already have an account? Sign In instead." : "Create an account")
                 .font(.rounded(.callout, weight: .medium))
                 .lineLimit(1)
+                .underline()
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 30)
@@ -497,7 +478,6 @@ extension AuthenticationView {
         var lastName = ""
         var email: String = ""
         var password: String = ""
-        var gender: SBGender = .nonBinary
         var profilePicture: String?
 
         private var isEmailValid: Bool {

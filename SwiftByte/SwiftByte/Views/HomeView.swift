@@ -26,17 +26,17 @@ struct HomeView: View {
             .listRowBackground(EmptyView())
             .listRowInsets(EdgeInsets())
 
-            if store.articleVM.isEmpty {
-               emptyContentView
-            } else {
-                articlesView
-            }
-
             #if DEBUG
             NavigationLink(destination: CreatorView.init) {
                 Text("Go to Creator View")
             }
             #endif
+            
+            if store.articleVM.isEmpty {
+               emptyContentView
+            } else {
+                articlesView
+            }
         }
         .navigationTitle(Text("Let's Explore today's"))
         .sheet(isPresented: $showNotifications) {

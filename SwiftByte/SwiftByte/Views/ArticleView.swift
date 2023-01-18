@@ -68,7 +68,7 @@ private extension ArticleView {
             Divider()
             HStack {
                 if let author = article.author {
-                    Text(author.fullName)
+                    Text(author.getFullName())
                         .font(.system(.body, design: .rounded))
                         .fontWeight(.medium)
                         .opacity(0.9)

@@ -25,7 +25,6 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
     /// - note: Successful calls to this will set the `authViewModel`'s `state` property.
     func signInWithGoogle() async throws -> User {
 
-
         guard let rootViewController = await getAppRootView() else {
             print("There is no root view controller.")
             throw SBErrors.appRootMissing

@@ -54,7 +54,7 @@ extension SBArticleKeyWord {
 }
 
 extension SBAuthor {
-    static let sample = SBAuthor(firstName: "Cédric", lastName: "Drios", joinedDate: Date())
+    static let sample = SBAuthor(firstName: "Cédric", lastName: "Drios", email: "abc@gmail.com", joinedDate: Date())
 }
 
 extension SBLink {
