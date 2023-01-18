@@ -11,15 +11,12 @@ struct CreatorView: View {
     @EnvironmentObject var authViewModel: AuthenticationViewModel
     @State private var articleVM = ArticlesViewModel()
     @State private var art = SBArticle.empty
-    @State private var newKeyword = ""
-    @State private var newLinkURL = ""
-    @State private var newLinkName = ""
     @State private var intro = SBArticleContent(body: "")
     @State private var editedAuthor: SBAuthor?
     @State private var showAuthor = true
     @State private var currentStep: SubmissionStep = .author
     enum SubmissionStep: Int, CaseIterable {
-        case author, intro, keywords, section, links
+        case author, intro, section, keywords, links
         mutating func next() {
             self = .init(rawValue: rawValue+1) ?? Self.allCases.first!
         }
@@ -42,11 +39,11 @@ struct CreatorView: View {
                         TitleAndIntro(title: $art.title,
                                       intro: $intro)
                     case .keywords:
-                        keywordsView
+                        KeywordsView(art: $art)
                     case .section:
                         newContentView
                     case .links:
-                        linksView
+                        LinksView(art: $art)
                     }
 
                 }
@@ -81,45 +78,6 @@ struct CreatorView: View {
         //        art = SBArticle.empty
     }
 
-    private func addKeyword() {
-        let newKeyword = newKeyword.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !newKeyword.isEmpty else { return }
-
-        if !art.keywords.map(\.name).contains(newKeyword) {
-            art.keywords.append(.init(newKeyword))
-        }
-        self.newKeyword = ""
-    }
-
-    private func removeKeyword(_ keyword: SBArticleKeyWord) {
-        if let index = art.keywords.firstIndex(of: keyword) {
-            art.keywords.remove(at: index)
-        }
-    }
-
-    private func addNewLink() {
-        guard let newURL = URL(string: newLinkURL) else { return }
-        let newName = newLinkName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : newLinkName
-
-
-        if !art.moreResources.contains(where: {
-            $0.name == newName ||
-            $0.url == newURL
-        }) {
-            let newLink = SBLink(name: newName, url: newURL)
-            self.art.moreResources.append(newLink)
-        }
-
-        self.newLinkName = ""
-        self.newLinkURL = ""
-    }
-
-    private func removeLink(_ link: SBLink) {
-        if let index = art.moreResources.firstIndex(of: link) {
-            art.moreResources.remove(at: index)
-        }
-    }
-
     private func addNewContent(_ content: SBArticleContent) {
         if !art.content.contains(where: { $0.body == content.body }) {
             art.content.append(content)
@@ -130,32 +88,7 @@ struct CreatorView: View {
 
 extension CreatorView {
 
-    var keywordsView: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Keywords \(art.keywords.count)").bold()
-            HStack {
-                TextField("Add New Keyword", text: $newKeyword)
-                    .applyField()
 
-                Button("Add", action: addKeyword)
-            }
-            ScrollView(.horizontal) {
-                HStack {
-                    ForEach(art.keywords, id: \.self) { keyword in
-                        Text(keyword.name)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(.regularMaterial)
-                            .clipShape(Capsule())
-                            .contentShape(Capsule())
-                            .onTapGesture(count: 2) {
-                                removeKeyword(keyword)
-                            }
-                    }
-                }
-            }
-        }
-    }
 
     var newContentView: some View {
         VStack(alignment: .leading) {
@@ -166,7 +99,7 @@ extension CreatorView {
         }
     }
 
-    
+
 
     var bottomBarView: some View {
         HStack {

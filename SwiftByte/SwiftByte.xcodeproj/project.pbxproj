@@ -79,6 +79,8 @@
 		CBB7E3722953447000EE6CEF /* CreatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E3712953447000EE6CEF /* CreatorViewModel.swift */; };
 		CBB7E374295354E900EE6CEF /* SBSearchToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E373295354E900EE6CEF /* SBSearchToken.swift */; };
 		CBCCA1B22951DBD6004B0ACC /* AppLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCCA1B12951DBD6004B0ACC /* AppLocalStorage.swift */; };
+		CBD1937729789A2F00B6D40A /* LinksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD1937629789A2F00B6D40A /* LinksView.swift */; };
+		CBD1937929789B1300B6D40A /* KeywordsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD1937829789B1300B6D40A /* KeywordsView.swift */; };
 		CBE7E207297707FD001DEBCC /* SBAppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE7E206297707FD001DEBCC /* SBAppUser.swift */; };
 		CBE7E20A29771B8B001DEBCC /* ContentEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE7E20929771B8B001DEBCC /* ContentEditor.swift */; };
 		CBE7E20C29771BFC001DEBCC /* TitleAndIntro.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE7E20B29771BFC001DEBCC /* TitleAndIntro.swift */; };
@@ -167,6 +169,8 @@
 		CBB7E3712953447000EE6CEF /* CreatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatorViewModel.swift; sourceTree = "<group>"; };
 		CBB7E373295354E900EE6CEF /* SBSearchToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBSearchToken.swift; sourceTree = "<group>"; };
 		CBCCA1B12951DBD6004B0ACC /* AppLocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalStorage.swift; sourceTree = "<group>"; };
+		CBD1937629789A2F00B6D40A /* LinksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinksView.swift; sourceTree = "<group>"; };
+		CBD1937829789B1300B6D40A /* KeywordsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeywordsView.swift; sourceTree = "<group>"; };
 		CBE7E206297707FD001DEBCC /* SBAppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBAppUser.swift; sourceTree = "<group>"; };
 		CBE7E20929771B8B001DEBCC /* ContentEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentEditor.swift; sourceTree = "<group>"; };
 		CBE7E20B29771BFC001DEBCC /* TitleAndIntro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleAndIntro.swift; sourceTree = "<group>"; };
@@ -474,6 +478,8 @@
 				CBB7E366295323C400EE6CEF /* CreatorView.swift */,
 				CBE7E20D29771C3C001DEBCC /* AuthorEditor.swift */,
 				CBE7E20B29771BFC001DEBCC /* TitleAndIntro.swift */,
+				CBD1937629789A2F00B6D40A /* LinksView.swift */,
+				CBD1937829789B1300B6D40A /* KeywordsView.swift */,
 				CBE7E20929771B8B001DEBCC /* ContentEditor.swift */,
 			);
 			path = Creator;
@@ -634,6 +640,7 @@
 				CBB7E3652952355400EE6CEF /* NotificationsView.swift in Sources */,
 				CB77B98829511E36001C0461 /* AppLocalKeys.swift in Sources */,
 				CBB26F002975F9DB00BC05D9 /* ForceUpdateManager.swift in Sources */,
+				CBD1937729789A2F00B6D40A /* LinksView.swift in Sources */,
 				CB77B98429511DE0001C0461 /* AppDelegate.swift in Sources */,
 				CB77B9B929513120001C0461 /* SBFireBaseImageUploader.swift in Sources */,
 				CB77B99A29512653001C0461 /* SBTopic.swift in Sources */,
@@ -681,6 +688,7 @@
 				CBB7E36A295343DC00EE6CEF /* SBLink.swift in Sources */,
 				CB6B290629521A980078EFD0 /* ArticlesRepository.swift in Sources */,
 				CB77B992295125A7001C0461 /* PhotoPickerView.swift in Sources */,
+				CBD1937929789B1300B6D40A /* KeywordsView.swift in Sources */,
 				CB77B95C29511735001C0461 /* AuthenticationView.swift in Sources */,
 				CB77B9A829512A1D001C0461 /* View+Extension.swift in Sources */,
 				CB6B290229521A570078EFD0 /* ArticlesStore.swift in Sources */,
