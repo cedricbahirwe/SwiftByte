@@ -17,34 +17,50 @@ struct CreatorView: View {
     @State private var intro = SBArticleContent(body: "")
     @State private var editedAuthor: SBAuthor?
     @State private var showAuthor = true
+    @State private var currentStep: SubmissionStep = .author
+    enum SubmissionStep: Int, CaseIterable {
+        case author, intro, keywords, section, links
+        mutating func next() {
+            self = .init(rawValue: rawValue+1) ?? Self.allCases.first!
+        }
+        mutating func previous() {
+            self = .init(rawValue: rawValue-1) ?? Self.allCases.last!
+        }
 
+    }
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                //                AuthorEditor(isShown: $showAuthor, author: editedAuthor) {
-                //                    self.editedAuthor = $0
-                //                }
-                TitleAndIntro(title: $art.title,
-                              intro: $intro)
+        VStack {
+            ScrollView {
+                VStack(spacing: 20) {
+                    switch currentStep {
+                    case .author:
+                        AuthorEditor(isShown: $showAuthor, author: editedAuthor) {
+                            self.editedAuthor = $0
+                            self.currentStep.next()
+                        }
+                    case .intro:
+                        TitleAndIntro(title: $art.title,
+                                      intro: $intro)
+                    case .keywords:
+                        keywordsView
+                    case .section:
+                        newContentView
+                    case .links:
+                        linksView
+                    }
 
-
-                //                keywordsView
-                //
-                //                newContentView
-                //
-                //                linksView
-
-                Spacer(minLength: 1)
-                LButton("Submit", action: submit)
+                }
 
             }
-            .padding(.horizontal)
-            .background(
-                Color(.systemBackground)
-                    .ignoresSafeArea()
-                    .onTapGesture(perform: hideKeyboard)
-            )
+
+            bottomBarView
         }
+        .padding(.horizontal)
+        .background(
+            Color(.systemBackground)
+                .ignoresSafeArea()
+                .onTapGesture(perform: hideKeyboard)
+        )
         .tint(.blue)
         .onAppear() {
             //            editedAuthor = authViewModel.getCurrentUser()?.toAuthor()
@@ -150,41 +166,21 @@ extension CreatorView {
         }
     }
 
-    var linksView: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text("Links \(art.moreResources.count)").bold()
+    
 
-                TextField("Add Link Name", text: $newLinkName)
-                    .applyField()
-            }
-
-            HStack {
-                TextField("Add Link URL", text: $newLinkURL)
-                    .applyField()
-
-                Button("Add Link", action: addNewLink)
-            }
-
-            ScrollView(.horizontal) {
-                HStack {
-                    ForEach(art.moreResources, id: \.self) { source in
-                        VStack(alignment: .leading) {
-                            Text(source.description)
-                            Text(source.url.description)
-                                .foregroundColor(.blue)
-                        }
-                        .padding(10)
-                        .frame(maxWidth: 250)
-                        .background(.regularMaterial)
-                        .cornerRadius(10)
-                        .contentShape(RoundedRectangle(cornerRadius: 10))
-                        .onTapGesture(count: 2) {
-                            removeLink(source)
-                        }
-                    }
+    var bottomBarView: some View {
+        HStack {
+            LButton("<") {
+                withAnimation {
+                    currentStep.previous()
                 }
-            }
+            }.frame(width: 50)
+            LButton("Submit", action: submit)
+            LButton(">") {
+                withAnimation {
+                    currentStep.next()
+                }
+            }.frame(width: 50)
         }
     }
 
