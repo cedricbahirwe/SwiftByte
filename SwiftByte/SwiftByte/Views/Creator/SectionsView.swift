@@ -14,8 +14,10 @@ extension CreatorView {
             VStack(alignment: .leading) {
                 Text("Article Content \(art.content.count)").bold()
 
-                ContentEditor(completion: addNewContent)
-
+                ContentEditor {
+                    guard let newContent = $0 else { return }
+                    addNewContent(newContent)
+                }
             }
         }
 

@@ -9,7 +9,7 @@ import SwiftUI
 
 extension CreatorView {
     struct ContentEditor: View {
-        @State private var content = SBArticleContent(body: "")
+        @State var content = SBArticleContent(body: "")
         @State private var fgColor = Color.clear
         @State private var bgColor = Color.clear
         private let styles = SBArticleContent.Style.allCases
@@ -22,7 +22,7 @@ extension CreatorView {
         @State private var isShown = true
         @State private var isShowStyling = true
         
-        var completion: (SBArticleContent) -> Void
+        var completion: (SBArticleContent?) -> Void
         
         var body: some View {
             VStack(alignment: .leading) {
@@ -59,7 +59,6 @@ extension CreatorView {
                                     Text($0.rawValue.capitalized)
                                 }
                             }
-                            .fixedSize(horizontal: true, vertical: false)
                             .frame(maxWidth: .infinity)
 
                             Divider()
@@ -77,13 +76,14 @@ extension CreatorView {
                             }
                         }
                         .frame(maxWidth: .infinity)
+                        .frame(height: 30)
                         .tint(.blue)
 
                         Divider()
 
                         TextField("Article Content", text: $content.body,
                                   prompt: Text("Add Body"), axis: .vertical)
-                        .frame(minHeight: 90, alignment: .topLeading)
+                        .frame(minHeight: 90, maxHeight: 180, alignment: .topLeading)
 
                         if isShowStyling {
                             Divider()
@@ -125,6 +125,7 @@ extension CreatorView {
                                                 },
                                                 set: { radius = $0 }),
                                               format: .number)
+                                    .keyboardType(.numberPad)
                                     .padding(8)
                                     .background(.white)
                                     .cornerRadius(10)
@@ -141,7 +142,7 @@ extension CreatorView {
             .overlay(alignment: .topTrailing) {
                 HStack {
                     if isShown {
-                        Button("Save", action: saveArticle)
+                        Button("Save", action: saveContent)
                             .tint(.blue)
                         
                     } else {
@@ -163,8 +164,11 @@ extension CreatorView {
             .applyField()
         }
         
-        func saveArticle() {
-            guard !content.body.removeWhitespacesAndNewlines.isEmpty else { return }
+        func saveContent() {
+            guard !content.body.removeWhitespacesAndNewlines.isEmpty else {
+                completion(nil)
+                return
+            }
             
             let fgColorString = fgColor == .clear ? nil : fgColor.toHex()
             let bgColorString = bgColor == .clear ? nil : bgColor.toHex()
@@ -178,7 +182,6 @@ extension CreatorView {
             
             completion(content)
             
-            content = SBArticleContent(body: "")
             withAnimation {
                 isShown = false
             }

@@ -31,7 +31,7 @@ struct CreatorView: View {
 
     var body: some View {
         VStack {
-            ScrollView {
+//            ScrollView {
                 VStack(spacing: 20) {
                     switch currentStep {
                     case .author:
@@ -41,13 +41,8 @@ struct CreatorView: View {
                             self.editedAuthor = $0
                             self.currentStep.next()
                         }
-//                        AuthorEditor(author: $editedAuthor) {
-//                            self.editedAuthor = $0
-//                            self.currentStep.next()
-//                        }
                     case .intro:
-                        TitleAndIntro(title: $art.title,
-                                      intro: $intro)
+                        TitleAndIntro(art: $art)
                     case .keywords:
                         KeywordsView(art: $art)
                     case .section:
@@ -56,17 +51,19 @@ struct CreatorView: View {
                         LinksView(art: $art)
                     }
                 }
-            }
+                .frame(maxHeight: .infinity, alignment: .top)
+//            }
 
             bottomBarView
         }
-        .padding(.horizontal)
+        .padding(.horizontal, 8)
         .background(
-            Color(.systemBackground)
+            Color(.red)
                 .ignoresSafeArea()
                 .onTapGesture(perform: hideKeyboard)
         )
         .tint(.blue)
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private func submit() {
@@ -74,7 +71,6 @@ struct CreatorView: View {
         guard !art.content.isEmpty else { return }
 
         art.author = editedAuthor
-        art.intro = intro
         art.createdDate = Date()
         art.updateDate = nil
 
@@ -123,7 +119,7 @@ extension View {
             self
         }
         .fixedSize(horizontal: false, vertical: true)
-        .padding(10)
+        .padding(8)
         .background(Color.lightShadow)
         .cornerRadius(10)
 
