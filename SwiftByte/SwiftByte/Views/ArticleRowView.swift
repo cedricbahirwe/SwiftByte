@@ -16,7 +16,7 @@ struct ArticleRowView: View {
             if let author = article.author {
                 Text(author.getFullName())
                     .font(.system(.body, design: .rounded))
-                    .fontWeight(.medium)
+                    .fontWeight(.semibold)
                     .opacity(0.9)
                 Divider()
             }
@@ -30,7 +30,7 @@ struct ArticleRowView: View {
                     Text(intro.body)
                         .font(.system(.body, design: intro.design?.value))
                         .opacity(0.8)
-                        .lineLimit(4)
+                        .lineLimit(2)
                 }
             }
         }
