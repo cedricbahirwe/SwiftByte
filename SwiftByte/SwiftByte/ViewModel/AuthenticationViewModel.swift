@@ -146,6 +146,13 @@ extension AuthenticationViewModel {
 }
 // MARK: - Store User in DB (Collection)
 extension AuthenticationViewModel {
+    func delete(_ id: String) async throws {
+        let reference = Firestore.firestore()
+        try await reference.collection(.users)
+            .document(id)
+            .delete()
+    }
+    
     func saveUser(_ id: String, user: SBUser) throws {
         let reference = Firestore.firestore()
         try reference

@@ -65,14 +65,16 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
         
         let user = result.user
 
-        let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
+        if await getUser(user.uid) == nil {
+            let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
 
-        let sbUser = SBUser(firstName: user.displayName ?? "Unkown",
-                            lastName: "",
-                            email: user.email ?? "-",
-                            profilePicture: user.photoURL?.absoluteString,
-                            notificationAuthorized: isNotificationOn)
-        try authViewModel.saveUser(user.uid, user: sbUser)
+            let sbUser = SBUser(firstName: user.displayName ?? "Unkown",
+                                lastName: "",
+                                email: user.email ?? "-",
+                                profilePicture: user.photoURL?.absoluteString,
+                                notificationAuthorized: isNotificationOn)
+            try authViewModel.saveUser(user.uid, user: sbUser)
+        }
 
         print("User ID: \(String(describing: user.uid))")
 
@@ -141,6 +143,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
         do {
             guard let user = Auth.auth().currentUser else { return }
             try await user.delete()
+            try await authViewModel.delete(user.uid)
             GIDSignIn.sharedInstance.signOut()
             DispatchQueue.main.async {
                 self.authViewModel.state = .signedOut
