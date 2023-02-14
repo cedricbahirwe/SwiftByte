@@ -116,6 +116,11 @@ struct AuthenticationView: View {
                 profilePicPreview
             }
         }
+        .alert(item: $authViewModel.alert) { alert in
+            Alert(title: Text(alert.title),
+                  message: Text(alert.message),
+                  dismissButton: .cancel())
+                }
         .toolbar(.hidden, for: .navigationBar)
         .fullScreenCover(isPresented: $presentPhotoPicker,
                          onDismiss: uploadProfilePicture) {

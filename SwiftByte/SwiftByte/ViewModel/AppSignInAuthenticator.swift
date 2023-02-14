@@ -64,6 +64,16 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
         let result = try await Auth.auth().signIn(with: credential)
         
         let user = result.user
+
+        let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
+
+        let sbUser = SBUser(firstName: user.displayName ?? "Unkown",
+                            lastName: "",
+                            email: user.email ?? "-",
+                            profilePicture: user.photoURL?.absoluteString,
+                            notificationAuthorized: isNotificationOn)
+        try authViewModel.saveUser(user.uid, user: sbUser)
+
         print("User ID: \(String(describing: user.uid))")
 
         print("User name: \(String(describing: user.displayName))")
@@ -85,7 +95,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
     func signUpWith(email: String,
                     password: String) async throws -> User {
 
-        let auth =  Auth.auth()
+        let auth = Auth.auth()
         let result = try await auth.createUser(withEmail: email,
                                             password: password)
 
