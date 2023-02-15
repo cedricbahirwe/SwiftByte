@@ -18,6 +18,7 @@ final class AuthenticationViewModel: ObservableObject {
     /// The user's log in status.
     /// - note: This will publish updates when its value changes.
     @Published var state: State
+    @Published var alert: AlertItem?
     private let localStorage = AppLocalStorage.shared
     private var authenticator: AppSignInAuthenticator {
         return AppSignInAuthenticator(authViewModel: self)
@@ -63,6 +64,7 @@ final class AuthenticationViewModel: ObservableObject {
             }
             return true
         } catch {
+            self.alert = AlertItem(error.localizedDescription)
             printf("Could not Sign Up with Firebase: \(error).")
             return false
         }
@@ -144,6 +146,13 @@ extension AuthenticationViewModel {
 }
 // MARK: - Store User in DB (Collection)
 extension AuthenticationViewModel {
+    func delete(_ id: String) async throws {
+        let reference = Firestore.firestore()
+        try await reference.collection(.users)
+            .document(id)
+            .delete()
+    }
+    
     func saveUser(_ id: String, user: SBUser) throws {
         let reference = Firestore.firestore()
         try reference
@@ -194,5 +203,17 @@ private extension AuthenticationViewModel {
                     return
                 }
             }
+    }
+}
+
+struct AlertItem: Identifiable {
+    let id: UUID
+    let title: String
+    let message: String
+
+    init(id: UUID = UUID(), title: String = "Alert", _ message: String) {
+        self.id = id
+        self.title = title
+        self.message = message
     }
 }

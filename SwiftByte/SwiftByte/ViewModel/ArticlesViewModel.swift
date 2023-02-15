@@ -34,7 +34,8 @@ final class ArticlesViewModel: ObservableObject {
 
         articlesRepository.$articles
             .map({ $0.flatMap { $0.keywords.map({ SBSearchToken($0.name) }) } })
-            .map({ Array(Set($0)) })
+            .map({ Array(Set($0)) }) // Remove duplicates
+            .prefix(5)
             .assign(to: \.searchSuggestedTokens, on: self)
             .store(in: &cancellables)
     }

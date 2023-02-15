@@ -61,6 +61,16 @@ struct SBArticleContent: Hashable, Codable {
          case heavy
          case black
 
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(String.self)
+            if let value = Self(rawValue: rawValue) {
+                self = value
+            } else {
+                self = .regular
+            }
+        }
+
         var value: Font.Weight {
             switch self {
             case .ultraLight:
@@ -98,6 +108,16 @@ struct SBArticleContent: Hashable, Codable {
         case caption
         case caption2
 
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(String.self)
+            if let value = Self(rawValue: rawValue) {
+                self = value
+            } else {
+                self = .body
+            }
+        }
+
         var value: Font.TextStyle {
             switch self {
             case .largeTitle:
@@ -131,6 +151,16 @@ struct SBArticleContent: Hashable, Codable {
         case serif
         case rounded
         case monospaced
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(String.self)
+            if let value = Self(rawValue: rawValue) {
+                self = value
+            } else {
+                self = .default
+            }
+        }
 
         var value: Font.Design {
             switch self {
