@@ -8,7 +8,7 @@
 import Foundation
 
 enum AppConstants {
-//    static let
+    static let appStoreURL = "https://apps.apple.com/us/app/swiftbyte/id1661335073"
 }
 
 

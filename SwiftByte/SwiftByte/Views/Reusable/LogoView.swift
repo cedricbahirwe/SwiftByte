@@ -20,6 +20,7 @@ struct LogoView: View {
                 }
             })
             .clipped()
+            .shadow(color: .white, radius: 0.4, x: 0, y: 0)
     }
 
     private var textContentView: some View {
@@ -33,5 +34,8 @@ struct LogoView: View {
 struct LogoView_Previews: PreviewProvider {
     static var previews: some View {
         LogoView()
+            .padding()
+            .previewLayout(.sizeThatFits)
+            .preferredColorScheme(.dark)
     }
 }
