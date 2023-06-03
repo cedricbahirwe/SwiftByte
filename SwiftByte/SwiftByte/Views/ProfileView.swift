@@ -21,16 +21,23 @@ struct ProfileView: View {
         VStack(spacing: 20) {
             if let user {
                 VStack(spacing: 4) {
-
-                    AsyncImage(url: URL(string: user.profilePicture ?? "")) { image in
-                        image.resizable()
-                    } placeholder: {
-                        Image(systemName: "person.circle.fill")
-                            .resizable()
+                    ZStack {
+                        LinearGradient(gradient: Gradient(colors: [.pink, .purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                            .shadow(radius: 10)
+                        
+                        AsyncImage(url: URL(string: user.profilePicture ?? "")) { image in
+                            image.resizable()
+                                .scaledToFit()
+                        } placeholder: {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                        }
+                        .scaledToFit()
+                        .frame(width: 95, height: 95)
+                        .clipShape(Circle())
                     }
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
                     .padding()
 
                     Text(user.getFullName())
