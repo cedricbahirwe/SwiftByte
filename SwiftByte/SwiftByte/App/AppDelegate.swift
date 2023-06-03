@@ -16,8 +16,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 
-        FirebaseApp.configure()
-
         Messaging.messaging().delegate = self
 
         UNUserNotificationCenter.current().delegate = self
@@ -35,7 +33,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
         return true
     }
-
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         NSLog("Remote Notification Registered: ", deviceToken.debugDescription)
