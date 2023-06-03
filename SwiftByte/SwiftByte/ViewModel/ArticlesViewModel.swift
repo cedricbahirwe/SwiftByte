@@ -73,6 +73,7 @@ final class ArticlesViewModel: ObservableObject {
     /// The algorithmic filtering approach here is to prioritize `token` search
     ///  and only fall back to text search when no token is found
     public func filterSearchTokens() {
+        printf("Submission")
         // Reset any token if set previously
         filterToken = nil
         if searchTokens.isEmpty {

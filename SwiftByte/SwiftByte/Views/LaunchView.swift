@@ -26,7 +26,7 @@ struct LaunchView: View {
                         .font(.title3)
                         .bold()
 
-                    Text("Every concept, post and article listed in this app has been manually checked for relevancy and accuracy, making this one of the highest-quality list of content related to iOS Development and Swift available on a mobile app.")
+                    Text("Every content, topic, post and article listed in this app has been carefully checked for relevancy and accuracy, making it a great collection of small content related to iOS Development and Swift available on a mobile app.")
 
                     LButton("Get Started") {
                         isPresented = false

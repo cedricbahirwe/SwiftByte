@@ -33,7 +33,6 @@ extension SBFirebaseRemoteConfig: RemoteConfigsProtocol {
             let status = try await firebaseRemoteConfig.fetch(withExpirationDuration: timeoutInterval)
             
             if status == .success {
-                debugPrint("Remote config fetched!")
                 _ = try await firebaseRemoteConfig.activate()
             }
         } catch {

@@ -55,7 +55,6 @@ struct SwiftByteApp: App {
                         await RemoteConfigs.shared.fetchRemoteValues()
                     }
                 }
-                .frame(maxWidth: 800)
 
         }
 //        .onChange(of: scenePhase, perform: observeScenePhase)

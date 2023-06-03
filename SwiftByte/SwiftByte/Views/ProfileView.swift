@@ -12,7 +12,11 @@ struct ProfileView: View {
     @Environment(\.isPreview) private var isPreview
 
     private var user: SBUser? {
+        #if DEBUG
         isPreview ? SBUser.sample : authViewModel.getCurrentUser()
+        #else
+        authViewModel.getCurrentUser()
+        #endif
     }
     @Environment(\.dismiss) private var dismiss
     @State private var showingConfirmation = false

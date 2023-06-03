@@ -59,8 +59,10 @@ extension CreatorView {
     }
 }
 
+#if DEBUG
 struct KeywordsView_Previews: PreviewProvider {
     static var previews: some View {
         CreatorView.KeywordsView(art: .constant(.sample))
     }
 }
+#endif

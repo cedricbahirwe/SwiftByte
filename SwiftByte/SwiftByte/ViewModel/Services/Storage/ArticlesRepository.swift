@@ -30,7 +30,7 @@ final class ArticlesRepository: ObservableObject {
                 let result = querySnapshot.documents.compactMap { document -> SBArticle? in
                     do {
                         let res = try document.data(as: SBArticle.self)
-                        prints(res)
+//                        prints(res)
                         return res
                     } catch {
                         printf("Firestore Decoding error: ", error, querySnapshot.documents.forEach { print($0.data()) } )

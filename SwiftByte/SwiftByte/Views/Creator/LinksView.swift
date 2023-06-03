@@ -73,8 +73,10 @@ extension CreatorView {
     }
 }
 
+#if DEBUG
 struct LinksView_Previews: PreviewProvider {
     static var previews: some View {
         CreatorView.LinksView(art: .constant(.sample))
     }
 }
+#endif

@@ -103,7 +103,7 @@ extension AppDelegate {
 extension AppDelegate: MessagingDelegate {
 
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        NSLog("Firebase registration token: \(String(describing: fcmToken))")
+//        NSLog("Firebase registration token: \(String(describing: fcmToken))")
     }
 }
 
