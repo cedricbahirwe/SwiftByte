@@ -270,7 +270,7 @@ private extension AuthenticationView {
         VStack(alignment: .leading) {
             Text("Email")
                 .font(.rounded(weight: .bold))
-            TextField("name@domain.com", text: $authModel.email)
+            TextField(String("example@domain.com"), text: $authModel.email)
                 .focused($focusedField, equals: .email)
                 .submitLabel(.next)
                 .textContentType(.emailAddress)

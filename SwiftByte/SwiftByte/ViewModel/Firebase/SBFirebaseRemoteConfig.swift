@@ -8,7 +8,7 @@
 import FirebaseRemoteConfig
 
 protocol RemoteConfigsProtocol: AnyObject {
-    func fetchRemoteValues(_ completion: @escaping(Bool) -> Void)
+    func fetchRemoteValues() async
     func string(for key: RemoteConfigsFlag) -> String?
     func bool(for key: RemoteConfigsFlag) -> Bool?
 }
@@ -27,25 +27,17 @@ final class SBFirebaseRemoteConfig {
 }
 
 extension SBFirebaseRemoteConfig: RemoteConfigsProtocol {
-    func fetchRemoteValues(_ completion: @escaping(Bool) -> Void = { _ in }) {
-        let timeoutInterval = TimeInterval(fetchTimeout)
-        firebaseRemoteConfig.fetch(withExpirationDuration: timeoutInterval) { status, _ -> Void in
+    func fetchRemoteValues() async {
+        do {
+            let timeoutInterval = TimeInterval(fetchTimeout)
+            let status = try await firebaseRemoteConfig.fetch(withExpirationDuration: timeoutInterval)
+            
             if status == .success {
-                completion(true)
                 debugPrint("Remote config fetched!")
-                self.firebaseRemoteConfig.activate { (success, error) in
-                    if let error = error {
-                        debugPrint("Remote config failed to activate: \(error)")
-                    }
-
-                    if success == false {
-                        debugPrint("Remote config failed to activate")
-                    }
-                }
-            } else {
-                completion(false)
-                debugPrint("Remote config not fetched")
+                _ = try await firebaseRemoteConfig.activate()
             }
+        } catch {
+            debugPrint("Remote config not fetched:", error.localizedDescription)
         }
     }
 
