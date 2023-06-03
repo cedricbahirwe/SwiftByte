@@ -35,8 +35,10 @@ extension CreatorView {
     }
 }
 
+#if DEBUG
 struct TitleAndIntro_Previews: PreviewProvider {
     static var previews: some View {
         CreatorView.TitleAndIntro(art: .constant(.sample))
     }
 }
+#endif

@@ -26,8 +26,8 @@ final class AuthenticationViewModel: ObservableObject {
 
     /// Creates an instance of this view model.
     init() {
-        dump(localStorage.getUser())
         if let sbUser = localStorage.getUser() {
+            dump(localStorage.getUser(), name: "LoggedIn User")
             self.state = .signedIn(sbUser)
         } else {
             self.state = .signedOut
@@ -76,8 +76,9 @@ final class AuthenticationViewModel: ObservableObject {
                                                             password: authModel.password)
             let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
             let newUser = SBUser.build(from: authModel, allowNotification: isNotificationOn)
-            try saveUser(firebaseUser.uid, user: newUser)
-
+            try saveUserToFirestore(firebaseUser.uid, user: newUser)
+            try saveUserToLocalStore(newUser)
+            
             DispatchQueue.main.async {
                 self.state = .signedIn(newUser)
             }
@@ -117,7 +118,7 @@ final class AuthenticationViewModel: ObservableObject {
 // MARK: - Local Storage
 extension AuthenticationViewModel {
     /// Save user to UserDefaults storage
-    func saveUser(_ sbUser: SBUser) throws {
+    func saveUserToLocalStore(_ sbUser: SBUser) throws {
         try localStorage.saveUser(sbUser)
     }
 
@@ -153,14 +154,14 @@ extension AuthenticationViewModel {
             .delete()
     }
     
-    func saveUser(_ id: String, user: SBUser) throws {
+    func saveUserToFirestore(_ id: String, user: SBUser) throws {
         let reference = Firestore.firestore()
         try reference
             .collection(.users)
             .document(id)
             .setData(from: user) { error in
                 if let error = error {
-                    print(error.localizedDescription)
+                    debugPrint(error.localizedDescription)
                     return
                 }
             }

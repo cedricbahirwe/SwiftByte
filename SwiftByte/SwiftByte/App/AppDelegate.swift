@@ -103,13 +103,7 @@ extension AppDelegate {
 extension AppDelegate: MessagingDelegate {
 
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        NSLog("Firebase registration token: \(String(describing: fcmToken))")
-
-//        if let userID = SNFirebaseManager.shared.getCurrentUserID() {
-//            print("Saving the token...")
-//            HZFireStoreHelpers.saveFCMRegistrationToken(userID, fcmToken)
-//            FCMNotificationSubscriber.subscribe(to: .general)
-//        }
+//        NSLog("Firebase registration token: \(String(describing: fcmToken))")
     }
 }
 

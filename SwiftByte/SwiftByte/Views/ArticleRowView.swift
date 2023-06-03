@@ -14,13 +14,12 @@ struct ArticleRowView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             if let author = article.author {
-                Text(author.getFullName())
+                Text("By \(author.getFullName())")
                     .font(.system(.body, design: .rounded))
                     .fontWeight(.semibold)
                     .opacity(0.9)
                 Divider()
             }
-
 
             VStack(alignment: .leading) {
                 Text(article.title)

@@ -11,8 +11,6 @@ import SwiftUI
 struct HomeView: View {
     @StateObject private var store = ArticlesViewModel()
 
-//    @State private var path: [ArticleViewModel] = [] // Nothing on the stack by default.
-
     @State private var showProfile = false
 
     @State private var showNotifications = false
@@ -43,14 +41,14 @@ struct HomeView: View {
             NotificationsView()
         }
         .sheet(isPresented: $showProfile, content: ProfileView.init)
-        .searchable(text: $store.searchText,
-                    tokens: $store.searchTokens,
-                    suggestedTokens: $store.searchSuggestedTokens,
-                    placement: .navigationBarDrawer(displayMode: .automatic),
-                    prompt: "Find a topic or concept",
-                    token: { token in
-            Text(token.value)
-        })
+//        .searchable(text: $store.searchText,
+//                    tokens: $store.searchTokens,
+//                    suggestedTokens: $store.searchSuggestedTokens,
+//                    placement: .navigationBarDrawer(displayMode: .automatic),
+//                    prompt: "Find a topic or concept",
+//                    token: { token in
+//            Text(token.value)
+//        })
         .onSubmit(of: .search, store.filterSearchTokens)
         .onChange(of: store.searchTokens) { _ in
             store.filterSearchTokens()
@@ -77,6 +75,7 @@ struct HomeView: View {
     }
 }
 
+#if DEBUG
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
@@ -84,7 +83,7 @@ struct HomeView_Previews: PreviewProvider {
         }
     }
 }
-
+#endif
 private let itemFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .short

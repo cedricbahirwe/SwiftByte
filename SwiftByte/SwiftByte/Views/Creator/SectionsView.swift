@@ -30,8 +30,10 @@ extension CreatorView {
     }
 }
 
+#if DEBUG
 struct SectionsView_Previews: PreviewProvider {
     static var previews: some View {
         CreatorView.SectionsView(art: .constant(.sample))
     }
 }
+#endif

@@ -51,14 +51,15 @@ struct SwiftByteApp: App {
                 .environmentObject(authViewModel)
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) {
                     print("applicationDidBecomeActive \($0.name)")
-                    RemoteConfigs.shared.fetchRemoteValues({ _ in })
+                    Task {
+                        await RemoteConfigs.shared.fetchRemoteValues()
+                    }
                 }
 
         }
-        .onChange(of: scenePhase, perform: observeScenePhase)
+//        .onChange(of: scenePhase, perform: observeScenePhase)
         
     }
-
 }
 
 private extension SwiftByteApp {
@@ -78,7 +79,6 @@ private extension SwiftByteApp {
     }
 
     func handIncomingURL(_ url: URL) {
-        prints("Well, New URL: \(url)")
         GIDSignIn.sharedInstance.handle(url)
     }
 }
