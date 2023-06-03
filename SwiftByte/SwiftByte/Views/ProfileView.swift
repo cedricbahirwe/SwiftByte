@@ -42,17 +42,15 @@ struct ProfileView: View {
 
                     Text(user.getFullName())
                         .font(.title.weight(.medium))
-
+                    
                     Group {
                         Text(user.email)
                             .font(.headline)
                             .foregroundColor(.secondary)
-                        if let joinedDate = user.joinDate {
-                            HStack(spacing: 0) {
-                                Text("Joined: ")
-                                Text(joinedDate, style: .date)
-                                    .italic()
-                            }
+                        HStack(spacing: 0) {
+                            Text("Joined: ")
+                            Text(user.joinDate, style: .date)
+                                .italic()
                         }
                     }
                 }
