@@ -19,6 +19,7 @@
 
 - Dealing with Real-Time(Instant) DataBases
 - Reactive Data Driven UI Development
+- Xcode Cloud
 
 ## Technology 🧑🏽‍💻 
 - SwiftUI & UIKit
