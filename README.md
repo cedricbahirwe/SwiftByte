@@ -30,6 +30,18 @@
 
 ## Screenshots
 
+Home Light                 |  Home Dark
+:-------------------------:|:-------------------------:
+![](Shots/light.png)  |  ![](Shots/dark.png)
+
+Transfer                    |  Settings
+:-------------------------:|:-------------------------:
+![](Shots/send.png)  |  ![](Shots/settings.png)
+
+Utilities                  |  Electricity Payment
+:-------------------------:|:-------------------------:
+![](Shots/utilities.png)  |  ![](Shots/electricity.png)
+
 - Coming soon
 
 ## Contributing
