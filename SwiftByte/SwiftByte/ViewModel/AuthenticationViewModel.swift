@@ -64,7 +64,9 @@ final class AuthenticationViewModel: ObservableObject {
             }
             return true
         } catch {
-            self.alert = AlertItem(error.localizedDescription)
+            DispatchQueue.main.async {
+                self.alert = AlertItem(error.localizedDescription)
+            }
             printf("Could not Sign Up with Firebase: \(error).")
             return false
         }
