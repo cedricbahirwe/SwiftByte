@@ -73,7 +73,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
                                 email: user.email ?? "-",
                                 profilePicture: user.photoURL?.absoluteString,
                                 notificationAuthorized: isNotificationOn)
-            try authViewModel.saveUser(user.uid, user: sbUser)
+            try authViewModel.saveUserToFirestore(user.uid, user: sbUser)
         }
 
         print("User ID: \(String(describing: user.uid))")
@@ -171,7 +171,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
         let docRef = db.collection(.users).document(id)
 
         let sbUser = try await docRef.getDocument(as: SBUser.self)
-        try authViewModel.saveUser(sbUser)
+        try authViewModel.saveUserToLocalStore(sbUser)
         return sbUser
     }
 

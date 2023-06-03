@@ -309,7 +309,7 @@ private extension AuthenticationView {
                 if isUploadingPic {
                     HStack(spacing: 10) {
                         ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .accentColor))
+                            .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                         Text("Wait a sec, Your picture is being uploaded")
                             .foregroundColor(.accentColor)
                             .italic()
@@ -395,10 +395,13 @@ private extension AuthenticationView {
                     .ignoresSafeArea()
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle())
+                    .progressViewStyle(.circular)
+                    .tint(.blue)
                     .font(.title2)
                     .frame(width: 60, height: 60)
                     .background(Color.white)
                     .cornerRadius(10)
+                    .shadow(radius: 2)
             }
         }
     }
