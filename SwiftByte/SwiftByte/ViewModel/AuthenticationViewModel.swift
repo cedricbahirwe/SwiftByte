@@ -9,6 +9,7 @@ import SwiftUI
 import Firebase
 import GoogleSignIn
 import FirebaseFirestore
+import AuthenticationServices
 
 /// A class conforming to `ObservableObject` used to represent a user's authentication status.
 final class AuthenticationViewModel: ObservableObject {
@@ -149,7 +150,7 @@ extension AuthenticationViewModel {
 }
 // MARK: - Store User in DB (Collection)
 extension AuthenticationViewModel {
-    func delete(_ id: String) async throws {
+    func deleteUser(_ id: String) async throws {
         let reference = Firestore.firestore()
         try await reference.collection(.users)
             .document(id)
@@ -167,6 +168,70 @@ extension AuthenticationViewModel {
                     return
                 }
             }
+    }
+}
+
+// MARK: - Apple SignIn
+extension AuthenticationViewModel {
+    func signInWithApple(_ authResults: ASAuthorization, _ currentNonce: String?) async -> Bool {
+        
+        switch authResults.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+
+            guard let nonce = currentNonce else {
+                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+            }
+            
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+            }
+            
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                printf("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                return false
+            }
+
+            let credential = OAuthProvider.credential(withProviderID: "apple.com",idToken: idTokenString,rawNonce: nonce)
+            do {
+                
+                let authResult = try await Auth.auth().signIn(with: credential)
+                
+                let user = authResult.user
+
+                if let sbUser = await authenticator.getUser(user.uid) {
+                    DispatchQueue.main.async {
+                        self.state = .signedIn(sbUser)
+                    }
+                } else {
+                    let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
+                    
+                    let fullName = appleIDCredential.fullName
+                    
+                    let sbUser = SBUser(firstName: fullName?.givenName ?? "Unknown",
+                                        lastName: fullName?.familyName ?? "",
+                                        email: user.email ?? appleIDCredential.email ?? "-",
+                                        profilePicture: user.photoURL?.absoluteString,
+                                        notificationAuthorized: isNotificationOn)
+                    
+                    try saveUserToFirestore(user.uid, user: sbUser)
+                    try saveUserToLocalStore(sbUser)
+                    DispatchQueue.main.async {
+                        self.state = .signedIn(sbUser)
+                    }
+                }
+               
+                return true
+            } catch {
+                DispatchQueue.main.async {
+                    self.alert = AlertItem(error.localizedDescription)
+                }
+                printf("Could not SignIn with Firebase Apple: \(error).")
+                return false
+            }
+
+        default:
+            return false
+        }
     }
 }
 
@@ -220,3 +285,4 @@ struct AlertItem: Identifiable {
         self.message = message
     }
 }
+

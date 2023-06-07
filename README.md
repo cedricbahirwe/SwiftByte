@@ -1,6 +1,6 @@
 # SwiftByte
 
-### An app built with `ChatGPT` api and `Firebase` to explain various topics and concepts related to iOS Development.
+### An app built with `ChatGPT` API and `Firebase` to explain various topics and concepts related to iOS Development.
 <!-- Download it on [AppStore](https://apps.apple.com/ke/app/dial-it/id1591756747). -->
 
 
@@ -8,18 +8,17 @@
 * Beautiful UI with Light/Dark Mode support.
 * GoogleSign and FirebaseAuth services integration
 * Real-Time Data Updates from Firebase Console
+* Publish to AppStore
 
 ## ✨ TODOs :
 
-- Create Socials (Website & Twitter)
-- Publish app on AppStore
-
+- Create Twitter
 
 ## TakeAways 🚀
 
 - Dealing with Real-Time(Instant) DataBases
 - Reactive Data Driven UI Development
-- Xcode Cloud
+- Xcode Cloud to automatic Deployment
 
 ## Technology 🧑🏽‍💻 
 - SwiftUI & UIKit
@@ -28,21 +27,15 @@
 - Firebase (FirebaseFirestore, FirebaseAuth)
 - PhotosUI
 
-## Screenshots
+## Screenshots!
 
-Home Light                 |  Home Dark
+Launch View                |  Login View
 :-------------------------:|:-------------------------:
-![](Shots/light.png)  |  ![](Shots/dark.png)
+![](https://github.com/cedricbahirwe/SwiftByte/assets/49038614/ff395552-3c6b-4323-9a50-37a6e956d445)  |  ![](https://github.com/cedricbahirwe/SwiftByte/assets/49038614/3b699233-d5b4-447f-bbaa-c5a1fcc8f8ff)
 
-Transfer                    |  Settings
+Home View                  |  Detail View
 :-------------------------:|:-------------------------:
-![](Shots/send.png)  |  ![](Shots/settings.png)
-
-Utilities                  |  Electricity Payment
-:-------------------------:|:-------------------------:
-![](Shots/utilities.png)  |  ![](Shots/electricity.png)
-
-- Coming soon
+![](https://github.com/cedricbahirwe/SwiftByte/assets/49038614/109170b7-1312-457b-9d87-c17deecca977)  |  ![](https://github.com/cedricbahirwe/SwiftByte/assets/49038614/c0b2dee2-2dc9-4eec-ab45-3388043f7480)
 
 ## Contributing
 

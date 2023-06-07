@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AuthenticationServices
 
 struct AuthenticationView: View {
     // - MARK: - Authentication Properties
@@ -20,6 +21,7 @@ struct AuthenticationView: View {
     @State private var isUploadingPic = false
     @State private var isDeletingPic = false
     @State private var selectedImage: UIImage?
+    @State private var currentNonce: String?
 
     @EnvironmentObject var authViewModel: AuthenticationViewModel
 
@@ -216,6 +218,14 @@ struct AuthenticationView: View {
             isSigningIn = false
         }
     }
+    
+    private func handleAppleSignIn(_ result: ASAuthorization, _ nonce: String?) {
+        Task {
+            isSigningIn = true
+            _ = await authViewModel.signInWithApple(result, nonce)
+            isSigningIn = false
+        }
+    }
 
     private func processManualAuth() {
         Task {
@@ -407,16 +417,33 @@ private extension AuthenticationView {
     }
 
     var thirdPartiesView: some View {
-        Group {
+        VStack(spacing: 10) {
             HStack {
                 Color.gray.frame(height: 1)
                 Text("or")
                 Color.gray.frame(height: 1)
             }
-            HStack(spacing: 18) {
-                googleSignInView
-                // facebookSignInView
-            }
+            
+            SignInWithAppleButton(
+                .continue,
+                onRequest: { request in
+                    let nonce = AuthFile.randomNonceString()
+                    currentNonce = nonce
+                    request.requestedScopes = [.fullName, .email]
+                    request.nonce = AuthFile.sha256(nonce)
+                },
+                onCompletion: { result in
+                    switch result {
+                    case .success (let authorization):
+                        handleAppleSignIn(authorization, currentNonce)
+                    case .failure (let error):
+                        printf("Authorization failed: " + error.localizedDescription)
+                    }
+                }
+            )
+            .signInWithAppleButtonStyle(.whiteOutline)
+            .frame(height: 50)
+            googleSignInView
         }
     }
 
@@ -452,29 +479,7 @@ private extension AuthenticationView {
             .frame(height: 45)
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(Color.accentColor, lineWidth: 1)
-            )
-        }
-    }
-    var facebookSignInView: some View {
-        Button {
-            // Password
-        } label: {
-            Label(title:{
-                Text("Facebook")
-            }) {
-                Image("facebook")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-            }
-            .font(.rounded(weight: .semibold))
-            .foregroundColor(.blue)
-            .frame(maxWidth: .infinity)
-            .frame(height: 45)
-            .overlay(
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(Color.accentColor, lineWidth: 1)
+                    .strokeBorder(Color.accentColor, lineWidth: 0.5)
             )
         }
     }
