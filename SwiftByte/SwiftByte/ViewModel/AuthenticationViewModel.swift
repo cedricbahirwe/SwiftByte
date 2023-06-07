@@ -152,7 +152,7 @@ extension AuthenticationViewModel {
 extension AuthenticationViewModel {
     func deleteUser(_ id: String) async throws {
         let reference = Firestore.firestore()
-        try await reference.collection(. users)
+        try await reference.collection(.users)
             .document(id)
             .delete()
     }
@@ -187,7 +187,7 @@ extension AuthenticationViewModel {
             }
             
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                printf("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return false
             }
 
@@ -195,7 +195,6 @@ extension AuthenticationViewModel {
             do {
                 
                 let authResult = try await Auth.auth().signIn(with: credential)
-                prints("\(String(describing: Auth.auth().currentUser?.uid))")
                 
                 let user = authResult.user
 
@@ -207,9 +206,6 @@ extension AuthenticationViewModel {
                     let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
                     
                     let fullName = appleIDCredential.fullName
-                    
-                    printf("All is good", appleIDCredential.email)
-                    printf("All is good", appleIDCredential.fullName)
                     
                     let sbUser = SBUser(firstName: fullName?.givenName ?? "Unknown",
                                         lastName: fullName?.familyName ?? "",
