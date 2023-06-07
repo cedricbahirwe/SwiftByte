@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB4998462A2F4D4B00AF47A7 /* AppleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4998452A2F4D4B00AF47A7 /* AppleSignIn.swift */; };
+		CB4998482A2F4D5800AF47A7 /* DebugerPrinters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4998472A2F4D5800AF47A7 /* DebugerPrinters.swift */; };
+		CB49984A2A2F60E900AF47A7 /* AuthFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4998492A2F60E900AF47A7 /* AuthFile.swift */; };
 		CB6B2900295215990078EFD0 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B28FF295215990078EFD0 /* Color+Extensions.swift */; };
 		CB6B290229521A570078EFD0 /* ArticlesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B290129521A560078EFD0 /* ArticlesStore.swift */; };
 		CB6B290429521A5E0078EFD0 /* ArticlesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B290329521A5E0078EFD0 /* ArticlesViewModel.swift */; };
@@ -47,7 +50,6 @@
 		CB77B98629511E2F001C0461 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B98529511E2F001C0461 /* AppConstants.swift */; };
 		CB77B98829511E36001C0461 /* AppLocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B98729511E36001C0461 /* AppLocalKeys.swift */; };
 		CB77B98A29511E90001C0461 /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B98929511E90001C0461 /* UserDefaults+Extension.swift */; };
-		CB77B98D29511F3F001C0461 /* DebugePrinters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B98C29511F3F001C0461 /* DebugePrinters.swift */; };
 		CB77B98F29511F74001C0461 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B98E29511F74001C0461 /* SceneDelegate.swift */; };
 		CB77B992295125A7001C0461 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B991295125A7001C0461 /* PhotoPickerView.swift */; };
 		CB77B99429512604001C0461 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B99329512604001C0461 /* Font+Extension.swift */; };
@@ -107,6 +109,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB4998452A2F4D4B00AF47A7 /* AppleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignIn.swift; sourceTree = "<group>"; };
+		CB4998472A2F4D5800AF47A7 /* DebugerPrinters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugerPrinters.swift; sourceTree = "<group>"; };
+		CB4998492A2F60E900AF47A7 /* AuthFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFile.swift; sourceTree = "<group>"; };
 		CB6B28FF295215990078EFD0 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		CB6B290129521A560078EFD0 /* ArticlesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesStore.swift; sourceTree = "<group>"; };
 		CB6B290329521A5E0078EFD0 /* ArticlesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesViewModel.swift; sourceTree = "<group>"; };
@@ -140,7 +145,6 @@
 		CB77B98529511E2F001C0461 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		CB77B98729511E36001C0461 /* AppLocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalKeys.swift; sourceTree = "<group>"; };
 		CB77B98929511E90001C0461 /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
-		CB77B98C29511F3F001C0461 /* DebugePrinters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugePrinters.swift; sourceTree = "<group>"; };
 		CB77B98E29511F74001C0461 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CB77B991295125A7001C0461 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		CB77B99329512604001C0461 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
@@ -395,7 +399,9 @@
 		CB77B98B29511F2F001C0461 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				CB77B98C29511F3F001C0461 /* DebugePrinters.swift */,
+				CB4998472A2F4D5800AF47A7 /* DebugerPrinters.swift */,
+				CB4998452A2F4D4B00AF47A7 /* AppleSignIn.swift */,
+				CB4998492A2F60E900AF47A7 /* AuthFile.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -639,7 +645,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB77B98D29511F3F001C0461 /* DebugePrinters.swift in Sources */,
 				CBB7E3652952355400EE6CEF /* NotificationsView.swift in Sources */,
 				CB77B98829511E36001C0461 /* AppLocalKeys.swift in Sources */,
 				CBB26F002975F9DB00BC05D9 /* ForceUpdateManager.swift in Sources */,
@@ -649,14 +654,17 @@
 				CB77B99A29512653001C0461 /* SBTopic.swift in Sources */,
 				CB77B9982951264F001C0461 /* SBArticle.swift in Sources */,
 				CB6B290429521A5E0078EFD0 /* ArticlesViewModel.swift in Sources */,
+				CB4998462A2F4D4B00AF47A7 /* AppleSignIn.swift in Sources */,
 				CB77B9BF2951316E001C0461 /* SBFileExtension.swift in Sources */,
 				CB77B92E29510F17001C0461 /* Persistence.swift in Sources */,
 				CBE7E207297707FD001DEBCC /* SBAppUser.swift in Sources */,
 				CB74588B29749E160009F039 /* LaunchView.swift in Sources */,
 				CBB26EFE2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift in Sources */,
+				CB49984A2A2F60E900AF47A7 /* AuthFile.swift in Sources */,
 				CB74588E29749F1F0009F039 /* LargeButton.swift in Sources */,
 				CBE7E20E29771C3C001DEBCC /* AuthorEditor.swift in Sources */,
 				CBB7E374295354E900EE6CEF /* SBSearchToken.swift in Sources */,
+				CB4998482A2F4D5800AF47A7 /* DebugerPrinters.swift in Sources */,
 				CB77B9AD29512B96001C0461 /* FirestoreEntity+Protocol.swift in Sources */,
 				CB6B290B29521F600078EFD0 /* ArticleRowView.swift in Sources */,
 				CB77B9B129512BDE001C0461 /* Firestore+Extension.swift in Sources */,

@@ -1,8 +1,8 @@
 //
-//  DebugePrinters.swift
+//  DebugerPrinters.swift
 //  SwiftByte
 //
-//  Created by Cédric Bahirwe on 20/12/2022.
+//  Created by Cédric Bahirwe on 06/06/2023.
 //
 
 import Foundation

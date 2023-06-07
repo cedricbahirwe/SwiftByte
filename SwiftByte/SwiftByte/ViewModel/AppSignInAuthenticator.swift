@@ -26,12 +26,11 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
     func signInWithGoogle() async throws -> User {
 
         guard let rootViewController = await getAppRootView() else {
-            print("There is no root view controller.")
             throw SBErrors.appRootMissing
         }
 
         guard let clientID = FirebaseApp.app()?.options.clientID else {
-            print("There is no Firebase clietID.")
+            printf("There is no Firebase clietID.")
             throw SBErrors.clientIDMissing
         }
 
@@ -68,23 +67,13 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
         if await getUser(user.uid) == nil {
             let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
 
-            let sbUser = SBUser(firstName: user.displayName ?? "Unkown",
+            let sbUser = SBUser(firstName: user.displayName ?? "Unknown",
                                 lastName: "",
                                 email: user.email ?? "-",
                                 profilePicture: user.photoURL?.absoluteString,
                                 notificationAuthorized: isNotificationOn)
             try authViewModel.saveUserToFirestore(user.uid, user: sbUser)
         }
-
-        print("User ID: \(String(describing: user.uid))")
-
-        print("User name: \(String(describing: user.displayName))")
-
-        print("User Photo URL: \(String(describing: user.photoURL))")
-
-        print("User email: \(user.email ?? "No email found")")
-
-        print("User phone: \(user.phoneNumber ?? "No phone found")")
 
         return user
     }
@@ -143,7 +132,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
         do {
             guard let user = Auth.auth().currentUser else { return }
             try await user.delete()
-            try await authViewModel.delete(user.uid)
+            try await authViewModel.deleteUser(user.uid)
             GIDSignIn.sharedInstance.signOut()
             DispatchQueue.main.async {
                 self.authViewModel.state = .signedOut
@@ -181,7 +170,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
             let sbUser: SBUser = try await getUser(id)
             return sbUser
         } catch {
-            print("Encountered error fetching user: \(error).")
+            prints("Encountered error fetching user: \(error).")
             return nil
         }
     }
