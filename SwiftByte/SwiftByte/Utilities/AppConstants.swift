@@ -10,8 +10,3 @@ import Foundation
 enum AppConstants {
     static let appStoreURL = "https://apps.apple.com/us/app/swiftbyte/id1661335073"
 }
-
-
-enum Images: String {
-    case laptop = "laptop"
-}

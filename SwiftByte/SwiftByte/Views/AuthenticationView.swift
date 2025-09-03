@@ -15,7 +15,7 @@ struct AuthenticationView: View {
     @State private var authModel = AuthModel()
     @FocusState private var focusedField: AuthModel.Field?
     @State private var validationErrorMessage: String?
-
+    
     // MARK: - Photo Picker Properties
     @State private var presentPhotoPicker = false
     @State private var previewProfilePicture = false
@@ -23,9 +23,9 @@ struct AuthenticationView: View {
     @State private var isDeletingPic = false
     @State private var selectedImage: UIImage?
     @State private var currentNonce: String?
-
+    
     @EnvironmentObject var authViewModel: AuthenticationViewModel
-
+    
     var body: some View {
         ZStack {
             VStack {
@@ -51,7 +51,7 @@ struct AuthenticationView: View {
                         , alignment: .leading
                     )
                     .padding(.bottom)
-
+                
                 GeometryReader { _ in
                     VStack(spacing: 20) {
                         if isRegistration {
@@ -60,14 +60,14 @@ struct AuthenticationView: View {
                                 lastNameView
                             }
                         }
-
+                        
                         emailView
-
+                        
                         passwordView
                         if isRegistration {
                             profilePicSection
                         }
-
+                        
                         VStack {
                             Button(action: processManualAuth) {
                                 Text(isRegistration ? "Continue" : "Login")
@@ -79,7 +79,7 @@ struct AuthenticationView: View {
                                     .foregroundStyle(.background)
                             }
                             .disabled(isRegistration && isUploadingPic)
-
+                            
                             if let validationErrorMessage {
                                 Text(validationErrorMessage)
                                     .font(.sysRound(.caption))
@@ -88,21 +88,21 @@ struct AuthenticationView: View {
                             }
                         }
                         .padding(.vertical)
-
+                        
                         Button {
                             // Password
                         } label: {
                             Text("Forgot password?")
                                 .font(.sysRound(weight: .medium))
-
+                            
                         }.hidden()
-
+                        
                     }
                     .onSubmit {
                         manageKeyboardFocus()
                     }
                 }
-
+                
                 VStack {
                     thirdPartiesView
                         .opacity(isRegistration ? 0 : 1)
@@ -116,7 +116,7 @@ struct AuthenticationView: View {
             .onChange(of: selectedImage, perform: { _ in
                 uploadProfilePicture()
             })
-
+            
             if previewProfilePicture {
                 profilePicPreview
             }
@@ -147,11 +147,11 @@ struct AuthenticationView: View {
             authModel = .init()
         }
     }
-
+    
     private func hideKeyboard() {
         focusedField = nil
     }
-
+    
     private func manageKeyboardFocus() {
         switch focusedField {
         case .firstName:
@@ -164,15 +164,15 @@ struct AuthenticationView: View {
             processManualAuth()
         }
     }
-
+    
     private func uploadProfilePicture() {
         guard let selectedImage = selectedImage else {
             return
         }
         guard let pngData = selectedImage.pngData() else { return }
-
+        
         isUploadingPic = true
-
+        
         SNFirebaseImageUploader.shared.upload(data: pngData,
                                               format:.png,
                                               path: .profiles) { result in
@@ -185,7 +185,7 @@ struct AuthenticationView: View {
             isUploadingPic = false
         }
     }
-
+    
     private func deletePicture() {
         isDeletingPic = true
         SNFirebaseImageUploader.shared.deleteLastUploadedFile { state in
@@ -195,7 +195,7 @@ struct AuthenticationView: View {
             previewProfilePicture = false
         }
     }
-
+    
     private func handleSignup() async {
         do {
             try authModel.isReadyForRegistration()
@@ -213,30 +213,30 @@ struct AuthenticationView: View {
             prints("Sucessfully registered and logged in")
         }
     }
-
+    
     private func handleSignIn() async {
-
+        
         do {
             try authModel.isEmailAndPasswordValid()
         } catch {
             validationErrorMessage = error.localizedDescription
             return;
         }
-
+        
         printv("Signing In...")
         focusedField = nil
         isSigningIn = true
-
+        
         let completed = await authViewModel.signInWith(email: authModel.email,
                                                        password: authModel.password)
         isSigningIn = false
-
+        
         if completed {
             authModel = .init()
             prints("Sucessfully signed and logged in")
         }
     }
-
+    
     private func handleGoogleLogin() {
         Task {
             isSigningIn = true
@@ -244,7 +244,7 @@ struct AuthenticationView: View {
             isSigningIn = false
         }
     }
-
+    
     private func handleAppleSignIn(_ result: ASAuthorization, _ nonce: String?) {
         Task {
             isSigningIn = true
@@ -252,7 +252,7 @@ struct AuthenticationView: View {
             isSigningIn = false
         }
     }
-
+    
     private func processManualAuth() {
         Task {
             if isRegistration {
@@ -325,7 +325,7 @@ private extension AuthenticationView {
         VStack(alignment: .leading) {
             Text("Password")
                 .font(.sysRound(weight: .bold))
-
+            
             SecureField("Enter your password", text: $authModel.password)
                 .focused($focusedField, equals: .password)
                 .submitLabel(.join)
@@ -356,7 +356,7 @@ private extension AuthenticationView {
                     .frame(maxWidth: .infinity)
                     .background(.regularMaterial)
                     .cornerRadius(12)
-
+                    
                 } else if authModel.profilePicture == nil {
                     Button {
                         presentPhotoPicker.toggle()
@@ -370,7 +370,7 @@ private extension AuthenticationView {
                         }
                     }
                     .disabled(isUploadingPic)
-
+                    
                 } else {
                     Label {
                         Text("Profile Picture Added!")
@@ -379,15 +379,15 @@ private extension AuthenticationView {
                             .imageScale(.large)
                             .foregroundStyle(.blue)
                     }
-
+                    
                     Spacer()
-
+                    
                     Button("View Picture") {
                         hideKeyboard()
                         previewProfilePicture.toggle()
                     }
                     .tint(.blue)
-
+                    
                 }
             }
             .padding(.vertical, 10)
@@ -406,7 +406,7 @@ private extension AuthenticationView {
                     .scaledToFill()
                     .frame(width: 250, height: 250)
                     .mask(Circle())
-
+                
                 Button(action: deletePicture) {
                     HStack(spacing: 10) {
                         if isDeletingPic {
@@ -430,7 +430,7 @@ private extension AuthenticationView {
                 Color.black
                     .opacity(0.7)
                     .ignoresSafeArea()
-
+                
                 ProgressView()
                     .progressViewStyle(.circular)
                     .tint(.blue)
@@ -442,7 +442,7 @@ private extension AuthenticationView {
             }
         }
     }
-
+    
     var thirdPartiesView: some View {
         VStack(spacing: 16) {
             HStack {
@@ -450,7 +450,7 @@ private extension AuthenticationView {
                 Text("or")
                 Color.gray.frame(height: 1)
             }
-
+            
             SignInWithAppleButton(
                 .continue,
                 onRequest: { request in
@@ -471,11 +471,11 @@ private extension AuthenticationView {
             )
             .signInWithAppleButtonStyle(.whiteOutline)
             .frame(height: 50)
-
+            
             googleSignInView
         }
     }
-
+    
     var signUpView: some View {
         Button {
             withAnimation {
@@ -490,7 +490,7 @@ private extension AuthenticationView {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 30)
     }
-
+    
     var googleSignInView: some View {
         Button(action: handleGoogleLogin) {
             Label(title:{

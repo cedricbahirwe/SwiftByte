@@ -9,6 +9,6 @@ import Foundation
 
 extension String {
     var removeWhitespacesAndNewlines: String {
-        self.trimmingCharacters(in: .whitespacesAndNewlines)
+        trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

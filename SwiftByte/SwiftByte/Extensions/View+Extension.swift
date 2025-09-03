@@ -34,10 +34,3 @@ extension EnvironmentValues {
     }
 
 }
-
-
-extension Image {
-    init(_ image: Images) {
-        self.init(image.rawValue)
-    }
-}

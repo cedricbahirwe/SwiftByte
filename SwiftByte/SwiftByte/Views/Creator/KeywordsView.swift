@@ -42,7 +42,7 @@ extension CreatorView {
         }
 
         private func addKeyword() {
-            let newKeyword = newKeyword.trimmingCharacters(in: .whitespacesAndNewlines)
+            let newKeyword = newKeyword.removeWhitespacesAndNewlines
             guard !newKeyword.isEmpty else { return }
 
             if !art.keywords.map(\.name).contains(newKeyword) {

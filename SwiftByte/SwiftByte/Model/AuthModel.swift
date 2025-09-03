@@ -21,15 +21,15 @@ private extension AuthModel {
         SBEmailAddress(rawValue: email) != nil
     }
     var isPasswordValid: Bool {
-        password.trimmingCharacters(in: .whitespaces).count >= 6
+        password.removeWhitespacesAndNewlines.count >= 6
     }
 
     var isFirstNameValid: Bool {
-        firstName.trimmingCharacters(in: .whitespaces).count > 1
+        firstName.removeWhitespacesAndNewlines.count > 1
     }
 
     var isLastNameValid: Bool {
-        lastName.trimmingCharacters(in: .whitespaces).count > 1
+        lastName.removeWhitespacesAndNewlines.count > 1
     }
 }
 
