@@ -1,18 +1,15 @@
 # SwiftByte
 
-### An app built with `ChatGPT` API and `Firebase` to explain various topics and concepts related to iOS Development.
+### An app intended to explain various topics and concepts related to iOS Development.
 <!-- Download it on [AppStore](https://apps.apple.com/ke/app/dial-it/id1591756747). -->
 
 
-## ✅ Dones:
+## ✅ Tech Features:
 * Beautiful UI with Light/Dark Mode support.
 * GoogleSign and FirebaseAuth services integration
 * Real-Time Data Updates from Firebase Console
 * Publish to AppStore
 
-## ✨ TODOs :
-
-- Create Twitter
 
 ## TakeAways 🚀
 
