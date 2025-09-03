@@ -14,6 +14,7 @@ struct AuthenticationView: View {
     @State private var isRegistration = false
     @State private var authModel = AuthModel()
     @FocusState private var focusedField: AuthModel.Field?
+    @State private var validationErrorMessage: String?
 
     // MARK: - Photo Picker Properties
     @State private var presentPhotoPicker = false
@@ -79,10 +80,12 @@ struct AuthenticationView: View {
                             }
                             .disabled(isRegistration && isUploadingPic)
 
-                            Text("Error Message")
-                                .font(.sysRound(.caption))
-                                .foregroundColor(.red)
-                                .hidden()
+                            if let validationErrorMessage {
+                                Text(validationErrorMessage)
+                                    .font(.sysRound(.caption))
+                                    .foregroundColor(.red)
+                                //                                .hidden()
+                            }
                         }
                         .padding(.vertical)
 
@@ -118,17 +121,28 @@ struct AuthenticationView: View {
                 profilePicPreview
             }
         }
+        .onChange(of: validationErrorMessage) { newValue in
+            if newValue != nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.validationErrorMessage = nil
+                }
+            }
+        }
         .alert(item: $authViewModel.alert) { alert in
             Alert(title: Text(alert.title),
                   message: Text(alert.message),
                   dismissButton: .cancel())
         }
         .toolbar(.hidden, for: .navigationBar)
-        .fullScreenCover(isPresented: $presentPhotoPicker,
-                         onDismiss: uploadProfilePicture) {
-            PhotoPickerView(isPresented: $presentPhotoPicker,
-                            selectedImage: $selectedImage)
-        }.onDisappear() {
+        .fullScreenCover(
+            isPresented: $presentPhotoPicker,
+            onDismiss: uploadProfilePicture
+        ) {
+            PhotoPickerView(
+                isPresented: $presentPhotoPicker,
+                selectedImage: $selectedImage)
+        }
+        .onDisappear() {
             isSigningIn = false
             authModel = .init()
         }
@@ -183,7 +197,12 @@ struct AuthenticationView: View {
     }
 
     private func handleSignup() async {
-        guard authModel.isReadyForRegistration() else { return }
+        do {
+            try authModel.isReadyForRegistration()
+        } catch {
+            validationErrorMessage = error.localizedDescription
+            return;
+        }
         printv("Signing Up...")
         focusedField = nil
         isSigningIn = true
@@ -196,7 +215,14 @@ struct AuthenticationView: View {
     }
 
     private func handleSignIn() async {
-        guard authModel.isEmailAndPasswordValid() else { return }
+
+        do {
+            try authModel.isEmailAndPasswordValid()
+        } catch {
+            validationErrorMessage = error.localizedDescription
+            return;
+        }
+
         printv("Signing In...")
         focusedField = nil
         isSigningIn = true
@@ -438,6 +464,7 @@ private extension AuthenticationView {
                     case .success (let authorization):
                         handleAppleSignIn(authorization, currentNonce)
                     case .failure (let error):
+                        self.validationErrorMessage = error.localizedDescription
                         printf("Authorization failed: " + error.localizedDescription)
                     }
                 }
@@ -509,14 +536,48 @@ extension AuthenticationView {
             lastName.trimmingCharacters(in: .whitespaces).count > 1
         }
 
-        func isEmailAndPasswordValid() -> Bool {
-            isEmailValid && isPasswordValid
+        func isEmailAndPasswordValid() throws(ValidationError) {
+            guard isEmailValid else {
+                throw .invalidEmail
+            }
+            guard isPasswordValid else {
+                throw .invalidPassword
+            }
         }
 
-        func isReadyForRegistration() -> Bool {
-            isEmailValid && isPasswordValid &&
-            isFirstNameValid && isLastNameValid
+
+        enum ValidationError: Error {
+            case invalidEmail
+            case invalidPassword
+            case invalidFirstName
+            case invalidLastName
+
+            var localizedDescription: String {
+                switch self {
+                case .invalidEmail:
+                    return "Please enter a valid email address."
+                case .invalidPassword:
+                    return "Please enter a password with at least 6 characters."
+                case .invalidFirstName:
+                    return "Please enter a valid first name."
+                case .invalidLastName:
+                    return "Please enter a valid last name."
+                }
+            }
         }
+
+        func isReadyForRegistration() throws(ValidationError) {
+            try isEmailAndPasswordValid()
+
+            guard isFirstNameValid else {
+                throw .invalidFirstName
+            }
+
+            guard isLastNameValid else {
+                throw .invalidLastName
+            }
+        }
+
 
         enum Field: Int {
             case firstName
