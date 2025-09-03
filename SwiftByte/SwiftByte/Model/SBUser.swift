@@ -44,6 +44,7 @@ extension SBUser {
         .init(firstName: model.firstName,
               lastName: model.lastName,
               email: model.email,
+              profilePicture: model.profilePicture,
               joinDate: Date(),
               notificationAuthorized: allowNotification)
     }

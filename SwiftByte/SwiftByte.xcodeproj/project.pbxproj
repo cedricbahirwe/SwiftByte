@@ -43,7 +43,6 @@
 		CB77B98829511E36001C0461 /* AppLocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B98729511E36001C0461 /* AppLocalKeys.swift */; };
 		CB77B98A29511E90001C0461 /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B98929511E90001C0461 /* UserDefaults+Extension.swift */; };
 		CB77B98F29511F74001C0461 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B98E29511F74001C0461 /* SceneDelegate.swift */; };
-		CB77B992295125A7001C0461 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B991295125A7001C0461 /* PhotoPickerView.swift */; };
 		CB77B99429512604001C0461 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B99329512604001C0461 /* Font+Extension.swift */; };
 		CB77B9982951264F001C0461 /* SBArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B9972951264F001C0461 /* SBArticle.swift */; };
 		CB77B99A29512653001C0461 /* SBTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B99929512653001C0461 /* SBTopic.swift */; };
@@ -137,7 +136,6 @@
 		CB77B98729511E36001C0461 /* AppLocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalKeys.swift; sourceTree = "<group>"; };
 		CB77B98929511E90001C0461 /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		CB77B98E29511F74001C0461 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CB77B991295125A7001C0461 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		CB77B99329512604001C0461 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		CB77B9972951264F001C0461 /* SBArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBArticle.swift; sourceTree = "<group>"; };
 		CB77B99929512653001C0461 /* SBTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBTopic.swift; sourceTree = "<group>"; };
@@ -275,7 +273,6 @@
 				CB77B95629511700001C0461 /* ViewModel */,
 				CB77B955295116FB001C0461 /* Extensions */,
 				CB77B954295116F1001C0461 /* Utilities */,
-				CB77B990295125A1001C0461 /* HelperViews */,
 				CB77B92829510F17001C0461 /* Assets.xcassets */,
 				CB77B92A29510F17001C0461 /* Preview Content */,
 			);
@@ -395,14 +392,6 @@
 				CB4998492A2F60E900AF47A7 /* AuthFile.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		CB77B990295125A1001C0461 /* HelperViews */ = {
-			isa = PBXGroup;
-			children = (
-				CB77B991295125A7001C0461 /* PhotoPickerView.swift */,
-			);
-			path = HelperViews;
 			sourceTree = "<group>";
 		};
 		CB77B99B29512689001C0461 /* Custom Types */ = {
@@ -682,7 +671,6 @@
 				CBB7E3722953447000EE6CEF /* CreatorViewModel.swift in Sources */,
 				CBB7E36A295343DC00EE6CEF /* SBLink.swift in Sources */,
 				CB6B290629521A980078EFD0 /* ArticlesRepository.swift in Sources */,
-				CB77B992295125A7001C0461 /* PhotoPickerView.swift in Sources */,
 				CBD1937929789B1300B6D40A /* KeywordsView.swift in Sources */,
 				CB77B95C29511735001C0461 /* AuthenticationView.swift in Sources */,
 				CB77B9A829512A1D001C0461 /* View+Extension.swift in Sources */,
