@@ -26,7 +26,7 @@ struct LogoView: View {
     private var textContentView: some View {
         Text("SwiftByte")
             .foregroundColor(.accentColor)
-            .font(.rounded(.largeTitle))
+            .font(.sysRound(.largeTitle))
             .fontWeight(.bold)
     }
 }

@@ -28,7 +28,7 @@ struct AuthenticationView: View {
     var body: some View {
         ZStack {
             VStack {
-               LogoView()
+                LogoView()
                     .padding(.top, isRegistration ? 0 : 30)
                     .ignoresSafeArea(.keyboard, edges: .top)
                     .frame(maxWidth: .infinity)
@@ -70,17 +70,17 @@ struct AuthenticationView: View {
                         VStack {
                             Button(action: processManualAuth) {
                                 Text(isRegistration ? "Continue" : "Login")
-                                    .font(.rounded(weight: .bold))
+                                    .font(.sysRound(weight: .bold))
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 45)
-                                    .foregroundStyle(.background)
-                                    .background(.foreground)
+                                    .background(.foregrounder)
                                     .cornerRadius(15)
+                                    .foregroundStyle(.background)
                             }
-                            .disabled((isRegistration && isUploadingPic))
+                            .disabled(isRegistration && isUploadingPic)
 
                             Text("Error Message")
-                                .font(.rounded(.caption))
+                                .font(.sysRound(.caption))
                                 .foregroundColor(.red)
                                 .hidden()
                         }
@@ -90,7 +90,7 @@ struct AuthenticationView: View {
                             // Password
                         } label: {
                             Text("Forgot password?")
-                                .font(.rounded(weight: .medium))
+                                .font(.sysRound(weight: .medium))
 
                         }.hidden()
 
@@ -122,7 +122,7 @@ struct AuthenticationView: View {
             Alert(title: Text(alert.title),
                   message: Text(alert.message),
                   dismissButton: .cancel())
-                }
+        }
         .toolbar(.hidden, for: .navigationBar)
         .fullScreenCover(isPresented: $presentPhotoPicker,
                          onDismiss: uploadProfilePicture) {
@@ -218,7 +218,7 @@ struct AuthenticationView: View {
             isSigningIn = false
         }
     }
-    
+
     private func handleAppleSignIn(_ result: ASAuthorization, _ nonce: String?) {
         Task {
             isSigningIn = true
@@ -243,13 +243,13 @@ private extension AuthenticationView {
     var firstNameView: some View {
         VStack(alignment: .leading) {
             Text("First name")
-                .font(.rounded(weight: .bold))
+                .font(.sysRound(weight: .bold))
             TextField("First name", text: $authModel.firstName)
                 .focused($focusedField, equals: .firstName)
                 .submitLabel(.next)
                 .textContentType(.givenName)
                 .keyboardType(.namePhonePad)
-                .font(.rounded())
+                .font(.sysRound())
                 .padding(.horizontal)
                 .frame(height: 45)
                 .overlay(
@@ -261,13 +261,13 @@ private extension AuthenticationView {
     var lastNameView: some View {
         VStack(alignment: .leading) {
             Text("Last name")
-                .font(.rounded(weight: .bold))
+                .font(.sysRound(weight: .bold))
             TextField("Last name", text: $authModel.lastName)
                 .focused($focusedField, equals: .lastName)
                 .submitLabel(.next)
                 .textContentType(.familyName)
                 .keyboardType(.namePhonePad)
-                .font(.rounded())
+                .font(.sysRound())
                 .padding(.horizontal)
                 .frame(height: 45)
                 .overlay(
@@ -279,14 +279,14 @@ private extension AuthenticationView {
     var emailView: some View {
         VStack(alignment: .leading) {
             Text("Email")
-                .font(.rounded(weight: .bold))
+                .font(.sysRound(weight: .bold))
             TextField(String("example@domain.com"), text: $authModel.email)
                 .focused($focusedField, equals: .email)
                 .submitLabel(.next)
                 .textContentType(.emailAddress)
                 .keyboardType(.emailAddress)
                 .textInputAutocapitalization(.never)
-                .font(.rounded())
+                .font(.sysRound())
                 .padding(.horizontal)
                 .frame(height: 45)
                 .overlay(
@@ -298,13 +298,13 @@ private extension AuthenticationView {
     var passwordView: some View {
         VStack(alignment: .leading) {
             Text("Password")
-                .font(.rounded(weight: .bold))
+                .font(.sysRound(weight: .bold))
 
             SecureField("Enter your password", text: $authModel.password)
                 .focused($focusedField, equals: .password)
                 .submitLabel(.join)
                 .textContentType(isRegistration ? .newPassword : .password)
-                .font(.rounded())
+                .font(.sysRound())
                 .padding(.horizontal)
                 .frame(height: 45)
                 .overlay(
@@ -351,7 +351,7 @@ private extension AuthenticationView {
                     } icon: {
                         Image(systemName: "checkmark.seal.fill")
                             .imageScale(.large)
-                            .foregroundStyle(.tint)
+                            .foregroundStyle(.blue)
                     }
 
                     Spacer()
@@ -360,6 +360,7 @@ private extension AuthenticationView {
                         hideKeyboard()
                         previewProfilePicture.toggle()
                     }
+                    .tint(.blue)
 
                 }
             }
@@ -401,29 +402,29 @@ private extension AuthenticationView {
         ZStack {
             if isSigningIn {
                 Color.black
-                    .opacity(0.25)
+                    .opacity(0.7)
                     .ignoresSafeArea()
+
                 ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
                     .progressViewStyle(.circular)
                     .tint(.blue)
-                    .font(.title2)
-                    .frame(width: 60, height: 60)
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .shadow(radius: 2)
+                    .scaleEffect(1.5)
+                    .frame(width: 80, height: 80)
+                    .background(.regularMaterial)
+                    .cornerRadius(15)
+                    .shadow(radius: 5)
             }
         }
     }
 
     var thirdPartiesView: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 16) {
             HStack {
                 Color.gray.frame(height: 1)
                 Text("or")
                 Color.gray.frame(height: 1)
             }
-            
+
             SignInWithAppleButton(
                 .continue,
                 onRequest: { request in
@@ -443,6 +444,7 @@ private extension AuthenticationView {
             )
             .signInWithAppleButtonStyle(.whiteOutline)
             .frame(height: 50)
+
             googleSignInView
         }
     }
@@ -454,7 +456,7 @@ private extension AuthenticationView {
             }
         } label: {
             Text(isRegistration ? "Already have an account? Sign In instead." : "Create an account")
-                .font(.rounded(.callout, weight: .medium))
+                .font(.sysRound(.callout, weight: .medium))
                 .lineLimit(1)
                 .underline()
         }
@@ -464,7 +466,6 @@ private extension AuthenticationView {
 
     var googleSignInView: some View {
         Button(action: handleGoogleLogin) {
-
             Label(title:{
                 Text("Google")
             }) {
@@ -473,15 +474,15 @@ private extension AuthenticationView {
                     .scaledToFit()
                     .frame(width: 20, height: 20)
             }
-            .font(.rounded(weight: .semibold))
-            .foregroundColor(.blue)
+            .font(.sysRound(weight: .semibold))
             .frame(maxWidth: .infinity)
             .frame(height: 45)
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
-                    .strokeBorder(Color.accentColor, lineWidth: 0.5)
+                    .strokeBorder(Color.accentColor, lineWidth: 1)
             )
         }
+        .tint(.blue)
     }
 }
 
@@ -530,5 +531,6 @@ extension AuthenticationView {
 struct AuthenticationView_Previews: PreviewProvider {
     static var previews: some View {
         AuthenticationView()
+            .environmentObject(AuthenticationViewModel())
     }
 }

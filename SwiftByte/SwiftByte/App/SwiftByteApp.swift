@@ -18,8 +18,6 @@ struct SwiftByteApp: App {
 
     @Environment(\.scenePhase) private var scenePhase
 
-    let persistenceController = PersistenceController.shared
-
     @StateObject var authViewModel = AuthenticationViewModel()
 
     @AppStorage(SBKeys.showWelcomeView.rawValue)
@@ -37,7 +35,6 @@ struct SwiftByteApp: App {
                 .fullScreenCover(isPresented: $showWelcomeView) {
                     LaunchView(isPresented: $showWelcomeView)
                 }
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .alert(Text("App Update"),
                        isPresented: forceUpdate.isPresented,
                        presenting: forceUpdate.updateAlert) { alert in

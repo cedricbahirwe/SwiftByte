@@ -15,6 +15,7 @@
 		CB5DCCA02E68341B004B9457 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = CB5DCC9F2E68341B004B9457 /* FirebaseRemoteConfig */; };
 		CB5DCCA22E68341B004B9457 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = CB5DCCA12E68341B004B9457 /* FirebaseStorage */; };
 		CB5DCCA52E683584004B9457 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = CB5DCCA42E683584004B9457 /* FirebaseMessaging */; };
+		CB5DCCA62E683BCF004B9457 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB77B92829510F17001C0461 /* Assets.xcassets */; };
 		CB6B2900295215990078EFD0 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B28FF295215990078EFD0 /* Color+Extensions.swift */; };
 		CB6B290229521A570078EFD0 /* ArticlesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B290129521A560078EFD0 /* ArticlesStore.swift */; };
 		CB6B290429521A5E0078EFD0 /* ArticlesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6B290329521A5E0078EFD0 /* ArticlesViewModel.swift */; };
@@ -27,10 +28,7 @@
 		CB7458902974A1F50009F039 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB74588F2974A1F50009F039 /* LogoView.swift */; };
 		CB77B92529510F15001C0461 /* SwiftByteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B92429510F15001C0461 /* SwiftByteApp.swift */; };
 		CB77B92729510F15001C0461 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B92629510F15001C0461 /* ContentView.swift */; };
-		CB77B92929510F17001C0461 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB77B92829510F17001C0461 /* Assets.xcassets */; };
 		CB77B92C29510F17001C0461 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB77B92B29510F17001C0461 /* Preview Assets.xcassets */; };
-		CB77B92E29510F17001C0461 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B92D29510F17001C0461 /* Persistence.swift */; };
-		CB77B93129510F17001C0461 /* SwiftByte.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CB77B92F29510F17001C0461 /* SwiftByte.xcdatamodeld */; };
 		CB77B93B29510F17001C0461 /* SwiftByteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B93A29510F17001C0461 /* SwiftByteTests.swift */; };
 		CB77B94529510F17001C0461 /* SwiftByteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B94429510F17001C0461 /* SwiftByteUITests.swift */; };
 		CB77B94729510F17001C0461 /* SwiftByteUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B94629510F17001C0461 /* SwiftByteUITestsLaunchTests.swift */; };
@@ -120,8 +118,6 @@
 		CB77B92629510F15001C0461 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CB77B92829510F17001C0461 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CB77B92B29510F17001C0461 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		CB77B92D29510F17001C0461 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		CB77B93029510F17001C0461 /* SwiftByte.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SwiftByte.xcdatamodel; sourceTree = "<group>"; };
 		CB77B93629510F17001C0461 /* SwiftByteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftByteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB77B93A29510F17001C0461 /* SwiftByteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftByteTests.swift; sourceTree = "<group>"; };
 		CB77B94029510F17001C0461 /* SwiftByteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftByteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,9 +265,9 @@
 			children = (
 				CB77B96729511A8D001C0461 /* SwiftByte.entitlements */,
 				CB77B95329511653001C0461 /* Info.plist */,
-				CB77B98B29511F2F001C0461 /* Helpers */,
-				CB77B95A29511722001C0461 /* Resources */,
 				CB77B9592951171B001C0461 /* App */,
+				CB77B95A29511722001C0461 /* Resources */,
+				CB77B98B29511F2F001C0461 /* Helpers */,
 				CB6B290929521F280078EFD0 /* Views */,
 				CB77B9572951170E001C0461 /* Model */,
 				CB77B95629511700001C0461 /* ViewModel */,
@@ -279,8 +275,6 @@
 				CB77B954295116F1001C0461 /* Utilities */,
 				CB77B990295125A1001C0461 /* HelperViews */,
 				CB77B92829510F17001C0461 /* Assets.xcassets */,
-				CB77B92D29510F17001C0461 /* Persistence.swift */,
-				CB77B92F29510F17001C0461 /* SwiftByte.xcdatamodeld */,
 				CB77B92A29510F17001C0461 /* Preview Content */,
 			);
 			path = SwiftByte;
@@ -606,7 +600,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB77B92C29510F17001C0461 /* Preview Assets.xcassets in Resources */,
-				CB77B92929510F17001C0461 /* Assets.xcassets in Resources */,
+				CB5DCCA62E683BCF004B9457 /* Assets.xcassets in Resources */,
 				CB77B96929511B91001C0461 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -643,7 +637,6 @@
 				CB6B290429521A5E0078EFD0 /* ArticlesViewModel.swift in Sources */,
 				CB4998462A2F4D4B00AF47A7 /* AppleSignIn.swift in Sources */,
 				CB77B9BF2951316E001C0461 /* SBFileExtension.swift in Sources */,
-				CB77B92E29510F17001C0461 /* Persistence.swift in Sources */,
 				CBE7E207297707FD001DEBCC /* SBAppUser.swift in Sources */,
 				CB74588B29749E160009F039 /* LaunchView.swift in Sources */,
 				CBB26EFE2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift in Sources */,
@@ -677,7 +670,6 @@
 				CB7458902974A1F50009F039 /* LogoView.swift in Sources */,
 				CB77B9BD29513145001C0461 /* SBFBFilePath.swift in Sources */,
 				CB77B9622951174A001C0461 /* TopicView.swift in Sources */,
-				CB77B93129510F17001C0461 /* SwiftByte.xcdatamodeld in Sources */,
 				CBE7E20A29771B8B001DEBCC /* ContentEditor.swift in Sources */,
 				CB77B99429512604001C0461 /* Font+Extension.swift in Sources */,
 				CBB7E3632952355000EE6CEF /* ProfileView.swift in Sources */,
@@ -1085,19 +1077,6 @@
 			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		CB77B92F29510F17001C0461 /* SwiftByte.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				CB77B93029510F17001C0461 /* SwiftByte.xcdatamodel */,
-			);
-			currentVersion = CB77B93029510F17001C0461 /* SwiftByte.xcdatamodel */;
-			path = SwiftByte.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = CB77B91929510F15001C0461 /* Project object */;
 }
