@@ -180,7 +180,7 @@ struct AuthenticationView: View {
             case .failure(let error):
                 printf("Failed to upload", error)
             case .success(let imageURL):
-                authModel.profilePicture = imageURL
+                authModel.profilePicture = imageURL.absoluteString
             }
             isUploadingPic = false
         }
@@ -510,81 +510,6 @@ private extension AuthenticationView {
             )
         }
         .tint(.blue)
-    }
-}
-
-extension AuthenticationView {
-    struct AuthModel {
-        var firstName = ""
-        var lastName = ""
-        var email: String = ""
-        var password: String = ""
-        var profilePicture: String?
-
-        private var isEmailValid: Bool {
-            SBEmailAddress(rawValue: email) != nil
-        }
-        private var isPasswordValid: Bool {
-            password.trimmingCharacters(in: .whitespaces).count >= 6
-        }
-
-        private var isFirstNameValid: Bool {
-            firstName.trimmingCharacters(in: .whitespaces).count > 1
-        }
-
-        private var isLastNameValid: Bool {
-            lastName.trimmingCharacters(in: .whitespaces).count > 1
-        }
-
-        func isEmailAndPasswordValid() throws(ValidationError) {
-            guard isEmailValid else {
-                throw .invalidEmail
-            }
-            guard isPasswordValid else {
-                throw .invalidPassword
-            }
-        }
-
-
-        enum ValidationError: Error {
-            case invalidEmail
-            case invalidPassword
-            case invalidFirstName
-            case invalidLastName
-
-            var localizedDescription: String {
-                switch self {
-                case .invalidEmail:
-                    return "Please enter a valid email address."
-                case .invalidPassword:
-                    return "Please enter a password with at least 6 characters."
-                case .invalidFirstName:
-                    return "Please enter a valid first name."
-                case .invalidLastName:
-                    return "Please enter a valid last name."
-                }
-            }
-        }
-
-        func isReadyForRegistration() throws(ValidationError) {
-            try isEmailAndPasswordValid()
-
-            guard isFirstNameValid else {
-                throw .invalidFirstName
-            }
-
-            guard isLastNameValid else {
-                throw .invalidLastName
-            }
-        }
-
-
-        enum Field: Int {
-            case firstName
-            case lastName
-            case email
-            case password
-        }
     }
 }
 

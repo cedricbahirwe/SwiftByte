@@ -74,7 +74,7 @@ final class AuthenticationViewModel: ObservableObject {
         }
     }
 
-    func signUpWith(_ authModel: AuthenticationView.AuthModel) async -> Bool {
+    func signUpWith(_ authModel: AuthModel) async -> Bool {
         do {
             let firebaseUser = try await authenticator.signUpWith(email: authModel.email,
                                                                   password: authModel.password)

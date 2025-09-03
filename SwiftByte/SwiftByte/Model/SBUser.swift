@@ -40,12 +40,12 @@ extension SBUser {
                  email: email,
                  joinedDate: joinDate)
     }
-    static func build(from model: AuthenticationView.AuthModel, allowNotification: Bool = true) -> Self {
-        return .init(firstName: model.firstName,
-                     lastName: model.lastName,
-                     email: model.email,
-                     joinDate: Date(),
-                     notificationAuthorized: allowNotification)
+    static func build(from model: AuthModel, allowNotification: Bool = true) -> Self {
+        .init(firstName: model.firstName,
+              lastName: model.lastName,
+              email: model.email,
+              joinDate: Date(),
+              notificationAuthorized: allowNotification)
     }
 }
 
