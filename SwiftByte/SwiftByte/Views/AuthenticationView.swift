@@ -86,7 +86,6 @@ struct AuthenticationView: View {
                                 Text(validationErrorMessage)
                                     .font(.sysRound(.caption))
                                     .foregroundColor(.red)
-                                //                                .hidden()
                             }
                         }
                         .padding(.vertical)
@@ -470,7 +469,6 @@ private extension AuthenticationView {
                     case .success (let authorization):
                         handleAppleSignIn(authorization, currentNonce)
                     case .failure (let error):
-                        self.validationErrorMessage = error.localizedDescription
                         printf("Authorization failed: " + error.localizedDescription)
                     }
                 }

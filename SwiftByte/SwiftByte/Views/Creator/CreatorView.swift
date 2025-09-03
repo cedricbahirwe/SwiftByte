@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-fileprivate
 enum SubmissionStep: Int, CaseIterable {
     case author, intro, section, keywords, links
     mutating func next() {
@@ -106,6 +105,7 @@ private extension CreatorView {
 struct CreatorView_Previews: PreviewProvider {
     static var previews: some View {
         CreatorView()
+            .environmentObject(AuthenticationViewModel())
     }
 }
 

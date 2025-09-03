@@ -124,7 +124,7 @@
 		CB77B94029510F17001C0461 /* SwiftByteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftByteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB77B94429510F17001C0461 /* SwiftByteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftByteUITests.swift; sourceTree = "<group>"; };
 		CB77B94629510F17001C0461 /* SwiftByteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftByteUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		CB77B95329511653001C0461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CB77B95329511653001C0461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB77B95B29511735001C0461 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		CB77B95D2951173D001C0461 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CB77B95F29511744001C0461 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
@@ -264,16 +264,16 @@
 			isa = PBXGroup;
 			children = (
 				CB77B96729511A8D001C0461 /* SwiftByte.entitlements */,
-				CB77B95329511653001C0461 /* Info.plist */,
 				CB77B9592951171B001C0461 /* App */,
-				CB77B95A29511722001C0461 /* Resources */,
-				CB77B98B29511F2F001C0461 /* Helpers */,
 				CB6B290929521F280078EFD0 /* Views */,
 				CB77B9572951170E001C0461 /* Model */,
 				CB77B95629511700001C0461 /* ViewModel */,
+				CB77B95A29511722001C0461 /* Resources */,
+				CB77B98B29511F2F001C0461 /* Helpers */,
 				CB77B955295116FB001C0461 /* Extensions */,
 				CB77B954295116F1001C0461 /* Utilities */,
 				CB77B92829510F17001C0461 /* Assets.xcassets */,
+				CB77B95329511653001C0461 /* Info.plist */,
 				CB77B92A29510F17001C0461 /* Preview Content */,
 			);
 			path = SwiftByte;

@@ -170,9 +170,9 @@ extension CreatorView {
                 return
             }
             
-            let fgColorString = fgColor == .clear ? nil : fgColor.toHex()
-            let bgColorString = bgColor == .clear ? nil : bgColor.toHex()
-            
+            let fgColorString = fgColor == .clear ? "" : fgColor.toHex() ?? ""
+            let bgColorString = bgColor == .clear ? "" : bgColor.toHex() ?? ""
+
             content.color = fgColorString
             content.background = bgColorString
             content.style = selectedStyle ?? .body

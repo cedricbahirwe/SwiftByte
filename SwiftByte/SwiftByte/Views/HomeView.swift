@@ -25,11 +25,10 @@ struct HomeView: View {
             .listRowInsets(EdgeInsets())
 
             #if DEBUG
-            NavigationLink(destination: CreatorView.init) {
+            NavigationLink(destination: CreatorView()) {
                 Text("Go to Creator View")
             }
             #endif
-            
             if store.articleVM.isEmpty {
                emptyContentView
             } else {
