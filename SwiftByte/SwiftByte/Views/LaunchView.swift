@@ -16,7 +16,7 @@ struct LaunchView: View {
                 .padding()
 
             VStack(alignment: .leading) {
-                Image(.laptop)
+                Image("laptop")
                     .resizable()
                     .scaledToFit()
 

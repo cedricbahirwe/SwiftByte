@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import FirebaseMessaging
 
 final class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     private let gcmMessageIDKey = "gcm.message_id"
@@ -108,7 +109,6 @@ extension AppDelegate: MessagingDelegate {
 }
 
 // MARK: - UNUserNotificationCenterDelegate
-@available(iOS 10, *)
 extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,

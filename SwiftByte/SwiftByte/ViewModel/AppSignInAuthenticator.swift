@@ -134,7 +134,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
             try await user.delete()
             try await authViewModel.deleteUser(user.uid)
             GIDSignIn.sharedInstance.signOut()
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.authViewModel.state = .signedOut
             }
             authViewModel.clearStorage()

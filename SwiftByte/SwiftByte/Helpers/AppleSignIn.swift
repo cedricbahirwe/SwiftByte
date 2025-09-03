@@ -8,8 +8,7 @@
 import Foundation
 import AuthenticationServices
 
-protocol AppleSignInDelegate: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
-}
+protocol AppleSignInDelegate: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding { }
 
 class AppleSignIn {
     class var shared: AppleSignIn {
@@ -30,7 +29,6 @@ class AppleSignIn {
 
 class ControllerHandler: UIViewController {
 
-    @available(iOS 13.0, *)
     func addAppleButton() {
         let authorizationButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
         authorizationButton.cornerRadius = 20

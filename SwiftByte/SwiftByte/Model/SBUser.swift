@@ -6,7 +6,6 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 struct SBUser: Identifiable, SBAppUser, FirestoreEntity {
     static var collectionName: SBCollectionName { .users }
