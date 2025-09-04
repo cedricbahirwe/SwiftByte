@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LogoView: View {
-    var isHighlighted: Bool = true
+    var isHighlighted = true
     var body: some View {
         textContentView
             .overlay(content: {

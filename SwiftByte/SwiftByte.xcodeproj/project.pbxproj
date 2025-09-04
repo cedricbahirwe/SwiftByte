@@ -60,6 +60,8 @@
 		CB77B9B929513120001C0461 /* SBFireBaseImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B9B829513120001C0461 /* SBFireBaseImageUploader.swift */; };
 		CB77B9BD29513145001C0461 /* SBFBFilePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B9BC29513145001C0461 /* SBFBFilePath.swift */; };
 		CB77B9BF2951316E001C0461 /* SBFileExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B9BE2951316E001C0461 /* SBFileExtension.swift */; };
+		CBB163612E699F5C00BBD80C /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB163602E699F5C00BBD80C /* SplashScreen.swift */; };
+		CBB163642E69A1C300BBD80C /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB163632E69A1C300BBD80C /* TabBarView.swift */; };
 		CBB26EFE2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB26EFD2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift */; };
 		CBB26F002975F9DB00BC05D9 /* ForceUpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB26EFF2975F9DB00BC05D9 /* ForceUpdateManager.swift */; };
 		CBB7E3632952355000EE6CEF /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB7E3622952355000EE6CEF /* ProfileView.swift */; };
@@ -151,6 +153,8 @@
 		CB77B9B829513120001C0461 /* SBFireBaseImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBFireBaseImageUploader.swift; sourceTree = "<group>"; };
 		CB77B9BC29513145001C0461 /* SBFBFilePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBFBFilePath.swift; sourceTree = "<group>"; };
 		CB77B9BE2951316E001C0461 /* SBFileExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBFileExtension.swift; sourceTree = "<group>"; };
+		CBB163602E699F5C00BBD80C /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
+		CBB163632E69A1C300BBD80C /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		CBB26EFD2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SBFirebaseRemoteConfig.swift; sourceTree = "<group>"; };
 		CBB26EFF2975F9DB00BC05D9 /* ForceUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceUpdateManager.swift; sourceTree = "<group>"; };
 		CBB7E3622952355000EE6CEF /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -215,10 +219,12 @@
 		CB6B290929521F280078EFD0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CBB163622E69A1B500BBD80C /* Tabbar */,
 				CB74588C29749F0F0009F039 /* Reusable */,
 				CB77B92629510F15001C0461 /* ContentView.swift */,
 				CB74588A29749E160009F039 /* LaunchView.swift */,
 				CB77B95B29511735001C0461 /* AuthenticationView.swift */,
+				CBB1635F2E699F5800BBD80C /* Helpers */,
 				CB77B95F29511744001C0461 /* ArticleView.swift */,
 				CB6B290A29521F600078EFD0 /* ArticleRowView.swift */,
 				CB77B95D2951173D001C0461 /* HomeView.swift */,
@@ -422,6 +428,22 @@
 				CBB26EFD2975F8B700BC05D9 /* SBFirebaseRemoteConfig.swift */,
 			);
 			path = Firebase;
+			sourceTree = "<group>";
+		};
+		CBB1635F2E699F5800BBD80C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CBB163602E699F5C00BBD80C /* SplashScreen.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		CBB163622E69A1B500BBD80C /* Tabbar */ = {
+			isa = PBXGroup;
+			children = (
+				CBB163632E69A1C300BBD80C /* TabBarView.swift */,
+			);
+			path = Tabbar;
 			sourceTree = "<group>";
 		};
 		CBB26F012975FE1C00BC05D9 /* Services */ = {
@@ -641,6 +663,7 @@
 				CB77B9AD29512B96001C0461 /* FirestoreEntity+Protocol.swift in Sources */,
 				CB6B290B29521F600078EFD0 /* ArticleRowView.swift in Sources */,
 				CB77B9B129512BDE001C0461 /* Firestore+Extension.swift in Sources */,
+				CBB163612E699F5C00BBD80C /* SplashScreen.swift in Sources */,
 				CB77B92729510F15001C0461 /* ContentView.swift in Sources */,
 				CB6B290829521BCC0078EFD0 /* ArticleViewModel.swift in Sources */,
 				CBE7E21029771D34001DEBCC /* String+Extension.swift in Sources */,
@@ -657,6 +680,7 @@
 				CB77B9AA29512B50001C0461 /* SBUser.swift in Sources */,
 				CB77B95E2951173D001C0461 /* HomeView.swift in Sources */,
 				CB6B2900295215990078EFD0 /* Color+Extensions.swift in Sources */,
+				CBB163642E69A1C300BBD80C /* TabBarView.swift in Sources */,
 				CB77B98629511E2F001C0461 /* AppConstants.swift in Sources */,
 				CB77B9B529512EE7001C0461 /* AppSignInAuthenticator.swift in Sources */,
 				CBB7E36E295343FA00EE6CEF /* SBAuthor.swift in Sources */,
