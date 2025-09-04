@@ -13,10 +13,11 @@ extension SBArticle {
                                   title: "The most popular iOS UI Frameworks",
                                   intro: .intro,
                                   author: .sample,
-                                  createdDate: Date(),
+                                  createdDate: Date(timeIntervalSinceNow: -200000),
                                   content: [.sample, .sample1, .sample2, .sample],
                                   keywords: SBArticleKeyWord.samples,
-                                  moreResources: [.sample, .sample])
+                                  moreResources: [.sample, .sample],
+                                  likes: Int.random(in: 0..<2000))
 }
 
 extension SBArticleContent{

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LogoView: View {
     var isHighlighted = true
+    var scale: (CGFloat, UnitPoint) = (size: 1.0, anchor: .center)
     var body: some View {
         textContentView
             .overlay(content: {
@@ -21,6 +22,7 @@ struct LogoView: View {
             })
             .clipped()
             .shadow(color: .white, radius: 0.4, x: 0, y: 0)
+            .scaleEffect(scale.0, anchor: scale.1)
     }
 
     private var textContentView: some View {

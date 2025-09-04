@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SplashScreen: View {
     @State var isPresented = true
+
     var body: some View {
         LogoView()
             .scaleEffect(1.3)
@@ -18,11 +19,19 @@ struct SplashScreen: View {
             .animation(.default, value: isPresented)
             .task {
                 if isPresented {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.asyncAfter(deadline: splashScreenDelay) {
                         isPresented = false
                     }
                 }
             }
+    }
+
+    var splashScreenDelay: DispatchTime {
+        #if DEBUG
+        return .now()
+#else
+        return .now() + 2
+#endif
     }
 }
 

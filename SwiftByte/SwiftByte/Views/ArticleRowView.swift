@@ -12,42 +12,70 @@ struct ArticleRowView: View {
 
     private var article: SBArticle { articleVM.article }
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            if let author = article.author {
-                Text("By \(author.getFullName())")
-                    .font(.system(.body, design: .rounded))
-                    .fontWeight(.semibold)
-                    .opacity(0.9)
-                Divider()
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                if let author = article.author {
+                    Text("\(author.getFullName())")
+                        .font(.footnote)
+                        .opacity(0.9)
+                }
             }
 
             VStack(alignment: .leading) {
                 Text(article.title)
-                    .font(.system(.title2, design: .rounded))
+                    .font(.system(.title3, design: .rounded, weight: .bold))
 
                 if let intro = article.intro {
                     Text(intro.body)
-                        .font(.system(.body, design: intro.design?.value))
-                        .opacity(0.8)
-                        .lineLimit(2)
+                        .font(.system(.headline, weight: .regular))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(3)
                 }
             }
+
+            HStack {
+                HStack(spacing: 4) {
+                    Image(systemName: "sparkle")
+                        .foregroundStyle(.yellow)
+
+                    Text(article.createdDate, format: .dateTime.month().day().year())
+                        .foregroundStyle(.secondary)
+                }
+
+                if article.likes > 0 {
+                    HStack(spacing: 4) {
+                        Image(systemName: "hand.thumbsup.fill")
+                        Text(article.likes.formatted())
+                    }
+                    .foregroundStyle(.secondary)
+                }
+            }
+            .font(.caption)
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 12)
+        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.offBackground)
         .cornerRadius(10)
-        .shadow(color: .lightShadow, radius: 2, x: -2, y: -2)
-        .shadow(color: .darkShadow, radius: 2, x: 2, y: 2)
+        .padding(4)
+        .overlay {
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(.foreground, lineWidth: 1)
+        }
     }
 }
 
 #if DEBUG
 struct ArticleRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ArticleRowView(articleVM: .init(.sample))
-            .padding()
-            .previewLayout(.fixed(width: 410, height: 400))
+        Group {
+            ArticleRowView(articleVM: .init(.sample))
+
+            ArticleRowView(articleVM: .init(.sample))
+                .preferredColorScheme(.dark)
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+
     }
 }
 #endif

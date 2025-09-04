@@ -17,25 +17,23 @@ struct HomeView: View {
 
     var body: some View {
         List {
-            ScrollView(.horizontal, showsIndicators: false) {
-                filterTokensView
-            }
-            .listRowSeparator(.hidden)
-            .listRowBackground(EmptyView())
-            .listRowInsets(EdgeInsets())
+//            ScrollView(.horizontal, showsIndicators: false) {
+//                filterTokensView
+//            }
+//            .listRowSeparator(.hidden)
+//            .listRowBackground(EmptyView())
+//            .listRowInsets(EdgeInsets())
 
-            #if DEBUG
-            NavigationLink(destination: CreatorView()) {
-                Text("Go to Creator View")
-            }
-            #endif
             if store.articleVM.isEmpty {
                emptyContentView
             } else {
                 articlesView
             }
         }
-        .navigationTitle(Text("Let's Explore today's"))
+        .listStyle(.plain)
+        .refreshable {
+            store.fetchArticles()
+        }
         .sheet(isPresented: $showNotifications) {
             NotificationsView()
         }
@@ -56,13 +54,24 @@ struct HomeView: View {
             prints("News \(newTokens.map(\.value))")
         }
         .toolbar {
-            ToolbarItemGroup {
+            ToolbarItemGroup(placement: .topBarLeading) {
+                LogoView(scale: (0.7, .leading))
+            }
+
+            ToolbarItemGroup(placement: .topBarTrailing) {
+#if DEBUG
                 Button(action: {
                     showNotifications.toggle()
                 }) {
                     Label("See Notifications", systemImage: "bell.badge")
                 }
-                .hidden()
+
+                NavigationLink(destination: CreatorView()) {
+                    Image(systemName: "square.and.pencil")
+                        .symbolVariant(.circle.fill)
+                }
+#endif
+
                 Button(action: {
                     showProfile.toggle()
                 }) {
@@ -132,13 +141,14 @@ private extension HomeView {
                     ArticleView(articleVM)
                 } label: { EmptyView() }
                     .opacity(0)
+
                 ArticleRowView(articleVM: articleVM)
             }
             .listRowBackground(EmptyView())
             .listRowSeparator(.hidden)
             .listRowInsets(
-                EdgeInsets(top: 10, leading: 5,
-                           bottom: 10, trailing: 5)
+                EdgeInsets(top: 8, leading: 16,
+                           bottom: 8, trailing: 16)
             )
         }
     }
