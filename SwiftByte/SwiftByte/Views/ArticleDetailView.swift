@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ArticleView: View {
+struct ArticleDetailView: View {
     @ObservedObject var articleVM: ArticleViewModel
     init(_ articleVM: ArticleViewModel) {
         self.articleVM = articleVM
@@ -26,13 +26,6 @@ struct ArticleView: View {
             }
             .padding(.horizontal)
         }
-//        .navigationTitle(navTitle)
-//        .navigationBarTitleDisplayMode(.inline)
-//        .toolbar(content: {
-//            ToolbarItemGroup(placement: .principal) {
-//                Text("")
-//            }
-//        })
         .safeAreaInset(edge: .bottom) {
             HStack(spacing: 20) {
                 Group {
@@ -53,8 +46,14 @@ struct ArticleView: View {
                     }
 
                     HStack(spacing: 4) {
-                        Image(systemName: "hand.thumbsup")
-                            .symbolVariant(.fill)
+                        if #available(iOS 17.0, *) {
+                            Image(systemName: "hand.thumbsup")
+                                .symbolVariant(.fill)
+                                .symbolEffect(.bounce, value: article.likes)
+                        } else {
+                            Image(systemName: "hand.thumbsup")
+                                .symbolVariant(.fill)
+                        }
                         if article.likes > 0 {
                             Text(article.likes.formatted())
 
@@ -97,7 +96,7 @@ struct ArticleView: View {
     }
 }
 
-private extension ArticleView {
+private extension ArticleDetailView {
     var authorView: some View {
         VStack {
             Divider()
@@ -196,7 +195,7 @@ private extension ArticleView {
 struct ArticleView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            ArticleView(.init(.sample))
+            ArticleDetailView(.init(.sample))
         }
 //        .preferredColorScheme(.dark)
         .previewLayout(.fixed(width: 410, height: 1100))
