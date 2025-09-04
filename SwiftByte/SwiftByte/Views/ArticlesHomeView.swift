@@ -53,8 +53,10 @@ struct ArticlesHomeView: View {
         .onChange(of: store.searchTokens) { newTokens in
             prints("News \(newTokens.map(\.value))")
         }
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItemGroup(placement: .topBarLeading) {
+            ToolbarItem(placement: .topBarLeading) {
                 LogoView(scale: (0.7, .leading))
             }
 

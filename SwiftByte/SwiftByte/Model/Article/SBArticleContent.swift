@@ -24,11 +24,11 @@ struct SBArticleContent: Hashable, Codable {
     }
 
     /// The color of the content
-    var fontColor: Color? {
+    var fontColor: Color {
         if let color, !color.isEmpty {
-            return Color(hex: color)
+            return Color(hex: color) ?? .primary
         }
-        return nil
+        return .primary
     }
 
     var isBackgroundStyled: Bool {

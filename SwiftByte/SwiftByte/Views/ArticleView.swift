@@ -17,39 +17,74 @@ struct ArticleView: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 14) {
                 Text(article.title)
-                    .font(.system(.title,
-                                  design: .rounded,
-                                  weight: .semibold))
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(article.keywords, id:\.self) {
-                            Text($0.name)
-                                .font(.callout)
-                                .fontWeight(.medium)
-                                .foregroundColor(.offBackground)
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 8)
-                                .background(Color.accentColor)
-                                .clipShape(Capsule())
-                        }
-                    }
-                }
+                    .font(.title.bold())
                 authorView
                 introView
                 sectionsView
                 resourcesView
+                topicsView
             }
-            .padding(.horizontal, 12)
+            .padding(.horizontal)
         }
-        .navigationTitle(navTitle)
-        .navigationBarTitleDisplayMode(.inline)
-        .background(Color.offBackground)
-        .onAppear(perform: articleVM.view)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Image(systemName: "bookmark.circle")
-                    .hidden()
+//        .navigationTitle(navTitle)
+//        .navigationBarTitleDisplayMode(.inline)
+//        .toolbar(content: {
+//            ToolbarItemGroup(placement: .principal) {
+//                Text("")
+//            }
+//        })
+        .safeAreaInset(edge: .bottom) {
+            HStack(spacing: 20) {
+                Group {
+                    HStack(spacing: 4) {
+                        Image(systemName: "sparkle")
+                            .foregroundStyle(.yellow)
+
+                        Text(article.createdDate, format: .dateTime.month().day().year())
+                    }
+                    .fixedSize()
+
+                    if article.views > 0 {
+                        HStack(spacing: 4) {
+                            Image(systemName: "eye")
+                                .symbolVariant(.fill)
+                            Text(article.views.formatted())
+                        }
+                    }
+
+                    HStack(spacing: 4) {
+                        Image(systemName: "hand.thumbsup")
+                            .symbolVariant(.fill)
+                        if article.likes > 0 {
+                            Text(article.likes.formatted())
+
+                        }
+                    }
+                    .contentShape(.rect)
+                    .onTapGesture {
+                        articleVM.like()
+                    }
+
+                    HStack(spacing: 4) {
+                        Image(systemName: "bookmark")
+                    }
+                }
+                .imageScale(.large)
+                .frame(maxWidth: .infinity)
+                .font(.footnote)
+                .fontWeight(.light)
             }
+            .padding()
+
+            .frame(maxWidth: .infinity)
+            .overlay(alignment: .top) {
+                Divider()
+            }
+            .background(.ultraThinMaterial)
+        }
+        .background(Color.offBackground)
+        .task {
+            articleVM.view()
         }
     }
 
@@ -68,6 +103,16 @@ private extension ArticleView {
             Divider()
             HStack {
                 if let author = article.author {
+                    Text(author.getInitials())
+                        .font(.footnote)
+                        .fontDesign(.monospaced)
+                        .fontWeight(.bold)
+                        .kerning(1)
+                        .padding(4)
+                        .background(.secondary)
+                        .background(.ultraThinMaterial)
+                        .clipShape(.circle)
+
                     Text(author.getFullName())
                         .font(.system(.body, design: .rounded))
                         .fontWeight(.medium)
@@ -75,19 +120,9 @@ private extension ArticleView {
                     Spacer(minLength: 4)
                 }
 
-                Text(article.createdDate, format: .relative(presentation: .named))
+                Text(article.createdDate, format: .dateTime.month().day().year())
                     .font(.system(.caption, design: .rounded))
-                    .foregroundColor(.secondary)
-
-//                Group {
-//                    if article.views > 0 {
-//                        Text("\(article.views.formatted()) Like \(article.views > 1 ? "s" : "")")
-//                    }
-//                    Image(systemName: "hand.thumbsup")
-//                        .symbolVariant(.fill)
-//                        .foregroundColor(.red.opacity(0.9))
-//                        .onTapGesture(perform: articleVM.like)
-//                }
+                    .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Divider()
@@ -99,7 +134,7 @@ private extension ArticleView {
             if let intro = article.intro {
                 Text(intro.body)
                     .font(intro.font)
-                    .foregroundColor(intro.fontColor)
+                    .foregroundStyle(intro.fontColor)
                     .padding(intro.isBackgroundStyled ? 14 : 0)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(intro.isBackgroundStyled ? intro.backgroundColor : Color.clear)
@@ -109,10 +144,9 @@ private extension ArticleView {
 
     var sectionsView: some View {
         ForEach(article.content, id:\.self) { section in
-
             Text(section.body)
                 .font(section.font)
-                .foregroundColor(section.fontColor)
+                .foregroundStyle(section.fontColor)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(section.isBackgroundStyled ? 14 : 0)
                 .background(section.backgroundColor ?? Color.clear)
@@ -127,9 +161,8 @@ private extension ArticleView {
                     ForEach(article.moreResources, id:\.self) { source in
                         Link(destination: source.url) {
                             Label(source.description, systemImage: "link")
-                                .italic()
-                                .underline(pattern: .dashDotDot)
-                                .tint(.blue)
+                                .underline()
+                                .tint(.accent)
                         }
                     }
                 } header: {
@@ -140,6 +173,23 @@ private extension ArticleView {
             }
         }
     }
+
+    private var topicsView: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(article.keywords, id:\.self) { keyword in
+                    Text(keyword.name)
+                        .font(.caption)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 5)
+                        .background(.quinary)
+                        .clipShape(.capsule)
+                        .foregroundStyle(.primary)
+                }
+            }
+        }
+        .padding(.vertical, 30)
+    }
 }
 
 #if DEBUG
@@ -148,6 +198,8 @@ struct ArticleView_Previews: PreviewProvider {
         NavigationStack {
             ArticleView(.init(.sample))
         }
+//        .preferredColorScheme(.dark)
+        .previewLayout(.fixed(width: 410, height: 1100))
     }
 }
 #endif
