@@ -13,7 +13,7 @@ struct ContentView: View {
         NavigationStack {
             switch authViewModel.state {
             case .signedIn:
-              HomeView()
+              ArticlesHomeView()
             case .signedOut:
               AuthenticationView()
             }

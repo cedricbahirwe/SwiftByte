@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB0AA41E2E69B38600F3F6BF /* FilterToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0AA41D2E69B38600F3F6BF /* FilterToken.swift */; };
 		CB4998462A2F4D4B00AF47A7 /* AppleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4998452A2F4D4B00AF47A7 /* AppleSignIn.swift */; };
 		CB4998482A2F4D5800AF47A7 /* DebugerPrinters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4998472A2F4D5800AF47A7 /* DebugerPrinters.swift */; };
 		CB49984A2A2F60E900AF47A7 /* AuthFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4998492A2F60E900AF47A7 /* AuthFile.swift */; };
@@ -34,7 +35,7 @@
 		CB77B94529510F17001C0461 /* SwiftByteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B94429510F17001C0461 /* SwiftByteUITests.swift */; };
 		CB77B94729510F17001C0461 /* SwiftByteUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B94629510F17001C0461 /* SwiftByteUITestsLaunchTests.swift */; };
 		CB77B95C29511735001C0461 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B95B29511735001C0461 /* AuthenticationView.swift */; };
-		CB77B95E2951173D001C0461 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B95D2951173D001C0461 /* HomeView.swift */; };
+		CB77B95E2951173D001C0461 /* ArticlesHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B95D2951173D001C0461 /* ArticlesHomeView.swift */; };
 		CB77B96029511744001C0461 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B95F29511744001C0461 /* ArticleView.swift */; };
 		CB77B9622951174A001C0461 /* TopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB77B9612951174A001C0461 /* TopicView.swift */; };
 		CB77B96929511B91001C0461 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB77B96829511B91001C0461 /* GoogleService-Info.plist */; };
@@ -102,6 +103,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB0AA41D2E69B38600F3F6BF /* FilterToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterToken.swift; sourceTree = "<group>"; };
 		CB4998452A2F4D4B00AF47A7 /* AppleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignIn.swift; sourceTree = "<group>"; };
 		CB4998472A2F4D5800AF47A7 /* DebugerPrinters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugerPrinters.swift; sourceTree = "<group>"; };
 		CB4998492A2F60E900AF47A7 /* AuthFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFile.swift; sourceTree = "<group>"; };
@@ -128,7 +130,7 @@
 		CB77B94629510F17001C0461 /* SwiftByteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftByteUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		CB77B95329511653001C0461 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB77B95B29511735001C0461 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
-		CB77B95D2951173D001C0461 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		CB77B95D2951173D001C0461 /* ArticlesHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlesHomeView.swift; sourceTree = "<group>"; };
 		CB77B95F29511744001C0461 /* ArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
 		CB77B9612951174A001C0461 /* TopicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicView.swift; sourceTree = "<group>"; };
 		CB77B96729511A8D001C0461 /* SwiftByte.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftByte.entitlements; sourceTree = "<group>"; };
@@ -209,6 +211,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB0AA41A2E69B34800F3F6BF /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		CB5DCCA32E683584004B9457 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,7 +236,7 @@
 				CBB1635F2E699F5800BBD80C /* Helpers */,
 				CB77B95F29511744001C0461 /* ArticleView.swift */,
 				CB6B290A29521F600078EFD0 /* ArticleRowView.swift */,
-				CB77B95D2951173D001C0461 /* HomeView.swift */,
+				CB77B95D2951173D001C0461 /* ArticlesHomeView.swift */,
 				CBB7E3622952355000EE6CEF /* ProfileView.swift */,
 				CBB7E3642952355400EE6CEF /* NotificationsView.swift */,
 				CB77B9612951174A001C0461 /* TopicView.swift */,
@@ -241,6 +250,7 @@
 			children = (
 				CB74588D29749F1F0009F039 /* LargeButton.swift */,
 				CB74588F2974A1F50009F039 /* LogoView.swift */,
+				CB0AA41D2E69B38600F3F6BF /* FilterToken.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -351,6 +361,7 @@
 		CB77B9572951170E001C0461 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CB0AA41A2E69B34800F3F6BF /* Search */,
 				CB77B99B29512689001C0461 /* Custom Types */,
 				CB77B99929512653001C0461 /* SBTopic.swift */,
 				CBE7E205297707E3001DEBCC /* Protocols */,
@@ -678,10 +689,11 @@
 				CBCCA1B22951DBD6004B0ACC /* AppLocalStorage.swift in Sources */,
 				CBE7E20C29771BFC001DEBCC /* TitleAndIntro.swift in Sources */,
 				CB77B9AA29512B50001C0461 /* SBUser.swift in Sources */,
-				CB77B95E2951173D001C0461 /* HomeView.swift in Sources */,
+				CB77B95E2951173D001C0461 /* ArticlesHomeView.swift in Sources */,
 				CB6B2900295215990078EFD0 /* Color+Extensions.swift in Sources */,
 				CBB163642E69A1C300BBD80C /* TabBarView.swift in Sources */,
 				CB77B98629511E2F001C0461 /* AppConstants.swift in Sources */,
+				CB0AA41E2E69B38600F3F6BF /* FilterToken.swift in Sources */,
 				CB77B9B529512EE7001C0461 /* AppSignInAuthenticator.swift in Sources */,
 				CBB7E36E295343FA00EE6CEF /* SBAuthor.swift in Sources */,
 				CB7458902974A1F50009F039 /* LogoView.swift in Sources */,

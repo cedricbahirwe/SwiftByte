@@ -1,6 +1,6 @@
 
 //
-//  HomeView.swift
+//  ArticlesHomeView.swift
 //  SwiftByte
 //
 //  Created by Cédric Bahirwe on 20/12/2022.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct ArticlesHomeView: View {
     @StateObject private var store = ArticlesViewModel()
 
     @State private var showProfile = false
@@ -84,39 +84,19 @@ struct HomeView: View {
 }
 
 #if DEBUG
-struct HomeView_Previews: PreviewProvider {
+struct ArticlesHomeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            HomeView()
+            ArticlesHomeView()
         }
     }
 }
 #endif
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 
-struct FilterToken: View {
-    let token: SBSearchToken
-    let fg: Color
-    let bg: Color
-    var body: some View {
-        Text(token.value)
-            .font(.callout)
-            .fontWeight(.medium)
-            .foregroundColor(fg)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 8)
-            .background(bg)
-            .clipShape(Capsule())
-    }
-}
 
-private extension HomeView {
+
+private extension ArticlesHomeView {
     var filterTokensView: some View {
         HStack(spacing: 12) {
             ForEach(store.searchSuggestedTokens) { token in
@@ -171,7 +151,7 @@ private extension HomeView {
                     Text("Try searching a different topic or concept")
                     Text("**Tip**: Use few filters to get more results")
                 }
-                .foregroundColor(.accentColor)
+                .foregroundStyle(.accent)
             }
     }
 }
