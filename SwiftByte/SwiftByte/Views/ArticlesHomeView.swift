@@ -13,8 +13,6 @@ struct ArticlesHomeView: View {
 
     @State private var showProfile = false
 
-    @State private var showNotifications = false
-
     var body: some View {
         List {
 //            ScrollView(.horizontal, showsIndicators: false) {
@@ -34,10 +32,10 @@ struct ArticlesHomeView: View {
         .refreshable {
             store.fetchArticles()
         }
-        .sheet(isPresented: $showNotifications) {
-            NotificationsView()
+        .sheet(isPresented: $showProfile) {
+            ProfileView()
+                .presentationDetents([.height(300), .height(500)])
         }
-        .sheet(isPresented: $showProfile, content: ProfileView.init)
 //        .searchable(text: $store.searchText,
 //                    tokens: $store.searchTokens,
 //                    suggestedTokens: $store.searchSuggestedTokens,
@@ -62,15 +60,12 @@ struct ArticlesHomeView: View {
 
             ToolbarItemGroup(placement: .topBarTrailing) {
 #if DEBUG
-                Button(action: {
-                    showNotifications.toggle()
-                }) {
-                    Label("See Notifications", systemImage: "bell.badge")
+                NavigationLink(destination: NotificationsView()) {
+                    Image(systemName: "bell.badge")
                 }
 
                 NavigationLink(destination: CreatorView()) {
-                    Image(systemName: "square.and.pencil")
-                        .symbolVariant(.circle.fill)
+                    Label("Go to creator", systemImage: "square.and.pencil")
                 }
 #endif
 

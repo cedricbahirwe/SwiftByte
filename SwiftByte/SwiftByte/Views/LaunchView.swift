@@ -16,17 +16,17 @@ struct LaunchView: View {
                 .padding()
 
             VStack(alignment: .leading) {
-                Image("laptop")
+                Image(.laptop)
                     .resizable()
                     .scaledToFit()
 
                 VStack(alignment: .leading, spacing: 10) {
 
-                    Text("Discover `ios Development` in \(Text("bits").foregroundColor(.red))")
+                    Text("Discover `iOS Development` in \(Text("bits").foregroundColor(.red))")
                         .font(.title3)
                         .bold()
 
-                    Text("Every content, topic, post and article listed in this app has been carefully checked for relevancy and accuracy, making it a great collection of small content related to iOS Development and Swift available on a mobile app.")
+                    Text("Discover a curated library of bite-sized content on iOS development and Swift—every topic, post, and article has been carefully reviewed for accuracy and relevance, all in one convenient mobile app.")
 
                     LButton("Get Started") {
                         isPresented = false

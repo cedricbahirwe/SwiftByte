@@ -52,6 +52,6 @@ extension SBUser {
 
 #if DEBUG
 extension SBUser {
-    static let sample = SBUser(id: UUID().uuidString, firstName: "Cédric", lastName: "Bahirwe", email: "cedbahirwe@gmail.com", profilePicture: nil, messageToken: nil, joinDate: Date(timeIntervalSinceNow: -86400), notificationAuthorized: false)
+    static let sample = SBUser(id: UUID().uuidString, firstName: "Cédric", lastName: "Bahirwe", email: "cedbahirwe@gmail.com", profilePicture: "https://picsum.photos/200", messageToken: nil, joinDate: Date(timeIntervalSinceNow: -86400), notificationAuthorized: false)
 }
 #endif

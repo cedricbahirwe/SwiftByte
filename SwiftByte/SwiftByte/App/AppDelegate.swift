@@ -13,7 +13,6 @@ import FirebaseMessaging
 final class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
     private let gcmMessageIDKey = "gcm.message_id"
 
-    
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 
@@ -21,14 +20,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate, ObservableObject {
 
         UNUserNotificationCenter.current().delegate = self
 
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: { value, _ in
-                print("Notication Authorized: \(value)")
-                UserDefaults.standard.setValue(value, forKey: .allowNotifications)
-            }
-        )
+        requestNotificationsPermission()
 
         application.registerForRemoteNotifications()
 
@@ -104,7 +96,7 @@ extension AppDelegate {
 extension AppDelegate: MessagingDelegate {
 
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-//        NSLog("Firebase registration token: \(String(describing: fcmToken))")
+        //        NSLog("Firebase registration token: \(String(describing: fcmToken))")
     }
 }
 
@@ -136,5 +128,18 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
 
         completionHandler()
+    }
+}
+
+extension AppDelegate {
+    func requestNotificationsPermission() {
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { value, _ in
+                print("Notication Authorized: \(value)")
+                UserDefaults.standard.setValue(value, forKey: .allowNotifications)
+            }
+        )
     }
 }

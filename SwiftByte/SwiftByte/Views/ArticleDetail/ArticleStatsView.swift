@@ -33,6 +33,7 @@ struct ArticleStatsView: View {
                     }
                 }
 
+#if DEBUG
                 HStack(spacing: 4) {
                     if #available(iOS 17.0, *) {
                         Image(systemName: "hand.thumbsup")
@@ -51,13 +52,17 @@ struct ArticleStatsView: View {
                 .onTapGesture {
                     onLike()
                 }
+#endif
 
+                // TODO: - Implement Logic
+#if DEBUG
                 HStack(spacing: 4) {
                     Image(systemName: "bookmark")
                         .onTapGesture {
                             onBookMark()
                         }
                 }
+#endif
             }
             .imageScale(.large)
             .frame(minHeight: 32)
@@ -67,10 +72,10 @@ struct ArticleStatsView: View {
         }
         .padding()
         .frame(maxWidth: .infinity)
+        .background(.ultraThinMaterial)
         .overlay(alignment: .top) {
             Divider()
         }
-        .background(.ultraThinMaterial)
     }
 }
 

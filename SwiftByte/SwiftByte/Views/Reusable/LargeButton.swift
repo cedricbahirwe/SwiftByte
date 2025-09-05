@@ -30,7 +30,7 @@ struct LargeButton: View {
         } label: {
             Text(text)
                 .font(.body.weight(.medium))
-                .foregroundColor(fgColor)
+                .foregroundStyle(fgColor)
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
                 .background(bgColor)
