@@ -8,7 +8,7 @@
 import Foundation
 
 struct SBArticleKeyWord: Hashable, Codable {
-    var name: String
+    let name: String
     init(_ name: String) {
         self.name = name
     }

@@ -120,7 +120,7 @@ private extension ArticlesHomeView {
         ForEach(store.articleVM) { articleVM  in
             ZStack(alignment: .leading) {
                 NavigationLink {
-                    ArticleView(articleVM)
+                    ArticleDetailView(articleVM)
                 } label: { EmptyView() }
                     .opacity(0)
 
