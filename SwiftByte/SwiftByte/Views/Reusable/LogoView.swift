@@ -14,7 +14,7 @@ struct LogoView: View {
         textContentView
             .overlay(content: {
                 if isHighlighted {
-                    Image("laptop")
+                    Image(.laptop)
                         .resizable()
                         .scaledToFill()
                         .mask(textContentView)

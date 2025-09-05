@@ -59,7 +59,6 @@ struct ProfileView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
-//                    .listRowInsets(EdgeInsets())
 
                     // TODO: HAVE BOOKMARKS HERE
                     // TODO: HAVE Profile Status HERE
