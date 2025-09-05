@@ -56,7 +56,7 @@ extension CreatorView {
 
         private func addNewLink() {
             guard let newURL = URL(string: newLinkURL) else { return }
-            let newName = newLinkName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : newLinkName
+            let newName = newLinkName.removeWhitespacesAndNewlines.isEmpty ? nil : newLinkName
 
 
             if !art.moreResources.contains(where: {

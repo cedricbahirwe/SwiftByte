@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct SBLink: Hashable, Codable {
+struct SBLink: Hashable, Codifiable {
+    var id: String { url.absoluteString }
+
     var name: String?
     var url: URL
 

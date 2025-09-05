@@ -8,15 +8,8 @@
 import SwiftUI
 
 extension Color {
-    static var foreground = Color("foreground")
-    static let offBackground = Color("offBackground")
-    static let offWhite = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
-
-    static var lightShadow = Color("lightShadow")
-    static var darkShadow = Color("darkShadow")
-
     init?(hex: String) {
-        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        var hexSanitized = hex.removeWhitespacesAndNewlines
         hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
 
         var rgb: UInt64 = 0

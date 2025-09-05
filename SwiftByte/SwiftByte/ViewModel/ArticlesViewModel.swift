@@ -40,6 +40,10 @@ final class ArticlesViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
+    public func fetchArticles() {
+        articlesRepository.loadArticles()
+    }
+
     /// Add New article to firebase
     public func addNewArticle(_ article: SBArticle) async -> Bool {
         await articlesRepository.addNewArticle(article)

@@ -6,7 +6,6 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 struct SBUser: Identifiable, SBAppUser, FirestoreEntity {
     static var collectionName: SBCollectionName { .users }
@@ -41,17 +40,18 @@ extension SBUser {
                  email: email,
                  joinedDate: joinDate)
     }
-    static func build(from model: AuthenticationView.AuthModel, allowNotification: Bool = true) -> Self {
-        return .init(firstName: model.firstName,
-                     lastName: model.lastName,
-                     email: model.email,
-                     joinDate: Date(),
-                     notificationAuthorized: allowNotification)
+    static func build(from model: AuthModel, allowNotification: Bool = true) -> Self {
+        .init(firstName: model.firstName,
+              lastName: model.lastName,
+              email: model.email,
+              profilePicture: model.profilePicture,
+              joinDate: Date(),
+              notificationAuthorized: allowNotification)
     }
 }
 
 #if DEBUG
 extension SBUser {
-    static let sample = SBUser(id: UUID().uuidString, firstName: "Cédric", lastName: "Bahirwe", email: "cedbahirwe@gmail.com", profilePicture: nil, messageToken: nil, joinDate: Date(timeIntervalSinceNow: -86400), notificationAuthorized: false)
+    static let sample = SBUser(id: UUID().uuidString, firstName: "Cédric", lastName: "Bahirwe", email: "cedbahirwe@gmail.com", profilePicture: "https://picsum.photos/200", messageToken: nil, joinDate: Date(timeIntervalSinceNow: -86400), notificationAuthorized: false)
 }
 #endif

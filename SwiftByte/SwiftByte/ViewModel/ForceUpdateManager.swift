@@ -28,11 +28,9 @@ class ForceUpdateManager: ObservableObject {
 
     }
 
-//    init() {
-//        checkAppVersion()
-//    }
-
-
+    init() {
+        checkAppVersion()
+    }
 
     func checkAppVersion() {
 //        RemoteConfigs.shared.fetchRemoteValue

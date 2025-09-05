@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 typealias Codifiable = Codable & Identifiable
 

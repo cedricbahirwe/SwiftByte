@@ -14,6 +14,9 @@ protocol SBAppUser: Hashable {
 }
 
 extension SBAppUser {
+    func getInitials() -> String {
+        "\(firstName.prefix(1))\(lastName.prefix(1))"
+    }
     func getFullName() -> String {
         "\(firstName) \(lastName)"
     }

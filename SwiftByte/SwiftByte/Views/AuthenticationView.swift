@@ -6,21 +6,24 @@
 //
 
 import SwiftUI
+import PhotosUI
 import AuthenticationServices
 
 struct AuthenticationView: View {
     // - MARK: - Authentication Properties
     @State private var isSigningIn = false
-    @State private var isRegistration = false
+    @State private var isRegistering = false
     @State private var authModel = AuthModel()
+    @State private var validationErrorMessage: String?
     @FocusState private var focusedField: AuthModel.Field?
 
     // MARK: - Photo Picker Properties
-    @State private var presentPhotoPicker = false
-    @State private var previewProfilePicture = false
+    @State private var imageSelection: PhotosPickerItem?
+    @State private var selectedImage: UIImage?
+    @State private var showProfilePic = false
+
     @State private var isUploadingPic = false
     @State private var isDeletingPic = false
-    @State private var selectedImage: UIImage?
     @State private var currentNonce: String?
 
     @EnvironmentObject var authViewModel: AuthenticationViewModel
@@ -28,14 +31,14 @@ struct AuthenticationView: View {
     var body: some View {
         ZStack {
             VStack {
-               LogoView()
-                    .padding(.top, isRegistration ? 0 : 30)
+                LogoView()
+                    .padding(.top, isRegistering ? 0 : 30)
                     .ignoresSafeArea(.keyboard, edges: .top)
                     .frame(maxWidth: .infinity)
                     .overlay(
                         Button(action: {
                             withAnimation {
-                                isRegistration.toggle()
+                                isRegistering.toggle()
                             }
                         }) {
                             Image(systemName: "chevron.left")
@@ -46,14 +49,14 @@ struct AuthenticationView: View {
                                 .mask(Circle())
                         }
                             .disabled(isUploadingPic)
-                            .opacity(isRegistration ? 1 : 0)
+                            .opacity(isRegistering ? 1 : 0)
                         , alignment: .leading
                     )
                     .padding(.bottom)
 
                 GeometryReader { _ in
                     VStack(spacing: 20) {
-                        if isRegistration {
+                        if isRegistering {
                             HStack(spacing: 20) {
                                 firstNameView
                                 lastNameView
@@ -63,26 +66,27 @@ struct AuthenticationView: View {
                         emailView
 
                         passwordView
-                        if isRegistration {
+                        if isRegistering {
                             profilePicSection
                         }
 
                         VStack {
                             Button(action: processManualAuth) {
-                                Text(isRegistration ? "Continue" : "Login")
-                                    .font(.rounded(weight: .bold))
+                                Text(isRegistering ? "Continue" : "Login")
+                                    .font(.sysRound(weight: .bold))
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 45)
-                                    .foregroundStyle(.background)
-                                    .background(.foreground)
+                                    .background(.foregrounder)
                                     .cornerRadius(15)
+                                    .foregroundStyle(.background)
                             }
-                            .disabled((isRegistration && isUploadingPic))
+                            .disabled(isRegistering && isUploadingPic)
 
-                            Text("Error Message")
-                                .font(.rounded(.caption))
-                                .foregroundColor(.red)
-                                .hidden()
+                            if let validationErrorMessage {
+                                Text(validationErrorMessage)
+                                    .font(.sysRound(.caption))
+                                    .foregroundColor(.red)
+                            }
                         }
                         .padding(.vertical)
 
@@ -90,7 +94,7 @@ struct AuthenticationView: View {
                             // Password
                         } label: {
                             Text("Forgot password?")
-                                .font(.rounded(weight: .medium))
+                                .font(.sysRound(weight: .medium))
 
                         }.hidden()
 
@@ -102,7 +106,7 @@ struct AuthenticationView: View {
 
                 VStack {
                     thirdPartiesView
-                        .opacity(isRegistration ? 0 : 1)
+                        .opacity(isRegistering ? 0 : 1)
                     signUpView
                 }
             }
@@ -110,25 +114,35 @@ struct AuthenticationView: View {
             .background(Color(.systemBackground).ignoresSafeArea().onTapGesture(perform: hideKeyboard))
             .overlay(spinnerView)
             .ignoresSafeArea(.keyboard, edges: .bottom)
-            .onChange(of: selectedImage, perform: { _ in
+            .onChange(of: selectedImage) { _, _ in
                 uploadProfilePicture()
-            })
+            }
+            .onChange(of: imageSelection) { _, newValue in
+                Task {
+                    if let loaded = try? await newValue?.loadTransferable(type: Data.self) {
+                        self.selectedImage = UIImage(data: loaded)
+                    }
+                }
+            }
 
-            if previewProfilePicture {
+            if showProfilePic {
                 profilePicPreview
+            }
+        }
+        .onChange(of: validationErrorMessage) { _, newValue in
+            if newValue != nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.validationErrorMessage = nil
+                }
             }
         }
         .alert(item: $authViewModel.alert) { alert in
             Alert(title: Text(alert.title),
                   message: Text(alert.message),
                   dismissButton: .cancel())
-                }
+        }
         .toolbar(.hidden, for: .navigationBar)
-        .fullScreenCover(isPresented: $presentPhotoPicker,
-                         onDismiss: uploadProfilePicture) {
-            PhotoPickerView(isPresented: $presentPhotoPicker,
-                            selectedImage: $selectedImage)
-        }.onDisappear() {
+        .onDisappear() {
             isSigningIn = false
             authModel = .init()
         }
@@ -152,9 +166,10 @@ struct AuthenticationView: View {
     }
 
     private func uploadProfilePicture() {
-        guard let selectedImage = selectedImage else {
-            return
-        }
+        guard !isUploadingPic else { return }
+
+        guard let selectedImage else { return }
+
         guard let pngData = selectedImage.pngData() else { return }
 
         isUploadingPic = true
@@ -166,7 +181,7 @@ struct AuthenticationView: View {
             case .failure(let error):
                 printf("Failed to upload", error)
             case .success(let imageURL):
-                authModel.profilePicture = imageURL
+                authModel.profilePicture = imageURL.absoluteString
             }
             isUploadingPic = false
         }
@@ -178,12 +193,17 @@ struct AuthenticationView: View {
             isDeletingPic = false
             authModel.profilePicture = nil
             selectedImage = nil
-            previewProfilePicture = false
+            showProfilePic = false
         }
     }
 
     private func handleSignup() async {
-        guard authModel.isReadyForRegistration() else { return }
+        do {
+            try authModel.isReadyForRegistration()
+        } catch {
+            validationErrorMessage = error.localizedDescription
+            return;
+        }
         printv("Signing Up...")
         focusedField = nil
         isSigningIn = true
@@ -196,7 +216,14 @@ struct AuthenticationView: View {
     }
 
     private func handleSignIn() async {
-        guard authModel.isEmailAndPasswordValid() else { return }
+
+        do {
+            try authModel.isEmailAndPasswordValid()
+        } catch {
+            validationErrorMessage = error.localizedDescription
+            return;
+        }
+
         printv("Signing In...")
         focusedField = nil
         isSigningIn = true
@@ -218,7 +245,7 @@ struct AuthenticationView: View {
             isSigningIn = false
         }
     }
-    
+
     private func handleAppleSignIn(_ result: ASAuthorization, _ nonce: String?) {
         Task {
             isSigningIn = true
@@ -229,7 +256,7 @@ struct AuthenticationView: View {
 
     private func processManualAuth() {
         Task {
-            if isRegistration {
+            if isRegistering {
                 await handleSignup()
             } else {
                 await handleSignIn()
@@ -243,13 +270,13 @@ private extension AuthenticationView {
     var firstNameView: some View {
         VStack(alignment: .leading) {
             Text("First name")
-                .font(.rounded(weight: .bold))
+                .font(.sysRound(weight: .bold))
             TextField("First name", text: $authModel.firstName)
                 .focused($focusedField, equals: .firstName)
                 .submitLabel(.next)
                 .textContentType(.givenName)
                 .keyboardType(.namePhonePad)
-                .font(.rounded())
+                .font(.sysRound())
                 .padding(.horizontal)
                 .frame(height: 45)
                 .overlay(
@@ -261,13 +288,13 @@ private extension AuthenticationView {
     var lastNameView: some View {
         VStack(alignment: .leading) {
             Text("Last name")
-                .font(.rounded(weight: .bold))
+                .font(.sysRound(weight: .bold))
             TextField("Last name", text: $authModel.lastName)
                 .focused($focusedField, equals: .lastName)
                 .submitLabel(.next)
                 .textContentType(.familyName)
                 .keyboardType(.namePhonePad)
-                .font(.rounded())
+                .font(.sysRound())
                 .padding(.horizontal)
                 .frame(height: 45)
                 .overlay(
@@ -279,14 +306,14 @@ private extension AuthenticationView {
     var emailView: some View {
         VStack(alignment: .leading) {
             Text("Email")
-                .font(.rounded(weight: .bold))
+                .font(.sysRound(weight: .bold))
             TextField(String("example@domain.com"), text: $authModel.email)
                 .focused($focusedField, equals: .email)
                 .submitLabel(.next)
                 .textContentType(.emailAddress)
                 .keyboardType(.emailAddress)
                 .textInputAutocapitalization(.never)
-                .font(.rounded())
+                .font(.sysRound())
                 .padding(.horizontal)
                 .frame(height: 45)
                 .overlay(
@@ -298,13 +325,13 @@ private extension AuthenticationView {
     var passwordView: some View {
         VStack(alignment: .leading) {
             Text("Password")
-                .font(.rounded(weight: .bold))
+                .font(.sysRound(weight: .bold))
 
             SecureField("Enter your password", text: $authModel.password)
                 .focused($focusedField, equals: .password)
                 .submitLabel(.join)
-                .textContentType(isRegistration ? .newPassword : .password)
-                .font(.rounded())
+                .textContentType(isRegistering ? .newPassword : .password)
+                .font(.sysRound())
                 .padding(.horizontal)
                 .frame(height: 45)
                 .overlay(
@@ -332,17 +359,21 @@ private extension AuthenticationView {
                     .cornerRadius(12)
 
                 } else if authModel.profilePicture == nil {
-                    Button {
-                        presentPhotoPicker.toggle()
-                    } label: {
+
+                    PhotosPicker(
+                        selection: $imageSelection,
+                        matching: .images,
+                        photoLibrary: .shared()
+                    ) {
                         Label {
                             Text("Add your profile picture")
                         } icon: {
                             Image(systemName: "person.circle.fill")
                                 .imageScale(.large)
-                                .foregroundStyle(.tint)
                         }
+                        .foregroundStyle(.blue)
                     }
+                    .buttonStyle(.borderless)
                     .disabled(isUploadingPic)
 
                 } else {
@@ -351,15 +382,16 @@ private extension AuthenticationView {
                     } icon: {
                         Image(systemName: "checkmark.seal.fill")
                             .imageScale(.large)
-                            .foregroundStyle(.tint)
+                            .foregroundStyle(.blue)
                     }
 
                     Spacer()
 
                     Button("View Picture") {
                         hideKeyboard()
-                        previewProfilePicture.toggle()
+                        showProfilePic.toggle()
                     }
+                    .tint(.blue)
 
                 }
             }
@@ -371,7 +403,7 @@ private extension AuthenticationView {
             Color.black.opacity(0.6).ignoresSafeArea()
                 .onTapGesture {
                     guard isDeletingPic == false else { return }
-                    previewProfilePicture.toggle()
+                    showProfilePic.toggle()
                 }
             VStack(spacing: 20) {
                 Image(uiImage: selectedImage ?? .init())
@@ -401,29 +433,29 @@ private extension AuthenticationView {
         ZStack {
             if isSigningIn {
                 Color.black
-                    .opacity(0.25)
+                    .opacity(0.7)
                     .ignoresSafeArea()
+
                 ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
                     .progressViewStyle(.circular)
                     .tint(.blue)
-                    .font(.title2)
-                    .frame(width: 60, height: 60)
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .shadow(radius: 2)
+                    .scaleEffect(1.5)
+                    .frame(width: 80, height: 80)
+                    .background(.regularMaterial)
+                    .cornerRadius(15)
+                    .shadow(radius: 5)
             }
         }
     }
 
     var thirdPartiesView: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 16) {
             HStack {
                 Color.gray.frame(height: 1)
                 Text("or")
                 Color.gray.frame(height: 1)
             }
-            
+
             SignInWithAppleButton(
                 .continue,
                 onRequest: { request in
@@ -443,6 +475,7 @@ private extension AuthenticationView {
             )
             .signInWithAppleButtonStyle(.whiteOutline)
             .frame(height: 50)
+
             googleSignInView
         }
     }
@@ -450,11 +483,11 @@ private extension AuthenticationView {
     var signUpView: some View {
         Button {
             withAnimation {
-                isRegistration.toggle()
+                isRegistering.toggle()
             }
         } label: {
-            Text(isRegistration ? "Already have an account? Sign In instead." : "Create an account")
-                .font(.rounded(.callout, weight: .medium))
+            Text(isRegistering ? "Already have an account? Sign In instead." : "Create an account")
+                .font(.sysRound(.callout, weight: .medium))
                 .lineLimit(1)
                 .underline()
         }
@@ -464,7 +497,6 @@ private extension AuthenticationView {
 
     var googleSignInView: some View {
         Button(action: handleGoogleLogin) {
-
             Label(title:{
                 Text("Google")
             }) {
@@ -473,56 +505,15 @@ private extension AuthenticationView {
                     .scaledToFit()
                     .frame(width: 20, height: 20)
             }
-            .font(.rounded(weight: .semibold))
-            .foregroundColor(.blue)
+            .font(.sysRound(weight: .semibold))
             .frame(maxWidth: .infinity)
             .frame(height: 45)
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
-                    .strokeBorder(Color.accentColor, lineWidth: 0.5)
+                    .strokeBorder(Color.accentColor, lineWidth: 1)
             )
         }
-    }
-}
-
-extension AuthenticationView {
-    struct AuthModel {
-        var firstName = ""
-        var lastName = ""
-        var email: String = ""
-        var password: String = ""
-        var profilePicture: String?
-
-        private var isEmailValid: Bool {
-            SBEmailAddress(rawValue: email) != nil
-        }
-        private var isPasswordValid: Bool {
-            password.trimmingCharacters(in: .whitespaces).count >= 6
-        }
-
-        private var isFirstNameValid: Bool {
-            firstName.trimmingCharacters(in: .whitespaces).count > 1
-        }
-
-        private var isLastNameValid: Bool {
-            lastName.trimmingCharacters(in: .whitespaces).count > 1
-        }
-
-        func isEmailAndPasswordValid() -> Bool {
-            isEmailValid && isPasswordValid
-        }
-
-        func isReadyForRegistration() -> Bool {
-            isEmailValid && isPasswordValid &&
-            isFirstNameValid && isLastNameValid
-        }
-
-        enum Field: Int {
-            case firstName
-            case lastName
-            case email
-            case password
-        }
+        .tint(.blue)
     }
 }
 
@@ -530,5 +521,6 @@ extension AuthenticationView {
 struct AuthenticationView_Previews: PreviewProvider {
     static var previews: some View {
         AuthenticationView()
+            .environmentObject(AuthenticationViewModel())
     }
 }

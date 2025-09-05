@@ -10,6 +10,7 @@ import Firebase
 import GoogleSignIn
 import FirebaseFirestore
 import AuthenticationServices
+import FirebaseAuth
 
 /// A class conforming to `ObservableObject` used to represent a user's authentication status.
 final class AuthenticationViewModel: ObservableObject {
@@ -44,7 +45,7 @@ final class AuthenticationViewModel: ObservableObject {
         do {
             let user = try await authenticator.signInWithGoogle()
             if let sbUser = await authenticator.getUser(user.uid) {
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.state = .signedIn(sbUser)
                 }
             }
@@ -60,12 +61,12 @@ final class AuthenticationViewModel: ObservableObject {
                     password: String) async -> Bool {
         do {
             let user = try await authenticator.signInWith(email, password)
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.state = .signedIn(user)
             }
             return true
         } catch {
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.alert = AlertItem(error.localizedDescription)
             }
             printf("Could not Sign Up with Firebase: \(error).")
@@ -73,18 +74,19 @@ final class AuthenticationViewModel: ObservableObject {
         }
     }
 
-    func signUpWith(_ authModel: AuthenticationView.AuthModel) async -> Bool {
+    func signUpWith(_ authModel: AuthModel) async -> Bool {
         do {
             let firebaseUser = try await authenticator.signUpWith(email: authModel.email,
-                                                            password: authModel.password)
+                                                                  password: authModel.password)
             let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
             let newUser = SBUser.build(from: authModel, allowNotification: isNotificationOn)
             try saveUserToFirestore(firebaseUser.uid, user: newUser)
             try saveUserToLocalStore(newUser)
-            
-            DispatchQueue.main.async {
+
+            await MainActor.run {
                 self.state = .signedIn(newUser)
             }
+
             return true
         } catch {
             printf("Could not Sign Up: \(error).")
@@ -126,8 +128,8 @@ extension AuthenticationViewModel {
     }
 
     /// Remove All caches data
-    func clearStorage() {
-        localStorage.clearAll()
+    func clearSession() {
+        localStorage.clearSession()
     }
 }
 
@@ -156,7 +158,7 @@ extension AuthenticationViewModel {
             .document(id)
             .delete()
     }
-    
+
     func saveUserToFirestore(_ id: String, user: SBUser) throws {
         let reference = Firestore.firestore()
         try reference
@@ -174,55 +176,55 @@ extension AuthenticationViewModel {
 // MARK: - Apple SignIn
 extension AuthenticationViewModel {
     func signInWithApple(_ authResults: ASAuthorization, _ currentNonce: String?) async -> Bool {
-        
+
         switch authResults.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
 
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
-            
+
             guard let appleIDToken = appleIDCredential.identityToken else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
-            
+
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
                 printf("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return false
             }
 
-            let credential = OAuthProvider.credential(withProviderID: "apple.com",idToken: idTokenString,rawNonce: nonce)
+            let credential = OAuthProvider.credential(providerID: .apple, idToken: idTokenString, rawNonce: nonce)
             do {
-                
+
                 let authResult = try await Auth.auth().signIn(with: credential)
-                
+
                 let user = authResult.user
 
                 if let sbUser = await authenticator.getUser(user.uid) {
-                    DispatchQueue.main.async {
+                    await MainActor.run {
                         self.state = .signedIn(sbUser)
                     }
                 } else {
                     let isNotificationOn = UserDefaults.standard.bool(for: .allowNotifications)
-                    
+
                     let fullName = appleIDCredential.fullName
-                    
+
                     let sbUser = SBUser(firstName: fullName?.givenName ?? "Unknown",
                                         lastName: fullName?.familyName ?? "",
                                         email: user.email ?? appleIDCredential.email ?? "-",
                                         profilePicture: user.photoURL?.absoluteString,
                                         notificationAuthorized: isNotificationOn)
-                    
+
                     try saveUserToFirestore(user.uid, user: sbUser)
                     try saveUserToLocalStore(sbUser)
-                    DispatchQueue.main.async {
+                    await MainActor.run {
                         self.state = .signedIn(sbUser)
                     }
                 }
-               
+
                 return true
             } catch {
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.alert = AlertItem(error.localizedDescription)
                 }
                 printf("Could not SignIn with Firebase Apple: \(error).")
@@ -237,7 +239,7 @@ extension AuthenticationViewModel {
 
 // MARK: - Notification Toke Manager
 private extension AuthenticationViewModel {
-     func handleUserRegistration(for userId: String) {
+    func handleUserRegistration(for userId: String) {
         let ref = Firestore.firestore()
         ref.collection(.users)
             .document(userId)
@@ -285,4 +287,3 @@ struct AlertItem: Identifiable {
         self.message = message
     }
 }
-

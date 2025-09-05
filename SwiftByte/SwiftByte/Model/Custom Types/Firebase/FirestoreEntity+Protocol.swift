@@ -6,7 +6,6 @@
 //
 
 import FirebaseFirestore
-import FirebaseFirestoreSwift
 
 protocol FirestoreEntity: Codable {
     static var collectionName: SBCollectionName { get }

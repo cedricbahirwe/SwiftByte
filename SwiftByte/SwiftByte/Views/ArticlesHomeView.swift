@@ -1,6 +1,6 @@
 
 //
-//  HomeView.swift
+//  ArticlesHomeView.swift
 //  SwiftByte
 //
 //  Created by Cédric Bahirwe on 20/12/2022.
@@ -8,39 +8,34 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct ArticlesHomeView: View {
     @StateObject private var store = ArticlesViewModel()
 
     @State private var showProfile = false
 
-    @State private var showNotifications = false
-
     var body: some View {
         List {
-            ScrollView(.horizontal, showsIndicators: false) {
-                filterTokensView
-            }
-            .listRowSeparator(.hidden)
-            .listRowBackground(EmptyView())
-            .listRowInsets(EdgeInsets())
+//            ScrollView(.horizontal, showsIndicators: false) {
+//                filterTokensView
+//            }
+//            .listRowSeparator(.hidden)
+//            .listRowBackground(EmptyView())
+//            .listRowInsets(EdgeInsets())
 
-            #if DEBUG
-            NavigationLink(destination: CreatorView.init) {
-                Text("Go to Creator View")
-            }
-            #endif
-            
             if store.articleVM.isEmpty {
                emptyContentView
             } else {
                 articlesView
             }
         }
-        .navigationTitle(Text("Let's Explore today's"))
-        .sheet(isPresented: $showNotifications) {
-            NotificationsView()
+        .listStyle(.plain)
+        .refreshable {
+            store.fetchArticles()
         }
-        .sheet(isPresented: $showProfile, content: ProfileView.init)
+        .sheet(isPresented: $showProfile) {
+            ProfileView()
+                .presentationDetents([.height(300), .height(500)])
+        }
 //        .searchable(text: $store.searchText,
 //                    tokens: $store.searchTokens,
 //                    suggestedTokens: $store.searchSuggestedTokens,
@@ -50,20 +45,30 @@ struct HomeView: View {
 //            Text(token.value)
 //        })
         .onSubmit(of: .search, store.filterSearchTokens)
-        .onChange(of: store.searchTokens) { _ in
+        .onChange(of: store.searchTokens) {
             store.filterSearchTokens()
         }
-        .onChange(of: store.searchTokens) { newTokens in
+        .onChange(of: store.searchTokens) { _, newTokens in
             prints("News \(newTokens.map(\.value))")
         }
+        .navigationTitle("")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItemGroup {
-                Button(action: {
-                    showNotifications.toggle()
-                }) {
-                    Label("See Notifications", systemImage: "bell.badge")
+            ToolbarItem(placement: .topBarLeading) {
+                LogoView(scale: (0.7, .leading))
+            }
+
+            ToolbarItemGroup(placement: .topBarTrailing) {
+#if DEBUG
+                NavigationLink(destination: NotificationsView()) {
+                    Image(systemName: "bell.badge")
                 }
-                .hidden()
+
+                NavigationLink(destination: CreatorView()) {
+                    Label("Go to creator", systemImage: "square.and.pencil")
+                }
+#endif
+
                 Button(action: {
                     showProfile.toggle()
                 }) {
@@ -76,39 +81,19 @@ struct HomeView: View {
 }
 
 #if DEBUG
-struct HomeView_Previews: PreviewProvider {
+struct ArticlesHomeView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            HomeView()
+            ArticlesHomeView()
         }
     }
 }
 #endif
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 
-struct FilterToken: View {
-    let token: SBSearchToken
-    let fg: Color
-    let bg: Color
-    var body: some View {
-        Text(token.value)
-            .font(.callout)
-            .fontWeight(.medium)
-            .foregroundColor(fg)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 8)
-            .background(bg)
-            .clipShape(Capsule())
-    }
-}
 
-private extension HomeView {
+
+private extension ArticlesHomeView {
     var filterTokensView: some View {
         HStack(spacing: 12) {
             ForEach(store.searchSuggestedTokens) { token in
@@ -130,16 +115,17 @@ private extension HomeView {
         ForEach(store.articleVM) { articleVM  in
             ZStack(alignment: .leading) {
                 NavigationLink {
-                    ArticleView(articleVM)
+                    ArticleDetailView(articleVM)
                 } label: { EmptyView() }
                     .opacity(0)
+
                 ArticleRowView(articleVM: articleVM)
             }
             .listRowBackground(EmptyView())
             .listRowSeparator(.hidden)
             .listRowInsets(
-                EdgeInsets(top: 10, leading: 5,
-                           bottom: 10, trailing: 5)
+                EdgeInsets(top: 8, leading: 16,
+                           bottom: 8, trailing: 16)
             )
         }
     }
@@ -162,7 +148,7 @@ private extension HomeView {
                     Text("Try searching a different topic or concept")
                     Text("**Tip**: Use few filters to get more results")
                 }
-                .foregroundColor(.accentColor)
+                .foregroundStyle(.accent)
             }
     }
 }

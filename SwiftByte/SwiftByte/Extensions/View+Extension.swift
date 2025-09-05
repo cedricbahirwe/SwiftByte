@@ -28,16 +28,7 @@ extension NSObject {
 }
 
 extension EnvironmentValues {
-
     var isPreview: Bool {
-        return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
-    }
-
-}
-
-
-extension Image {
-    init(_ image: Images) {
-        self.init(image.rawValue)
+        ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
     }
 }

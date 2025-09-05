@@ -16,7 +16,7 @@ final class SNFirebaseImageUploader {
     func upload(data: Data,
                 format: SBFileExtension,
                 path: SBFBFilePath,
-                completionHandler:  @escaping (Result<String, SBErrors>) -> Void) {
+                completionHandler:  @escaping (Result<URL, SBErrors>) -> Void) {
 
         let storage = Storage.storage()
         let storageRef = storage.reference()
@@ -47,7 +47,7 @@ final class SNFirebaseImageUploader {
         _  = uploadTask.observe(.success) { snapshot in
             snapshot.reference.downloadURL(completion: { url, error in
                 if let url = url {
-                    completionHandler(.success(url.absoluteString))
+                    completionHandler(.success(url))
                 } else {
                     completionHandler(.failure(.unknownError(error)))
                 }
