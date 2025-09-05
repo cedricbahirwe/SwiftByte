@@ -45,10 +45,10 @@ struct ArticlesHomeView: View {
 //            Text(token.value)
 //        })
         .onSubmit(of: .search, store.filterSearchTokens)
-        .onChange(of: store.searchTokens) { _ in
+        .onChange(of: store.searchTokens) {
             store.filterSearchTokens()
         }
-        .onChange(of: store.searchTokens) { newTokens in
+        .onChange(of: store.searchTokens) { _, newTokens in
             prints("News \(newTokens.map(\.value))")
         }
         .navigationTitle("")

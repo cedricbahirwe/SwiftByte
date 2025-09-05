@@ -114,22 +114,22 @@ struct AuthenticationView: View {
             .background(Color(.systemBackground).ignoresSafeArea().onTapGesture(perform: hideKeyboard))
             .overlay(spinnerView)
             .ignoresSafeArea(.keyboard, edges: .bottom)
-            .onChange(of: selectedImage, perform: { _ in
+            .onChange(of: selectedImage) { _, _ in
                 uploadProfilePicture()
-            })
-            .onChange(of: imageSelection, perform: { _ in
+            }
+            .onChange(of: imageSelection) { _, newValue in
                 Task {
-                    if let loaded = try? await imageSelection?.loadTransferable(type: Data.self) {
+                    if let loaded = try? await newValue?.loadTransferable(type: Data.self) {
                         self.selectedImage = UIImage(data: loaded)
                     }
                 }
-            })
+            }
 
             if showProfilePic {
                 profilePicPreview
             }
         }
-        .onChange(of: validationErrorMessage) { newValue in
+        .onChange(of: validationErrorMessage) { _, newValue in
             if newValue != nil {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.validationErrorMessage = nil
