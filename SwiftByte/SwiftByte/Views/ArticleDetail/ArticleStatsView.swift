@@ -35,17 +35,12 @@ struct ArticleStatsView: View {
 
 #if DEBUG
                 HStack(spacing: 4) {
-                    if #available(iOS 17.0, *) {
-                        Image(systemName: "hand.thumbsup")
-                            .symbolVariant(.fill)
-                            .symbolEffect(.bounce, value: likes)
-                    } else {
-                        Image(systemName: "hand.thumbsup")
-                            .symbolVariant(.fill)
-                    }
+                    Image(systemName: "hand.thumbsup")
+                        .symbolVariant(.fill)
+                        .symbolEffect(.bounce, value: likes)
+
                     if likes > 0 {
                         Text(likes.formatted())
-
                     }
                 }
                 .contentShape(.rect)

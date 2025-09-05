@@ -28,11 +28,9 @@ class ForceUpdateManager: ObservableObject {
 
     }
 
-//    init() {
-//        checkAppVersion()
-//    }
-
-
+    init() {
+        checkAppVersion()
+    }
 
     func checkAppVersion() {
 //        RemoteConfigs.shared.fetchRemoteValue
@@ -65,6 +63,7 @@ class ForceUpdateManager: ObservableObject {
 
     private func getTypeOfUpdate(storeAppVersion: String) -> AppUpdateType {
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
+        print("my version: \(version)")
         let currentVersionArray = version.components(separatedBy: ".")
         let storeVersionArray = storeAppVersion.components(separatedBy: ".")
 
