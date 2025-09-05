@@ -128,8 +128,8 @@ extension AuthenticationViewModel {
     }
 
     /// Remove All caches data
-    func clearStorage() {
-        localStorage.clearAll()
+    func clearSession() {
+        localStorage.clearSession()
     }
 }
 

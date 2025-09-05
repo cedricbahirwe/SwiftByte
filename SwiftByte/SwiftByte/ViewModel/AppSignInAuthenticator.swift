@@ -120,7 +120,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
             DispatchQueue.main.async {
                 self.authViewModel.state = .signedOut
             }
-            authViewModel.clearStorage()
+            authViewModel.clearSession()
         }
         catch {
            printf("Encountered error signing out: \(error).")
@@ -137,7 +137,7 @@ final class AppSignInAuthenticator: NSObject, ObservableObject {
             await MainActor.run {
                 self.authViewModel.state = .signedOut
             }
-            authViewModel.clearStorage()
+            authViewModel.clearSession()
         }
         catch {
            printf("Could not delete account: \(error).")

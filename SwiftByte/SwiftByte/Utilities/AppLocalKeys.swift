@@ -10,12 +10,14 @@ import Foundation
 public typealias SBKeys = AppLocalKeys
 public enum AppLocalKeys: String, CaseIterable, Codable {
     case isUserLoggedIn = "isUserLoggedIn"
-    case snUserType = "snUserType"
+//    case snUserType = "snUserType"
     case allowNotifications = "allowNotifications"
 
     case showWelcomeView = "showWelcomeView"
 
     case userSession
 
-    case lastSyncDate
+    static var sessionKeys: Set<AppLocalKeys> {
+        return [.isUserLoggedIn, .userSession]
+    }
 }
