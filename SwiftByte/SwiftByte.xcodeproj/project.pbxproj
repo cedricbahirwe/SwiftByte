@@ -14,7 +14,6 @@
 		CB0AA4292E6ACB4400F3F6BF /* ArticleIntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0AA4282E6ACB4400F3F6BF /* ArticleIntroductionView.swift */; };
 		CB0AA42B2E6ACB8400F3F6BF /* ArticleAuthorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0AA42A2E6ACB8400F3F6BF /* ArticleAuthorView.swift */; };
 		CB0AA42D2E6ACD6200F3F6BF /* ArticleStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0AA42C2E6ACD6200F3F6BF /* ArticleStatsView.swift */; };
-		CB4998462A2F4D4B00AF47A7 /* AppleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4998452A2F4D4B00AF47A7 /* AppleSignIn.swift */; };
 		CB4998482A2F4D5800AF47A7 /* DebugerPrinters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4998472A2F4D5800AF47A7 /* DebugerPrinters.swift */; };
 		CB49984A2A2F60E900AF47A7 /* AuthFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4998492A2F60E900AF47A7 /* AuthFile.swift */; };
 		CB5DCC9C2E68341B004B9457 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = CB5DCC9B2E68341B004B9457 /* FirebaseAuth */; };
@@ -116,7 +115,6 @@
 		CB0AA4282E6ACB4400F3F6BF /* ArticleIntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleIntroductionView.swift; sourceTree = "<group>"; };
 		CB0AA42A2E6ACB8400F3F6BF /* ArticleAuthorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleAuthorView.swift; sourceTree = "<group>"; };
 		CB0AA42C2E6ACD6200F3F6BF /* ArticleStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleStatsView.swift; sourceTree = "<group>"; };
-		CB4998452A2F4D4B00AF47A7 /* AppleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignIn.swift; sourceTree = "<group>"; };
 		CB4998472A2F4D5800AF47A7 /* DebugerPrinters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugerPrinters.swift; sourceTree = "<group>"; };
 		CB4998492A2F60E900AF47A7 /* AuthFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFile.swift; sourceTree = "<group>"; };
 		CB5DCCA72E6845C1004B9457 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
@@ -431,7 +429,6 @@
 			isa = PBXGroup;
 			children = (
 				CB4998472A2F4D5800AF47A7 /* DebugerPrinters.swift */,
-				CB4998452A2F4D4B00AF47A7 /* AppleSignIn.swift */,
 				CB4998492A2F60E900AF47A7 /* AuthFile.swift */,
 			);
 			path = Helpers;
@@ -688,7 +685,6 @@
 				CB77B9982951264F001C0461 /* SBArticle.swift in Sources */,
 				CB6B290429521A5E0078EFD0 /* ArticlesViewModel.swift in Sources */,
 				CB0AA42D2E6ACD6200F3F6BF /* ArticleStatsView.swift in Sources */,
-				CB4998462A2F4D4B00AF47A7 /* AppleSignIn.swift in Sources */,
 				CB77B9BF2951316E001C0461 /* SBFileExtension.swift in Sources */,
 				CBE7E207297707FD001DEBCC /* SBAppUser.swift in Sources */,
 				CB74588B29749E160009F039 /* LaunchView.swift in Sources */,
