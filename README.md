@@ -4,7 +4,12 @@
 <!-- Download it on [AppStore](https://apps.apple.com/ke/app/dial-it/id1591756747). -->
 
 
-## ✅ Tech Features:
+📲 **Download it on the App Store:**
+
+[![Download on the App Store](https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg)](https://apps.apple.com/us/app/swiftbyte/id1661335073)  
+
+
+## ✅ Features:
 * Beautiful UI with Light/Dark Mode support.
 * GoogleSign and FirebaseAuth services integration
 * Real-Time Data Updates from Firebase Console
